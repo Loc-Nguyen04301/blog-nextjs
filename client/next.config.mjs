@@ -1,6 +1,8 @@
 
 const nextConfig = {
-  /* config options here */
+  images: {
+    domains: ['i0.wp.com'],
+  },
 };
 
 export default nextConfig;

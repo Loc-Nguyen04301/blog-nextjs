@@ -10,7 +10,10 @@ const montserrat = Montserrat({
 
 const theme = createTheme({
   palette: {
-    mode: 'light'
+    mode: 'light',
+    primary: {
+      main: '#C4AC99'
+    }
   },
   typography: {
     fontFamily: montserrat.style.fontFamily
