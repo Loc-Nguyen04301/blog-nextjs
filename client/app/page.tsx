@@ -34,18 +34,28 @@ export default function Home() {
     <>
       <section>
         <div className="container mx-auto flex justify-between items-center h-[100px] px-6">
-          <Link className="uppercase text-[26px] hover:scale-110 duration-300" href="/#">
+          <Link
+            className="uppercase text-[26px] hover:scale-110 duration-300"
+            href="/#"
+          >
             The Present Writer
           </Link>
           <Box className="flex gap-3 justify-end max-sm:hidden">
-            <div className="px-2 font-medium text-[15px] uppercase">blog</div>
-            <div className="px-2 font-medium text-[15px] uppercase">
+            <Link
+              className="px-2 font-medium text-[15px] uppercase hover:text-primaryColor cursor-pointer"
+              href="/blog"
+            >
+              blog
+            </Link>
+            <div className="px-2 font-medium text-[15px] uppercase hover:text-primaryColor cursor-pointer">
               youtube
             </div>
-            <div className="px-2 font-medium text-[15px] uppercase">
+            <div className="px-2 font-medium text-[15px] uppercase hover:text-primaryColor cursor-pointer">
               podcase
             </div>
-            <div className="px-2 font-medium text-[15px] uppercase">blog</div>
+            <div className="px-2 font-medium text-[15px] uppercase hover:text-primaryColor cursor-pointer">
+              blog
+            </div>
           </Box>
           <IconButton
             edge="start"
