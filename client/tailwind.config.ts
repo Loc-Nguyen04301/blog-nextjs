@@ -11,7 +11,9 @@ const config: Config = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
-        primaryColor: "var(--primary-color)"
+        primaryColor: "var(--primary-color)",
+        primaryColorBold: "var(--primary-color-bold)",
+        subTitleColor: "var(--sub-title-color)",
       },
     },
     screens: {
@@ -21,7 +23,8 @@ const config: Config = {
       // 'xl': '1536px'
     },
     fontFamily: {
-      'sans': ['Helvetica', 'Arial', 'sans-serif'],
+      sans: ['var(--font-lato)'],
+      mono: ['var(--font-roboto-mono)'],
     }
   },
   plugins: [],
