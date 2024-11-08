@@ -38,7 +38,7 @@ export default function Home() {
             className="uppercase text-[26px] hover:scale-110 duration-300"
             href="/#"
           >
-            The Present Writer
+            Loc Nguyen Writer
           </Link>
           <Box className="flex gap-3 justify-end max-sm:hidden">
             <Link

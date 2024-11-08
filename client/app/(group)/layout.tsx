@@ -14,25 +14,13 @@ const BlogLayout = ({ children }: { children: React.ReactNode }) => {
               <div className="flex justify-between">
                 <ul className="flex w-[40%] justify-start flex-wrap tracking-wide">
                   <li className="p-5 py-7">
+                    <Link href={"/"} className="hover:text-primaryColor">
+                      Home
+                    </Link>
+                  </li>
+                  <li className="p-5 py-7">
                     <Link href={"/blog"} className="hover:text-primaryColor">
                       Blog
-                    </Link>
-                  </li>
-                  <li className="p-5 py-7">
-                    <Link href={"/blog"} className="hover:text-primaryColor">
-                      Youtube
-                    </Link>
-                  </li>
-                  <li className="p-5 py-7">
-                    <Link href={"/blog"} className="hover:text-primaryColor">
-                      Podcast
-                    </Link>
-                  </li>
-                </ul>
-                <ul className="flex w-[40%] justify-end flex-wrap">
-                  <li className="p-5 py-7">
-                    <Link href={"/blog"} className="hover:text-primaryColor">
-                      Bản tin
                     </Link>
                   </li>
                   <li className="p-5 py-7">
@@ -49,13 +37,27 @@ const BlogLayout = ({ children }: { children: React.ReactNode }) => {
                     </Link>
                   </li>
                 </ul>
+                <ul className="flex w-[40%] justify-end flex-wrap">
+                  {/* <li className="p-5 py-7">
+                    <Link href={"/blog"} className="hover:text-primaryColor">
+                      Bản tin
+                    </Link>
+                  </li> */}
+                  <li className="p-5 py-7">
+                    <Link href={"/blog"} className="hover:text-primaryColor">
+                      Youtube
+                    </Link>
+                  </li>
+                </ul>
               </div>
               <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                <Image
-                  src={logoBlogCenter}
-                  alt="logo-blog center"
-                  width={150}
-                />
+                <Link href={"/"}>
+                  <Image
+                    src={logoBlogCenter}
+                    alt="logo-blog center"
+                    width={150}
+                  />
+                </Link>
               </div>
             </div>
           </header>
