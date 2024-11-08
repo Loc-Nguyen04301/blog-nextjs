@@ -11,42 +11,40 @@ const BlogLayout = ({ children }: { children: React.ReactNode }) => {
         <div className="pt-20 px-24 pb-10">
           <header className="my-10 text-xs uppercase">
             <div className="border-t border-[#000] border-b relative">
-              <div className="flex justify-between px-4">
-                <ul className="flex w-[40%] justify-start flex-wrap">
-                  <li className="p-5">
+              <div className="flex justify-between">
+                <ul className="flex w-[40%] justify-start flex-wrap tracking-wide">
+                  <li className="p-5 py-7">
                     <Link href={"/blog"} className="hover:text-primaryColor">
                       Blog
                     </Link>
                   </li>
-                  <li className="p-5">
+                  <li className="p-5 py-7">
                     <Link href={"/blog"} className="hover:text-primaryColor">
                       Youtube
                     </Link>
                   </li>
-                  <li className="p-5">
+                  <li className="p-5 py-7">
                     <Link href={"/blog"} className="hover:text-primaryColor">
                       Podcast
                     </Link>
                   </li>
-                  <li className="p-5">
-                    <Link href={"/blog"} className="hover:text-primaryColor">
-                      Shop
-                    </Link>
-                  </li>
                 </ul>
                 <ul className="flex w-[40%] justify-end flex-wrap">
-                  <li className="p-5">
+                  <li className="p-5 py-7">
                     <Link href={"/blog"} className="hover:text-primaryColor">
                       Bản tin
                     </Link>
                   </li>
-                  <li className="p-5">
+                  <li className="p-5 py-7">
                     <Link href={"/menu"} className="hover:text-primaryColor">
                       Mục lục
                     </Link>
                   </li>
-                  <li className="p-5">
-                    <Link href={"/blog"} className="hover:text-primaryColor">
+                  <li className="p-5 py-7">
+                    <Link
+                      href={"/gioi-thieu"}
+                      className="hover:text-primaryColor"
+                    >
                       Giới thiệu
                     </Link>
                   </li>

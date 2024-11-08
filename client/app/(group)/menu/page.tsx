@@ -8,15 +8,24 @@ const MenuPage = () => {
     <div className="pt-16">
       <h1 className={`font-sans ${lato.variable}`}>
         Bạn có thể tìm đọc tất cả các bài viết trên The Present Writer blog theo{" "}
-        <Link className="text-primaryColorBold" href={"#tu_khoa"}>
+        <Link
+          className="text-primaryColorBold hover:text-black duration-200"
+          href={"#tu_khoa"}
+        >
           từ khoá
         </Link>
         , theo{" "}
-        <Link className="text-primaryColorBold" href={"#de_tai"}>
+        <Link
+          className="text-primaryColorBold hover:text-black duration-200"
+          href={"#de_tai"}
+        >
           đề tài
         </Link>{" "}
         , hoặc theo{" "}
-        <Link className="text-primaryColorBold" href={"#thoi_gian"}>
+        <Link
+          className="text-primaryColorBold hover:text-black duration-200"
+          href={"#thoi_gian"}
+        >
           thời gian
         </Link>{" "}
         xuất bản.
@@ -39,13 +48,30 @@ const MenuPage = () => {
           }}
         />
       </Box>
-
       <h1 className="uppercase pt-10 text-2xl tracking-wide">Theo Đề Tài</h1>
       <ul className={`${lato.variable} font-sans mt-5`}>
-        {Array.from({ length: 10 }, () => (
-          <li className="mb-4">
-            <Link href={"abc"} className="text-primaryColorBold hover:text-black">
+        {Array.from({ length: 10 }, (_, indx) => (
+          <li className="mb-4" key={indx}>
+            <Link
+              href={"abc"}
+              className="text-primaryColorBold hover:text-black"
+            >
               Chủ nghĩa tối giản (Minimalism)
+            </Link>{" "}
+            (29)
+          </li>
+        ))}
+      </ul>
+
+      <h1 className="uppercase pt-10 text-2xl tracking-wide">Theo thời gian</h1>
+      <ul className={`${lato.variable} font-sans mt-5`}>
+        {Array.from({ length: 10 }, (_, indx) => (
+          <li className="mb-4" key={indx}>
+            <Link
+              href={"abc"}
+              className="text-primaryColorBold hover:text-black"
+            >
+              March 2024
             </Link>{" "}
             (29)
           </li>
