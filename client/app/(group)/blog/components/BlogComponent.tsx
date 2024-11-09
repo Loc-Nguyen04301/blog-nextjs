@@ -44,9 +44,9 @@ const MenuProps = {
 };
 
 const BlogComponent = () => {
-  const theme = useTheme();
+  // const theme = useTheme();
   const [personName, setPersonName] = React.useState<string>("");
-  const [searchKeyword, setSearchKeyword] = React.useState<string>("");
+  // const [searchKeyword, setSearchKeyword] = React.useState<string>("");
 
   const handleChangeSelect = (event: SelectChangeEvent<typeof personName>) => {
     const {
@@ -237,7 +237,9 @@ const BlogComponent = () => {
               </h1>
             </div>
             <div className="p-10 pb-7 mt-3">
-              <p className={`${lato.variable} font-sans text-[15px] text-center`}>
+              <p
+                className={`${lato.variable} font-sans text-[15px] text-center`}
+              >
                 Ủng hộ để blog tiếp tục hoạt động bền vững, miễn phí và không
                 banner quảng cáo.
               </p>

@@ -1,4 +1,3 @@
-import { lato } from "@/app/fonts";
 import Link from "next/link";
 import React from "react";
 import Image from "next/image";

@@ -1,5 +1,5 @@
 "use client";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { Box, IconButton } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import Image from "next/image";
