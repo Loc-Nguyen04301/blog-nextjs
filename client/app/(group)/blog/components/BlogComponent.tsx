@@ -58,7 +58,7 @@ const BlogComponent = () => {
 
   return (
     <div className="grid grid-cols-11 pt-10">
-      <div className="col-span-7">
+      <div className="col-span-7 max-md:col-span-12">
         {Array.from({ length: 3 }, (_, idx) => (
           <div className="pb-16 mb-16 border-b border-[#000]" key={idx}>
             <div className="text-center">
@@ -102,9 +102,9 @@ const BlogComponent = () => {
           </div>
         ))}
       </div>
-      <div className="col-span-4 ml-20">
+      <div className="col-span-4 max-md:col-span-12 ml-16 max-md:ml-0">
         <div className="flex flex-col gap-16">
-          <div className="border border-[#000] p-10 pb-7">
+          <div className="border border-[#000] p-8 pb-7">
             <Image src={thumnailBlog} alt="thumnaiblog" />
             <p className={`mt-5 ${lato.variable} font-sans text-[15px]`}>
               The Present Writer là “khu vườn xanh yên tĩnh” của Chi Nguyễn—Tiến
@@ -237,7 +237,7 @@ const BlogComponent = () => {
               </h1>
             </div>
             <div className="p-10 pb-7 mt-3">
-              <p className={`${lato.variable} font-sans text-[15px]`}>
+              <p className={`${lato.variable} font-sans text-[15px] text-center`}>
                 Ủng hộ để blog tiếp tục hoạt động bền vững, miễn phí và không
                 banner quảng cáo.
               </p>

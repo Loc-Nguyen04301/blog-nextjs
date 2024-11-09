@@ -1,20 +1,7 @@
 "use client";
-import {
-  Box,
-  Drawer,
-  IconButton,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Divider,
-} from "@mui/material";
+import { useCallback, useState } from "react";
+import { Box, IconButton } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import CloseIcon from "@mui/icons-material/Close";
-import ImageIcon from "@mui/icons-material/Image";
-import DescriptionIcon from "@mui/icons-material/Description";
-import FolderIcon from "@mui/icons-material/Folder";
-
-import { useState } from "react";
 import Image from "next/image";
 import FacebookIcon from "@/assets/icons/FacebookIcon";
 import YoutubeIcon from "@/assets/icons/YoutubeIcon";
@@ -22,6 +9,7 @@ import avatarImage from "@/assets/images/avatarMyself.jpg";
 import bannerBlogImage from "@/assets/images/bannerBlog.jpg";
 
 import Link from "next/link";
+import DrawerMenu from "./components/Drawer";
 
 export default function Home() {
   const [openDrawer, setOpenDrawer] = useState(false);
@@ -33,9 +21,9 @@ export default function Home() {
   return (
     <>
       <section>
-        <div className="container mx-auto flex justify-between items-center h-[100px] px-6">
+        <div className="flex justify-between items-center h-[100px] px-6">
           <Link
-            className="uppercase text-[26px] hover:scale-110 duration-300"
+            className="uppercase text-[26px] hover:scale-110 duration-300 max-[400px]:text-[22px]"
             href="/#"
           >
             Loc Nguyen Writer
@@ -50,17 +38,17 @@ export default function Home() {
             <div className="px-2 font-medium text-[15px] uppercase hover:text-primaryColor cursor-pointer">
               youtube
             </div>
-            <div className="px-2 font-medium text-[15px] uppercase hover:text-primaryColor cursor-pointer">
-              podcase
-            </div>
-            <div className="px-2 font-medium text-[15px] uppercase hover:text-primaryColor cursor-pointer">
-              blog
-            </div>
+            <Link
+              className="px-2 font-medium text-[15px] uppercase hover:text-primaryColor cursor-pointer"
+              href="/gioi-thieu"
+            >
+              giới thiệu
+            </Link>
           </Box>
           <IconButton
             edge="start"
             color="inherit"
-            aria-label="open drawer"
+            aria-label="drawer"
             onClick={toggleDrawer(true)}
             sx={{
               display: {
@@ -71,43 +59,7 @@ export default function Home() {
             <MenuIcon />
           </IconButton>
         </div>
-        <Drawer anchor="left" open={openDrawer} onClose={toggleDrawer(false)}>
-          <Box
-            sx={{
-              p: 2,
-              height: 1,
-            }}
-          >
-            <IconButton sx={{ mb: 2 }}>
-              <CloseIcon onClick={toggleDrawer(false)} />
-            </IconButton>
-
-            <Divider sx={{ mb: 2 }} />
-
-            <Box sx={{ mb: 2 }}>
-              <ListItemButton>
-                <ListItemIcon>
-                  <ImageIcon sx={{ color: "primary.main" }} />
-                </ListItemIcon>
-                <ListItemText primary="Pictures" />
-              </ListItemButton>
-
-              <ListItemButton>
-                <ListItemIcon>
-                  <DescriptionIcon sx={{ color: "primary.main" }} />
-                </ListItemIcon>
-                <ListItemText primary="Documents" />
-              </ListItemButton>
-
-              <ListItemButton>
-                <ListItemIcon>
-                  <FolderIcon sx={{ color: "primary.main" }} />
-                </ListItemIcon>
-                <ListItemText primary="Other" />
-              </ListItemButton>
-            </Box>
-          </Box>
-        </Drawer>
+        <DrawerMenu openDrawer={openDrawer} toggleDrawer={toggleDrawer} />
       </section>
 
       <section>
@@ -125,7 +77,7 @@ export default function Home() {
         <YoutubeIcon />
       </section>
       <section>
-        <div className="p-10 gap-8 container mx-auto flex max-md:flex-col">
+        <div className="py-10 px-3 gap-8 container mx-auto flex max-md:flex-col">
           <div className="p-5 w-[30%] max-md:w-full">
             <Image
               src={avatarImage}
@@ -133,7 +85,7 @@ export default function Home() {
               className="rounded-full object-cover"
             />
           </div>
-          <div className="text-black w-[70%] max-md:w-full">
+          <div className="text-black w-[70%] max-md:w-full font-[Arial]">
             <h1 className="font-bold text-center mb-2 text-xl">Xin Chào!</h1>
             <div className="text-[15px] font-sans">
               <p className="my-4">
