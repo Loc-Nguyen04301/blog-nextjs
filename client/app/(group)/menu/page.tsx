@@ -5,7 +5,7 @@ import { Box, TextField } from "@mui/material";
 
 const MenuPage = () => {
   return (
-    <div className="pt-16">
+    <div>
       <h1 className={`font-sans ${lato.variable}`}>
         Bạn có thể tìm đọc tất cả các bài viết trên The Present Writer blog theo{" "}
         <Link

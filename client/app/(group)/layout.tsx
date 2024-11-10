@@ -2,15 +2,16 @@ import Link from "next/link";
 import React from "react";
 import logoBlogCenter from "@/assets/images/logoBlogCenter.jpg";
 import Image from "next/image";
-import { lato } from "@/app/fonts";
+import Footer from "./components/Footer";
+import AccordionMenu from "./components/AccordionMenu";
 
-const BlogLayout = ({ children }: { children: React.ReactNode }) => {
+const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="bg-[#f4f4f4] h-full py-10 min-h-screen">
       <div className="container mx-auto bg-white shadow-[0_0_5px_#ddd] max-lg:mx-0 max-lg:!max-w-full">
-        <div className="pt-20 px-16 pb-10">
+        <div className="pt-16 px-16 pb-10 max-md:px-0">
           <header className="my-10 text-xs uppercase">
-            <div className="border-t border-[#000] border-b relative">
+            <div className="border-t border-b border-[#000] relative max-md:border-white">
               <div className="flex justify-between max-md:hidden">
                 <ul className="flex w-[40%] justify-start flex-wrap tracking-wide">
                   <li className="p-4 py-7">
@@ -56,25 +57,16 @@ const BlogLayout = ({ children }: { children: React.ReactNode }) => {
               </div>
             </div>
           </header>
-          {children}
+          <div className="pt-10 acordion md:hidden">
+            <AccordionMenu />
+          </div>
         </div>
+        <div className="px-16 pb-10">{children}</div>
       </div>
 
-      <footer
-        className={`text-center ${lato.variable} font-sans text-xs font-bold mt-10`}
-      >
-        <p>
-          Copyright © 2024 The Present Writer ·
-          <Link
-            className="ml-1 hover:text-primaryColor border-b border-primaryColor"
-            href={"#"}
-          >
-            Log in
-          </Link>
-        </p>
-      </footer>
+      <Footer />
     </div>
   );
 };
 
-export default BlogLayout;
+export default Layout;

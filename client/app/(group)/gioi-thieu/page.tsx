@@ -6,7 +6,7 @@ import logoBlogCenter from "@/assets/images/logoBlogCenter.jpg";
 
 const AboutMePage = () => {
   return (
-    <div className="pt-10 font-['Arial']">
+    <div className="font-['Arial']">
       <h1>
         <Link
           className="text-primaryColorBold hover:text-black duration-200"
