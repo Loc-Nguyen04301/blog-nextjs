@@ -8,12 +8,10 @@ export const metadata: Metadata = {
     icon: "favicon.ico",
   },
 };
-const BlogPage = () => {
+export default async function Page() {
   return (
     <>
       <BlogComponent />
     </>
   );
-};
-
-export default BlogPage;
+}

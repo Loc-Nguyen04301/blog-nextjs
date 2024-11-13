@@ -1,9 +1,8 @@
 import {
   Accordion,
   AccordionDetails,
+  AccordionSlots,
   AccordionSummary,
-  Box,
-  Typography,
 } from "@mui/material";
 import React from "react";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -23,6 +22,7 @@ const AccordionMenu = () => {
         },
       }}
       className="!rounded-none !shadow-none"
+      slotProps={{ transition: { timeout: 400 } }}
     >
       <AccordionSummary
         sx={{
@@ -37,13 +37,13 @@ const AccordionMenu = () => {
         <Link href={"#"}>Home</Link>
       </AccordionDetails>
       <AccordionDetails>
-        <Link href={"#"}>Blog</Link>
+        <Link href={"/blog"}>Blog</Link>
       </AccordionDetails>
       <AccordionDetails>
-        <Link href={"#"}>Mục lục</Link>
+        <Link href={"/menu"}>Mục lục</Link>
       </AccordionDetails>
       <AccordionDetails>
-        <Link href={"#"}>Giới thiệu</Link>
+        <Link href={"/gioi-thieu"}>Giới thiệu</Link>
       </AccordionDetails>
     </Accordion>
   );
