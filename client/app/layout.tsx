@@ -24,6 +24,7 @@ export const metadata: Metadata = {
       type: "image/png",
       alt: "Ablot Loc Nguyen",
     },
+    authors:"Loc Nguyen"
   },
 };
 
