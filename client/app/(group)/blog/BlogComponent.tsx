@@ -9,7 +9,10 @@ const BlogComponent = () => {
   return (
     <>
       {Array.from({ length: 3 }, (_, idx) => (
-        <div className="pb-16 mb-16 border-b border-[#000]" key={idx}>
+        <div
+          className={`${lato.variable} font-sans pb-16 mb-16 border-b border-[#000]`}
+          key={idx}
+        >
           <div className="text-center">
             <h1 className="uppercase text-2xl mb-2">
               <Link href={`/blog/${idx}`}>
@@ -17,14 +20,14 @@ const BlogComponent = () => {
               </Link>
             </h1>
             <p
-              className={`uppercase text-xs text-subTitleColor mb-2 font-medium tracking-wider ${lato.variable} font-sans`}
+              className={`uppercase text-xs text-subTitleColor mb-2 font-medium tracking-wider `}
             >
               March 6, 2024 By Chi Nguyễn 29 comments
             </p>
             <Image src={thumnailBlog} alt="thumnaiblog" />
             <div className="mt-3 border-b border-[#dd9933]"></div>
           </div>
-          <p className={`mt-3 ${lato.variable} font-sans leading-7`}>
+          <p className={`mt-3 leading-7`}>
             Đã khá lâu tôi không đăng bài viết mới trên blog. Đôi lúc tôi tự
             hỏi: Cái tên “The Present Writer” có còn đúng nữa không khi mình
             không còn là một writer (người viết) trong lòng công chúng? Mới cách
@@ -43,7 +46,7 @@ const BlogComponent = () => {
               [Read more ...]
             </Link>
           </p>
-          <p className={`${lato.variable} font-sans mt-5 text-subTitleColor`}>
+          <p className={`mt-5 text-subTitleColor`}>
             <span className="mr-1">Category:</span>
             <Link href={"/#"}>Công việc</Link>,{" "}
             <Link href={"/#"}>Hành trình của tôi </Link>{" "}

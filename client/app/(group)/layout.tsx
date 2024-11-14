@@ -2,8 +2,8 @@ import Link from "next/link";
 import React from "react";
 import logoBlogCenter from "@/assets/images/logoBlogCenter.jpg";
 import Image from "next/image";
-import Footer from "./components/Footer";
-import AccordionMenu from "./components/AccordionMenu";
+import Footer from "../components/Footer";
+import AccordionMenu from "../components/AccordionMenu";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (

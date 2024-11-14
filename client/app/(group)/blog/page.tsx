@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import BlogComponent from "./components/BlogComponent";
+import BlogComponent from "./BlogComponent";
 
 export const metadata: Metadata = {
   title: "BLOG - Loc Nguyen Writer",
