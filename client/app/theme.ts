@@ -13,7 +13,7 @@ const theme = createTheme({
     mode: 'light',
     primary: {
       main: '#C4AC99'
-    }
+    },
   },
   typography: {
     fontFamily: [

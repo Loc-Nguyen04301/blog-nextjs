@@ -11,9 +11,9 @@ const Footer = () => {
         © Copyright All Rights Reserved By Loc Nguyen
         <Link
           className="ml-1 hover:text-primaryColor border-b border-primaryColor"
-          href={"#"}
+          href={"/sign-in"}
         >
-          Log in
+          Sign in
         </Link>
       </p>
     </footer>

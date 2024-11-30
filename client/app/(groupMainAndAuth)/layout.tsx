@@ -14,7 +14,7 @@ const MainAndAuthLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <header>
-        <div className="flex justify-between items-center h-[100px] px-6">
+        <div className="flex justify-between items-center h-[100px] px-6 border-b">
           <Link
             className="uppercase text-[26px] hover:scale-110 duration-300 max-[400px]:text-[22px]"
             href="/#"
