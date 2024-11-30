@@ -28,8 +28,12 @@ const DrawerMenu = ({ openDrawer, toggleDrawer }: DrawerMenu) => {
     }
   }, [openDrawer, isUpSM]);
 
+  const handleClose = () => {
+    toggleDrawer(false);
+  };
+
   return (
-    <Drawer anchor="left" open={openDrawer} onClose={toggleDrawer(false)}>
+    <Drawer anchor="left" open={openDrawer} onClose={handleClose}>
       <Box
         sx={{
           p: 2,
@@ -50,13 +54,26 @@ const DrawerMenu = ({ openDrawer, toggleDrawer }: DrawerMenu) => {
           </ListItemButton>
 
           <ListItemButton>
+            <Link href={"#"}>
+              <ListItemText primary="Youtube" />
+            </Link>
+          </ListItemButton>
+
+          <ListItemButton>
             <Link href={"/gioi-thieu"}>
               <ListItemText primary="Giới thiệu" />
             </Link>
           </ListItemButton>
 
           <ListItemButton>
-            <ListItemText primary="Other" />
+            <Link href={"/sign-in"}>
+              <ListItemText primary="Đăng nhập" />
+            </Link>
+          </ListItemButton>
+          <ListItemButton>
+            <Link href={"/sign-up"}>
+              <ListItemText primary="Đăng ký" />
+            </Link>
           </ListItemButton>
         </Box>
       </Box>

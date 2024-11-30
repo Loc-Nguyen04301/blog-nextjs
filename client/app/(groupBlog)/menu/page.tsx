@@ -2,6 +2,15 @@ import React from "react";
 import { lato } from "@/app/fonts";
 import Link from "next/link";
 import { Box, TextField } from "@mui/material";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Mục lục - Loc Nguyen Writer",
+  description: "Mục lục - Loc Nguyen Writer",
+  icons: {
+    icon: "favicon.ico",
+  },
+};
 
 const MenuPage = () => {
   return (

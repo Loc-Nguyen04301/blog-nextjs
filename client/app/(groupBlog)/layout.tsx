@@ -40,6 +40,16 @@ const BlogLayout = ({ children }: { children: React.ReactNode }) => {
                 </ul>
                 <ul className="flex w-[40%] justify-end flex-wrap">
                   <li className="p-4 py-7">
+                    <Link href={"/sign-in"} className="hover:text-primaryColor">
+                      Đăng nhập
+                    </Link>
+                  </li>
+                  <li className="p-4 py-7">
+                    <Link href={"/sign-up"} className="hover:text-primaryColor">
+                      Đăng ký
+                    </Link>
+                  </li>
+                  <li className="p-4 py-7">
                     <Link href={"/blog"} className="hover:text-primaryColor">
                       Youtube
                     </Link>

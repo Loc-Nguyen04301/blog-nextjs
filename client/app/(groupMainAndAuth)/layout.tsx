@@ -11,6 +11,7 @@ const MainAndAuthLayout = ({ children }: { children: React.ReactNode }) => {
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpenDrawer(newOpen);
   };
+
   return (
     <>
       <header>
@@ -36,6 +37,18 @@ const MainAndAuthLayout = ({ children }: { children: React.ReactNode }) => {
               href="/gioi-thieu"
             >
               giới thiệu
+            </Link>
+            <Link
+              className="px-2 font-medium text-[15px] uppercase hover:text-primaryColor cursor-pointer"
+              href="/sign-in"
+            >
+              đăng nhập
+            </Link>
+            <Link
+              className="px-2 font-medium text-[15px] uppercase hover:text-primaryColor cursor-pointer"
+              href="/sign-up"
+            >
+              đăng ký
             </Link>
           </Box>
           <IconButton

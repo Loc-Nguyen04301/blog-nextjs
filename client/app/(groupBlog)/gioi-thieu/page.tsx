@@ -3,6 +3,15 @@ import React from "react";
 import Image from "next/image";
 import avatarMySelf from "@/assets/images/avatarMyself.jpg";
 import logoBlogCenter from "@/assets/images/logoBlogCenter.jpg";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Giới thiệu - Loc Nguyen Writer",
+  description: "Giới thiệu - Loc Nguyen Writer",
+  icons: {
+    icon: "favicon.ico",
+  },
+};
 
 const AboutMePage = () => {
   return (
