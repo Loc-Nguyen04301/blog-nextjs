@@ -5,7 +5,7 @@ import Image from "next/image";
 import Footer from "../components/Footer";
 import AccordionMenu from "../components/AccordionMenu";
 
-const Layout = ({ children }: { children: React.ReactNode }) => {
+const BlogLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="bg-[#f4f4f4] h-full py-10 min-h-screen">
       <div className="container mx-auto bg-white shadow-[0_0_5px_#ddd] max-lg:mx-0 max-lg:!max-w-full">
@@ -14,11 +14,11 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             <div className="border-t border-b border-[#000] relative max-md:border-white">
               <div className="flex justify-between max-md:hidden">
                 <ul className="flex w-[40%] justify-start flex-wrap tracking-wide">
-                  <li className="p-4 py-7">
+                  {/* <li className="p-4 py-7">
                     <Link href={"/"} className="hover:text-primaryColor">
                       Home
                     </Link>
-                  </li>
+                  </li> */}
                   <li className="p-4 py-7">
                     <Link href={"/blog"} className="hover:text-primaryColor">
                       Blog
@@ -69,4 +69,4 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default Layout;
+export default BlogLayout;

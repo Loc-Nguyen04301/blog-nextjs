@@ -11,6 +11,7 @@ import emailIcon from "@/assets/images/emailIcon.png";
 import blogImage from "@/assets/images/blogImage.jpg";
 import defaultImage from "@/assets/images/defaultImage.png";
 import { Formik } from "formik";
+import { TextField } from "@mui/material";
 
 interface BlogDetailComponent {
   slug: string;
@@ -126,20 +127,20 @@ const BlogDetailComponent = ({ slug }: BlogDetailComponent) => {
                 </div>
                 <div className="mt-5 flex flex-col gap-3">
                   <Formik
-                    initialValues={{ email: "", password: "" }}
-                    validate={(values) => {
-                      const errors = {};
-                      if (!values.email) {
-                        errors.email = "Required";
-                      } else if (
-                        !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(
-                          values.email
-                        )
-                      ) {
-                        errors.email = "Invalid email address";
-                      }
-                      return errors;
-                    }}
+                    initialValues={{ name: "", email: "", comment: "" }}
+                    // validate={(values) => {
+                    //   const errors = {};
+                    //   if (!values.email) {
+                    //     errors.email = "Required";
+                    //   } else if (
+                    //     !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(
+                    //       values.email
+                    //     )
+                    //   ) {
+                    //     errors.email = "Invalid email address";
+                    //   }
+                    //   return errors;
+                    // }}
                     onSubmit={(values, { setSubmitting }) => {
                       setTimeout(() => {
                         alert(JSON.stringify(values, null, 2));
@@ -155,25 +156,46 @@ const BlogDetailComponent = ({ slug }: BlogDetailComponent) => {
                       handleBlur,
                       handleSubmit,
                       isSubmitting,
-                      /* and other goodies */
                     }) => (
-                      <form onSubmit={handleSubmit}>
-                        <input
+                      <form
+                        onSubmit={handleSubmit}
+                        className="flex flex-col gap-5"
+                      >
+                        <TextField
+                          type="text"
+                          label="Name"
+                          name="name"
+                          variant="filled"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.name}
+                          fullWidth
+                        />
+                        {errors.name && touched.name && errors.name}
+                        <TextField
                           type="email"
+                          label="Email"
                           name="email"
+                          variant="filled"
                           onChange={handleChange}
                           onBlur={handleBlur}
                           value={values.email}
+                          fullWidth
                         />
                         {errors.email && touched.email && errors.email}
-                        <input
-                          type="password"
-                          name="password"
+                        <TextField
+                          type="text"
+                          label="Comment"
+                          name="comment"
+                          variant="filled"
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          value={values.password}
+                          value={values.comment}
+                          fullWidth
+                          multilinew
+                          rows={4}
                         />
-                        {errors.password && touched.password && errors.password}
+                        {errors.comment && touched.comment && errors.comment}
                         <button type="submit" disabled={isSubmitting}>
                           Submit
                         </button>

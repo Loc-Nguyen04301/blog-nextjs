@@ -1,67 +1,15 @@
-"use client";
-import { useState } from "react";
-import { Box, IconButton } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
-import Image from "next/image";
 import FacebookIcon from "@/assets/icons/FacebookIcon";
 import YoutubeIcon from "@/assets/icons/YoutubeIcon";
 import avatarImage from "@/assets/images/avatarMyself.jpg";
 import bannerBlogImage from "@/assets/images/bannerBlog.jpg";
 
-import Link from "next/link";
-import DrawerMenu from "./components/Drawer";
+import { Box } from "@mui/material";
+import Image from "next/image";
+import React from "react";
 
-export default function Home() {
-  const [openDrawer, setOpenDrawer] = useState(false);
-
-  const toggleDrawer = (newOpen: boolean) => () => {
-    setOpenDrawer(newOpen);
-  };
-
+const MainPage = () => {
   return (
     <>
-      <section>
-        <div className="flex justify-between items-center h-[100px] px-6">
-          <Link
-            className="uppercase text-[26px] hover:scale-110 duration-300 max-[400px]:text-[22px]"
-            href="/#"
-          >
-            Loc Nguyen Writer
-          </Link>
-          <Box className="flex gap-3 justify-end max-sm:hidden">
-            <Link
-              className="px-2 font-medium text-[15px] uppercase hover:text-primaryColor cursor-pointer"
-              href="/blog"
-            >
-              blog
-            </Link>
-            <div className="px-2 font-medium text-[15px] uppercase hover:text-primaryColor cursor-pointer">
-              youtube
-            </div>
-            <Link
-              className="px-2 font-medium text-[15px] uppercase hover:text-primaryColor cursor-pointer"
-              href="/gioi-thieu"
-            >
-              giới thiệu
-            </Link>
-          </Box>
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="drawer"
-            onClick={toggleDrawer(true)}
-            sx={{
-              display: {
-                sm: "none",
-              },
-            }}
-          >
-            <MenuIcon />
-          </IconButton>
-        </div>
-        <DrawerMenu openDrawer={openDrawer} toggleDrawer={toggleDrawer} />
-      </section>
-
       <section>
         <Box
           className="p-6"
@@ -72,10 +20,12 @@ export default function Home() {
           <Image alt="cover-image" src={bannerBlogImage} className="w-full" />
         </Box>
       </section>
+
       <section className="text-right p-3">
         <FacebookIcon />
         <YoutubeIcon />
       </section>
+
       <section>
         <div className="py-10 px-3 gap-8 container mx-auto flex max-md:flex-col">
           <div className="p-5 w-[30%] max-md:w-full">
@@ -108,18 +58,8 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section>
-        <Box
-          className="p-6"
-          sx={{
-            backgroundColor: "primary.main",
-          }}
-        >
-          <div className="text-center text-sm">
-            © All rights reserved by Loc Nguyen
-          </div>
-        </Box>
-      </section>
     </>
   );
-}
+};
+
+export default MainPage;
