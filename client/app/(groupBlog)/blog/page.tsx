@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import BlogComponent from "./BlogComponent";
+import BlogPageClientSide from "./BlogPageClientSide";
 
 export const metadata: Metadata = {
   title: "Blog - Loc Nguyen Writer",
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default async function Page() {
   return (
     <>
-      <BlogComponent />
+      <BlogPageClientSide />
     </>
   );
 }

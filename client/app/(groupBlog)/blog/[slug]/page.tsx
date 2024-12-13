@@ -1,4 +1,4 @@
-import BlogDetailComponent from "./BlogDetailComponent";
+import DetailBlogPageClientSide from "./DetailBlogPageClientSide";
 
 export default async function Page({
   params,
@@ -9,7 +9,7 @@ export default async function Page({
 
   return (
     <>
-      <BlogDetailComponent slug={slug} />
+      <DetailBlogPageClientSide slug={slug} />
     </>
   );
 }

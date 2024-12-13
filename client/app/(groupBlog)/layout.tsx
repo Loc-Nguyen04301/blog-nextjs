@@ -14,11 +14,11 @@ const BlogLayout = ({ children }: { children: React.ReactNode }) => {
             <div className="border-t border-b border-[#000] relative max-md:border-white">
               <div className="flex justify-between max-md:hidden">
                 <ul className="flex w-[40%] justify-start flex-wrap tracking-wide">
-                  {/* <li className="p-4 py-7">
+                  <li className="p-4 py-7">
                     <Link href={"/"} className="hover:text-primaryColor">
                       Home
                     </Link>
-                  </li> */}
+                  </li>
                   <li className="p-4 py-7">
                     <Link href={"/blog"} className="hover:text-primaryColor">
                       Blog
@@ -40,6 +40,19 @@ const BlogLayout = ({ children }: { children: React.ReactNode }) => {
                 </ul>
                 <ul className="flex w-[40%] justify-end flex-wrap">
                   <li className="p-4 py-7">
+                    <Link
+                      href={"/create-blog"}
+                      className="hover:text-primaryColor"
+                    >
+                      Tạo Blog
+                    </Link>
+                  </li>
+                  <li className="p-4 py-7">
+                    <Link href={"/blog"} className="hover:text-primaryColor">
+                      Youtube
+                    </Link>
+                  </li>
+                  <li className="p-4 py-7">
                     <Link href={"/sign-in"} className="hover:text-primaryColor">
                       Đăng nhập
                     </Link>
@@ -47,11 +60,6 @@ const BlogLayout = ({ children }: { children: React.ReactNode }) => {
                   <li className="p-4 py-7">
                     <Link href={"/sign-up"} className="hover:text-primaryColor">
                       Đăng ký
-                    </Link>
-                  </li>
-                  <li className="p-4 py-7">
-                    <Link href={"/blog"} className="hover:text-primaryColor">
-                      Youtube
                     </Link>
                   </li>
                 </ul>
