@@ -1,17 +1,15 @@
 "use client";
 import { useFormikContext } from "formik";
-import React, { Dispatch, FC, LegacyRef, SetStateAction } from "react";
+import React, { FC, LegacyRef } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { CreateBlog } from "../types/blog";
 
 interface TextEditorProps {
-  body: string;
-  setBody: Dispatch<SetStateAction<string>>;
-  editorRef: HTMLInputElement | LegacyRef<ReactQuill>;
+  editorRef?: HTMLInputElement | LegacyRef<ReactQuill>;
 }
 
-const TextEditor: FC<TextEditorProps> = ({ body, setBody, editorRef }) => {
+const TextEditor: FC<TextEditorProps> = ({ editorRef }) => {
   const { values, setFieldValue } = useFormikContext<CreateBlog>();
 
   const modules = {
@@ -53,9 +51,7 @@ const TextEditor: FC<TextEditorProps> = ({ body, setBody, editorRef }) => {
       placeholder="Write somethings..."
       modules={modules}
       formats={formats}
-      value={values.content}
       onChange={handleChange}
-      ref={editorRef}
     />
   );
 };

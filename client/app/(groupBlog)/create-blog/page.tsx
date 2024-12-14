@@ -1,5 +1,5 @@
 "use client";
-import React, { LegacyRef, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import * as Yup from "yup";
 import {
   Button,
@@ -42,13 +42,12 @@ const CreateBlogPage = () => {
     description: "",
     content: "",
   } as CreateBlog;
-  const [body, setBody] = useState("");
 
   const titleRef = useRef<HTMLInputElement>(null);
   const thumbnailRef = useRef<HTMLInputElement>(null);
-  const categoryRefs = useRef<HTMLInputElement[]>([]);
+  const categoryRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLInputElement>(null);
-  const contentRef = useRef<ReactQuill>(null);
+  const contentRef = useRef<HTMLInputElement>(null);
 
   const categoryOptions = [
     { label: "Option 1", value: "1" },
@@ -70,11 +69,11 @@ const CreateBlogPage = () => {
       });
       thumbnailRef?.current?.focus();
     } else if (errors.category) {
-      categoryRefs?.current[0]?.scrollIntoView({
+      categoryRef?.current?.scrollIntoView({
         behavior: "instant",
         block: "center",
       });
-      categoryRefs?.current[0]?.focus();
+      categoryRef?.current?.focus();
     } else if (errors.description) {
       descriptionRef?.current?.scrollIntoView({
         behavior: "instant",
@@ -82,8 +81,8 @@ const CreateBlogPage = () => {
       });
       descriptionRef?.current?.focus();
     } else if (errors.content) {
-      contentRef?.current?.getEditor().root.scrollIntoView({
-        behavior: "smooth",
+      contentRef?.current?.scrollIntoView({
+        behavior: "instant",
         block: "center",
       });
       contentRef?.current?.focus();
@@ -112,27 +111,32 @@ const CreateBlogPage = () => {
         handleBlur,
         handleSubmit,
         isSubmitting,
+        validateForm,
       }) => {
-        console.log({ values });
+        console.log({ values, errors, touched });
+        const handleFormSubmit = async (
+          e: React.FormEvent<HTMLFormElement>
+        ) => {
+          e.preventDefault();
+          const validationErrors = await validateForm();
+          console.log({ validationErrors });
+          if (Object.keys(validationErrors).length > 0) {
+            scrollToError(validationErrors);
+          } else {
+            handleSubmit(e);
+          }
+        };
+
         return (
-          <Form
-            onSubmit={(e) => {
-              e.preventDefault();
-              if (Object.keys(errors).length > 0) {
-                scrollToError(errors);
-              } else {
-                handleSubmit(e);
-              }
-            }}
-            className="flex flex-col gap-5"
-          >
+          <Form onSubmit={handleFormSubmit} className="flex flex-col gap-5">
             <div className="grid grid-cols-11 gap-5">
               <div className="col-span-7 max-md:col-span-12 col-start-1">
                 <h1 className="font-medium text-lg mb-2">Create Blog</h1>
                 <div className="flex flex-col gap-5">
                   <FormControl
                     fullWidth
-                    error={touched.title && Boolean(errors.title)}
+                    error={Boolean(errors.title)}
+                    ref={titleRef}
                   >
                     <TextField
                       id="name"
@@ -140,17 +144,15 @@ const CreateBlogPage = () => {
                       label="Title"
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      error={touched.title && Boolean(errors.title)}
-                      inputRef={titleRef}
+                      error={Boolean(errors.title)}
                     />
-                    <FormHelperText>
-                      <ErrorMessage name="title" />
-                    </FormHelperText>
+                    <ErrorMessage name="title" component={FormHelperText} />
                   </FormControl>
 
                   <FormControl
                     fullWidth
-                    error={touched.thumnail && Boolean(errors.thumnail)}
+                    error={Boolean(errors.thumnail)}
+                    ref={thumbnailRef}
                   >
                     <TextField
                       type="file"
@@ -167,56 +169,53 @@ const CreateBlogPage = () => {
                         }
                       }}
                       onBlur={handleBlur}
-                      error={touched.thumnail && Boolean(errors.thumnail)}
-                      inputRef={thumbnailRef}
+                      error={Boolean(errors.thumnail)}
                     />
-                    <FormHelperText>
-                      <ErrorMessage name="thumnail" />
-                    </FormHelperText>
+
+                    <ErrorMessage name="thumnail" component={FormHelperText} />
                   </FormControl>
 
                   <FormControl
                     fullWidth
-                    error={touched.description && Boolean(errors.description)}
+                    error={Boolean(errors.description)}
+                    ref={descriptionRef}
                   >
                     <TextField
-                      id="name"
+                      id="description"
                       name="description"
                       label="Description"
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      error={touched.description && Boolean(errors.description)}
-                      inputRef={descriptionRef}
+                      error={Boolean(errors.description)}
                       multiline
                     />
-                    <FormHelperText>
-                      <ErrorMessage name="description" />
-                    </FormHelperText>
+                    <ErrorMessage
+                      name="description"
+                      component={FormHelperText}
+                    />
                   </FormControl>
 
                   <FormControl
                     fullWidth
-                    error={Boolean(touched.category && errors.category)}
+                    error={Boolean(errors.category)}
+                    ref={categoryRef}
                   >
                     <FormGroup>
-                      {categoryOptions.map((option, index) => (
+                      {categoryOptions.map((option) => (
                         <FormControlLabel
+                          id="category"
                           label={option.label}
                           key={option.value}
+                          name="category"
                           control={
                             <Field
                               type="checkbox"
-                              name="category"
                               value={option.value}
                               as={Checkbox}
-                              innerRef={(el: HTMLInputElement) =>
-                                (categoryRefs.current[index] = el)
-                              }
                               onChange={(
                                 e: React.ChangeEvent<HTMLInputElement>
                               ) => {
                                 const { value, checked } = e.target;
-                                console.log({ value, checked });
                                 const selectedCategory = checked
                                   ? [...values.category, value]
                                   : values.category.filter(
@@ -234,13 +233,10 @@ const CreateBlogPage = () => {
 
                   <FormControl
                     fullWidth
-                    error={Boolean(touched.content && errors.content)}
+                    error={Boolean(errors.content)}
+                    ref={contentRef}
                   >
-                    <TextEditor
-                      body={body}
-                      setBody={setBody}
-                      editorRef={contentRef}
-                    />
+                    <TextEditor />
                     <ErrorMessage name="content" component={FormHelperText} />
                   </FormControl>
                 </div>
