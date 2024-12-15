@@ -7,17 +7,17 @@ import {
   FormControl,
   FormControlLabel,
   FormGroup,
-  FormHelperText,
   TextField,
+  Typography,
 } from "@mui/material";
-import { ErrorMessage, Field, Form, Formik, FormikErrors } from "formik";
+import { Field, Form, Formik, FormikErrors } from "formik";
 import Image from "next/image";
 import Link from "next/link";
 import { lato } from "@/app/fonts";
 import TextEditor from "@/app/components/TextEditor";
 import { CreateBlog } from "@/app/types/blog";
-import ReactQuill from "react-quill";
-import isEqual from "lodash/isEqual";
+import { formatDate } from "@/app/utils/formatDate";
+import ErrorMessage from "@/app/components/ErrorMessage";
 
 const validationSchema = Yup.object({
   title: Yup.string()
@@ -42,6 +42,7 @@ const CreateBlogPage = () => {
     description: "",
     content: "",
   } as CreateBlog;
+  const createdAt = formatDate(new Date());
 
   const titleRef = useRef<HTMLInputElement>(null);
   const thumbnailRef = useRef<HTMLInputElement>(null);
@@ -133,11 +134,7 @@ const CreateBlogPage = () => {
               <div className="col-span-7 max-md:col-span-12 col-start-1">
                 <h1 className="font-medium text-lg mb-2">Create Blog</h1>
                 <div className="flex flex-col gap-5">
-                  <FormControl
-                    fullWidth
-                    error={Boolean(errors.title)}
-                    ref={titleRef}
-                  >
+                  <FormControl fullWidth ref={titleRef}>
                     <TextField
                       id="name"
                       name="title"
@@ -146,14 +143,12 @@ const CreateBlogPage = () => {
                       onBlur={handleBlur}
                       error={Boolean(errors.title)}
                     />
-                    <ErrorMessage name="title" component={FormHelperText} />
+                    {errors.title && (
+                      <ErrorMessage textContent={errors.title} />
+                    )}
                   </FormControl>
 
-                  <FormControl
-                    fullWidth
-                    error={Boolean(errors.thumnail)}
-                    ref={thumbnailRef}
-                  >
+                  <FormControl fullWidth ref={thumbnailRef}>
                     <TextField
                       type="file"
                       id="thumnail"
@@ -171,15 +166,12 @@ const CreateBlogPage = () => {
                       onBlur={handleBlur}
                       error={Boolean(errors.thumnail)}
                     />
-
-                    <ErrorMessage name="thumnail" component={FormHelperText} />
+                    {errors.thumnail && (
+                      <ErrorMessage textContent={errors.thumnail} />
+                    )}
                   </FormControl>
 
-                  <FormControl
-                    fullWidth
-                    error={Boolean(errors.description)}
-                    ref={descriptionRef}
-                  >
+                  <FormControl fullWidth ref={descriptionRef}>
                     <TextField
                       id="description"
                       name="description"
@@ -189,17 +181,12 @@ const CreateBlogPage = () => {
                       error={Boolean(errors.description)}
                       multiline
                     />
-                    <ErrorMessage
-                      name="description"
-                      component={FormHelperText}
-                    />
+                    {errors.description && (
+                      <ErrorMessage textContent={errors.description} />
+                    )}
                   </FormControl>
 
-                  <FormControl
-                    fullWidth
-                    error={Boolean(errors.category)}
-                    ref={categoryRef}
-                  >
+                  <FormControl fullWidth ref={categoryRef}>
                     <FormGroup>
                       {categoryOptions.map((option) => (
                         <FormControlLabel
@@ -207,6 +194,7 @@ const CreateBlogPage = () => {
                           label={option.label}
                           key={option.value}
                           name="category"
+                          className="w-fit"
                           control={
                             <Field
                               type="checkbox"
@@ -228,7 +216,9 @@ const CreateBlogPage = () => {
                         />
                       ))}
                     </FormGroup>
-                    <ErrorMessage name="category" component={FormHelperText} />
+                    {errors.category && (
+                      <ErrorMessage textContent={errors.category as string} />
+                    )}
                   </FormControl>
 
                   <FormControl
@@ -236,14 +226,18 @@ const CreateBlogPage = () => {
                     error={Boolean(errors.content)}
                     ref={contentRef}
                   >
-                    <TextEditor />
-                    <ErrorMessage name="content" component={FormHelperText} />
+                    <TextEditor
+                      className={errors.content && "border border-red-600"}
+                    />
+                    {errors.content && (
+                      <ErrorMessage textContent={errors.content} />
+                    )}
                   </FormControl>
                 </div>
               </div>
               <div className="col-span-7 max-md:col-span-12 col-start-1">
                 <h1 className="font-medium text-lg mb-2">Preview Blog</h1>
-                <div className={"pb-16 mb-16"}>
+                <div className={"mb-16"}>
                   <div className="text-center">
                     <h1 className="uppercase text-2xl mb-2">
                       <Link href={`#`}>{values.title}</Link>
@@ -251,7 +245,7 @@ const CreateBlogPage = () => {
                     <p
                       className={`uppercase text-xs text-subTitleColor mb-2 font-medium tracking-wider ${lato.variable} font-sans`}
                     >
-                      March 6, 2024 By Lộc Nguyễn 10 comments
+                      {createdAt} By Lộc Nguyễn 10 comments
                     </p>
                     {preview && (
                       <Image

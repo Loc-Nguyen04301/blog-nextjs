@@ -7,9 +7,10 @@ import { CreateBlog } from "../types/blog";
 
 interface TextEditorProps {
   editorRef?: HTMLInputElement | LegacyRef<ReactQuill>;
+  className?: string;
 }
 
-const TextEditor: FC<TextEditorProps> = ({ editorRef }) => {
+const TextEditor: FC<TextEditorProps> = ({ editorRef, className }) => {
   const { values, setFieldValue } = useFormikContext<CreateBlog>();
 
   const modules = {
@@ -52,6 +53,7 @@ const TextEditor: FC<TextEditorProps> = ({ editorRef }) => {
       modules={modules}
       formats={formats}
       onChange={handleChange}
+      className={className}
     />
   );
 };

@@ -20,7 +20,7 @@ interface DetailBlogPageClientSide {
 const DetailBlogPageClientSide = ({ slug }: DetailBlogPageClientSide) => {
   return (
     <>
-      <BlogComponent />
+      <BlogComponent linkTo={"#"} title="Title of Blog" content="content" />
 
       <div className="abc">
         <div className="flex gap-2 mt-20 mb-5 ml-3">

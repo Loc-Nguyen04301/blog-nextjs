@@ -30,7 +30,11 @@ const BlogPageClientSide = () => {
     <>
       {Array.from({ length: 3 }, (_, idx) => (
         <div className="mb-16 border-b border-[#000]" key={idx}>
-          <BlogComponent />
+          <BlogComponent
+            linkTo={"/blog/1"}
+            title="Title of Blog"
+            description="description"
+          />
         </div>
       ))}
       <Box>
