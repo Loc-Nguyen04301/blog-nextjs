@@ -20,7 +20,13 @@ interface DetailBlogPageClientSide {
 const DetailBlogPageClientSide = ({ slug }: DetailBlogPageClientSide) => {
   return (
     <>
-      <BlogComponent linkTo={"#"} title="Title of Blog" content="content" />
+      <BlogComponent
+        linkTo={"#"}
+        title="Title of Blog"
+        thumnail={fbIcon}
+        content="content"
+        categories={["1", "2"]}
+      />
 
       <div className="abc">
         <div className="flex gap-2 mt-20 mb-5 ml-3">

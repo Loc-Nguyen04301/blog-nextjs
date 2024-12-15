@@ -1,9 +1,6 @@
 "use client";
-import Image from "next/image";
-import Link from "next/link";
 import React from "react";
 import thumnailBlog from "@/assets/images/thumnailBlog.jpg";
-import { lato } from "@/app/fonts";
 import { Box, Pagination } from "@mui/material";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
@@ -33,7 +30,9 @@ const BlogPageClientSide = () => {
           <BlogComponent
             linkTo={"/blog/1"}
             title="Title of Blog"
+            thumnail={thumnailBlog}
             description="description"
+            categories={["1", "2"]}
           />
         </div>
       ))}

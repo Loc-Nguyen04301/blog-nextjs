@@ -1,7 +1,7 @@
 export type IBlog = {
     title: string;
     thumnail: string | File;
-    category: string[];
+    categories: string[];
     content: string;
     description: string;
     createdAt: string;

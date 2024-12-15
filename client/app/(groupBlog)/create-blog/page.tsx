@@ -8,23 +8,20 @@ import {
   FormControlLabel,
   FormGroup,
   TextField,
-  Typography,
 } from "@mui/material";
 import { Field, Form, Formik, FormikErrors } from "formik";
-import Image from "next/image";
-import Link from "next/link";
-import { lato } from "@/app/fonts";
 import TextEditor from "@/app/components/TextEditor";
 import { CreateBlog } from "@/app/types/blog";
 import { formatDate } from "@/app/utils/formatDate";
 import ErrorMessage from "@/app/components/ErrorMessage";
+import BlogComponent from "@/app/components/BlogComponent";
 
 const validationSchema = Yup.object({
   title: Yup.string()
     .required("Title is required")
     .min(10, "Title has at least 10 characters."),
   thumnail: Yup.string().required("Thumnail image is required"),
-  category: Yup.array().min(1, "At least one category must be selected"),
+  categories: Yup.array().min(1, "At least one category must be selected"),
   description: Yup.string()
     .required("Description is required")
     .min(50, "Description has at least 50 characters."),
@@ -34,11 +31,10 @@ const validationSchema = Yup.object({
 });
 
 const CreateBlogPage = () => {
-  const [preview, setPreview] = useState<string>();
   const initialValues = {
     title: "",
     thumnail: "",
-    category: [],
+    categories: [],
     description: "",
     content: "",
   } as CreateBlog;
@@ -46,14 +42,14 @@ const CreateBlogPage = () => {
 
   const titleRef = useRef<HTMLInputElement>(null);
   const thumbnailRef = useRef<HTMLInputElement>(null);
-  const categoryRef = useRef<HTMLInputElement>(null);
+  const categoriesRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLInputElement>(null);
   const contentRef = useRef<HTMLInputElement>(null);
 
   const categoryOptions = [
-    { label: "Option 1", value: "1" },
-    { label: "Option 2", value: "2" },
-    { label: "Option 3", value: "3" },
+    { label: "Option 1", id: "1" },
+    { label: "Option 2", id: "2" },
+    { label: "Option 3", id: "3" },
   ];
 
   const scrollToError = (errors: FormikErrors<CreateBlog>) => {
@@ -69,12 +65,12 @@ const CreateBlogPage = () => {
         block: "center",
       });
       thumbnailRef?.current?.focus();
-    } else if (errors.category) {
-      categoryRef?.current?.scrollIntoView({
+    } else if (errors.categories) {
+      categoriesRef?.current?.scrollIntoView({
         behavior: "instant",
         block: "center",
       });
-      categoryRef?.current?.focus();
+      categoriesRef?.current?.focus();
     } else if (errors.description) {
       descriptionRef?.current?.scrollIntoView({
         behavior: "instant",
@@ -158,9 +154,7 @@ const CreateBlogPage = () => {
                         if (file) {
                           console.log({ file });
                           const previewImage = URL.createObjectURL(file);
-                          console.log({ previewImage });
-                          setFieldValue("thumnail", file.name);
-                          setPreview(previewImage);
+                          setFieldValue("thumnail", previewImage);
                         }
                       }}
                       onBlur={handleBlur}
@@ -186,38 +180,38 @@ const CreateBlogPage = () => {
                     )}
                   </FormControl>
 
-                  <FormControl fullWidth ref={categoryRef}>
+                  <FormControl fullWidth ref={categoriesRef}>
                     <FormGroup>
                       {categoryOptions.map((option) => (
                         <FormControlLabel
-                          id="category"
+                          id="categories"
                           label={option.label}
-                          key={option.value}
-                          name="category"
+                          key={option.id}
+                          name="categories"
                           className="w-fit"
                           control={
                             <Field
                               type="checkbox"
-                              value={option.value}
+                              value={option.id}
                               as={Checkbox}
                               onChange={(
                                 e: React.ChangeEvent<HTMLInputElement>
                               ) => {
                                 const { value, checked } = e.target;
                                 const selectedCategory = checked
-                                  ? [...values.category, value]
-                                  : values.category.filter(
+                                  ? [...values.categories, value]
+                                  : values.categories.filter(
                                       (opt) => opt !== value
                                     );
-                                setFieldValue("category", selectedCategory);
+                                setFieldValue("categories", selectedCategory);
                               }}
                             />
                           }
                         />
                       ))}
                     </FormGroup>
-                    {errors.category && (
-                      <ErrorMessage textContent={errors.category as string} />
+                    {errors.categories && (
+                      <ErrorMessage textContent={errors.categories as string} />
                     )}
                   </FormControl>
 
@@ -237,61 +231,14 @@ const CreateBlogPage = () => {
               </div>
               <div className="col-span-7 max-md:col-span-12 col-start-1">
                 <h1 className="font-medium text-lg mb-2">Preview Blog</h1>
-                <div className={"mb-16"}>
-                  <div className="text-center">
-                    <h1 className="uppercase text-2xl mb-2">
-                      <Link href={`#`}>{values.title}</Link>
-                    </h1>
-                    <p
-                      className={`uppercase text-xs text-subTitleColor mb-2 font-medium tracking-wider ${lato.variable} font-sans`}
-                    >
-                      {createdAt} By Lộc Nguyễn 10 comments
-                    </p>
-                    {preview && (
-                      <Image
-                        src={preview}
-                        alt="thumnaiblog"
-                        fill
-                        className="!static"
-                      />
-                    )}
-                    <div className="mt-3 border-b border-[#dd9933]"></div>
-                  </div>
-                  <div
-                    className={`mt-3 leading-7 ${lato.variable} font-sans text-wrap`}
-                  >
-                    <p className="break-words">
-                      {values.description}...
-                      <Link
-                        href={`#`}
-                        className="hover:text-primaryColor font-semibold ml-1"
-                      >
-                        [Read more ...]
-                      </Link>
-                    </p>
-                  </div>
-                  <div
-                    className="mt-3"
-                    dangerouslySetInnerHTML={{
-                      __html: values.content,
-                    }}
-                  />
-                  <p className={`mt-5 text-subTitleColor`}>
-                    <span className="mr-1">Category:</span>
-                    {values.category.map((selectedCategory) => {
-                      const option = categoryOptions.find(
-                        (opt) => opt.value === selectedCategory
-                      );
-                      return (
-                        option && (
-                          <Link href="/#" key={option.value}>
-                            {option.label},{" "}
-                          </Link>
-                        )
-                      );
-                    })}
-                  </p>
-                </div>
+                <BlogComponent
+                  linkTo={"#"}
+                  title={values.title}
+                  thumnail={values.thumnail as string}
+                  categories={values.categories}
+                  description={values.description}
+                  content={values.content}
+                />
               </div>
             </div>
 
