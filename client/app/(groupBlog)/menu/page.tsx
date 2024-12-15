@@ -16,7 +16,7 @@ const MenuPage = () => {
   return (
     <div>
       <h1 className={`font-sans ${lato.variable}`}>
-        Bạn có thể tìm đọc tất cả các bài viết trên The Present Writer blog theo{" "}
+        Bạn có thể tìm đọc tất cả các bài viết trên Loc Nguyen Writer blog theo{" "}
         <Link
           className="text-primaryColorBold hover:text-black duration-200"
           href={"#tu_khoa"}

@@ -2,7 +2,7 @@ import Link from "next/link";
 import React from "react";
 import Image from "next/image";
 import avatarMySelf from "@/assets/images/avatarMyself.jpg";
-import logoBlogCenter from "@/assets/images/logoBlogCenter.jpg";
+import logoBlog from "@/assets/images/logoBlog.png";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -85,7 +85,7 @@ const AboutMePage = () => {
         </h1>
         <div className="my-5">
           <Image
-            src={logoBlogCenter}
+            src={logoBlog}
             alt="avatar-about-me"
             width={318}
             className="mx-auto"
@@ -114,7 +114,7 @@ const AboutMePage = () => {
         </h1>
         <div className="my-5">
           <Image
-            src={logoBlogCenter}
+            src={logoBlog}
             alt="avatar-about-me"
             width={318}
             className="mx-auto"

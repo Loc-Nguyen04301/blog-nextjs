@@ -28,7 +28,7 @@ const DetailBlogPageClientSide = ({ slug }: DetailBlogPageClientSide) => {
         categories={["1", "2"]}
       />
 
-      <div className="abc">
+      {/* <div className="list-blog">
         <div className="flex gap-2 mt-20 mb-5 ml-3">
           <Link target="_blank" href="/">
             <Image src={wifiIcon} alt="fb-icon" width={40} />
@@ -184,7 +184,7 @@ const DetailBlogPageClientSide = ({ slug }: DetailBlogPageClientSide) => {
             </div>
           ))}
         </div>
-      </div>
+      </div> */}
     </>
   );
 };

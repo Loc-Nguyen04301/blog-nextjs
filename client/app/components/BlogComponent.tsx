@@ -70,7 +70,7 @@ const BlogComponent: FC<BlogComponentProps> = ({
       )}
       {categories && (
         <p className={`mt-5 text-subTitleColor`}>
-          <span className="mr-1">Categories:</span>
+          <span className="mr-1">Mục lục:</span>
           {categories.map((categoryId) => {
             const option = categoryOptions.find((opt) => opt.id === categoryId);
             return (

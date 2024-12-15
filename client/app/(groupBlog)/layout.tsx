@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React from "react";
-import logoBlogCenter from "@/assets/images/logoBlogCenter.jpg";
+import logoBlog from "@/assets/images/logoBlog.png";
 import Image from "next/image";
 import Footer from "../components/Footer";
 import AccordionMenu from "../components/AccordionMenu";
@@ -66,11 +66,7 @@ const BlogLayout = ({ children }: { children: React.ReactNode }) => {
               </div>
               <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                 <Link href={"/"}>
-                  <Image
-                    src={logoBlogCenter}
-                    alt="logo-blog center"
-                    width={150}
-                  />
+                  <Image src={logoBlog} alt="logo-blog-center" width={150} />
                 </Link>
               </div>
             </div>
