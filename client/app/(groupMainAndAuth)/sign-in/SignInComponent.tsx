@@ -10,7 +10,7 @@ import Typography from "@mui/material/Typography";
 import { Divider, FormControl, FormLabel, Stack, styled } from "@mui/material";
 import MuiCard from "@mui/material/Card";
 import { SitemarkIcon } from "@/assets/icons/SiteMarkIcon";
-import ForgotPassword from "@/app/components/ForgotPassword";
+import ForgotPassword from "@/components/ForgotPassword";
 import { FacebookColorIcon } from "@/assets/icons/FacebookColorIcon";
 import { GoogleColorIcon } from "@/assets/icons/GoogleColorIcon";
 import { Metadata } from "next";

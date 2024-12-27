@@ -2,7 +2,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { lato } from "@/app/fonts";
+import { lato } from "@/fonts";
 import fbIcon from "@/assets/images/fbIcon.png";
 import instagramIcon from "@/assets/images/instagramIcon.png";
 import wifiIcon from "@/assets/images/wifiIcon.png";
@@ -11,7 +11,7 @@ import blogImage from "@/assets/images/blogImage.jpg";
 import defaultImage from "@/assets/images/defaultImage.png";
 import { Formik } from "formik";
 import { TextField } from "@mui/material";
-import BlogComponent from "@/app/components/BlogComponent";
+import BlogComponent from "@/components/BlogComponent";
 
 interface DetailBlogPageClientSide {
   slug: string;
@@ -23,7 +23,7 @@ const DetailBlogPageClientSide = ({ slug }: DetailBlogPageClientSide) => {
       <BlogComponent
         linkTo={"#"}
         title="Title of Blog"
-        thumnail={fbIcon}
+        thumbnail={fbIcon}
         content="content"
         categories={["1", "2"]}
       />

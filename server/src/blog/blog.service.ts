@@ -1,11 +1,52 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateBlogDto } from './dto/create-blog.dto';
 import { UpdateBlogDto } from './dto/update-blog.dto';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class BlogService {
-  create(createBlogDto: CreateBlogDto) {
-    return 'This action adds a new blog';
+  constructor(private prisma: PrismaService) { }
+
+  async create(createBlogDto: CreateBlogDto) {
+    try {
+      const { categories, content, description, thumbnail, title } = createBlogDto
+      const existingBlog = await this.prisma.blog.findUnique({
+        where: {
+          title
+        }
+      });
+      if (existingBlog) {
+        throw new HttpException(
+          'Blog with this title already exists',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+
+      const blog = await this.prisma.blog.create({
+        data: {
+          title,
+          content,
+          description,
+          thumbnail,
+          categories: {
+            connect: categories.map((id) => ({ id }))
+          },
+        },
+        include: {
+          categories: {
+            select: {
+              id: true,
+              name: true
+            }
+          }
+        }
+      })
+      if (!blog) throw new HttpException('Not created Blog', HttpStatus.BAD_REQUEST)
+        
+      return blog
+    } catch (error) {
+      throw error
+    }
   }
 
   findAll() {

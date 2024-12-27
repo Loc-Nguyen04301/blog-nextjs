@@ -3,7 +3,7 @@ import "./globals.css";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import theme from "./theme";
-import ScrollToTop from "./utils/ScrollToTop";
+import ScrollToTop from "../utils/ScrollToTop";
 
 export const metadata: Metadata = {
   title: "Loc Nguyen Writer",

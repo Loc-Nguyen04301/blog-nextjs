@@ -3,8 +3,7 @@ import React from "react";
 import thumnailBlog from "@/assets/images/thumnailBlog.jpg";
 import { Box, Pagination } from "@mui/material";
 import { useSearchParams } from "next/navigation";
-import { useRouter } from "next/navigation";
-import BlogComponent from "@/app/components/BlogComponent";
+import BlogComponent from "@/components/BlogComponent";
 
 interface SearchParams {
   page: string;
@@ -30,7 +29,7 @@ const BlogPageClientSide = () => {
           <BlogComponent
             linkTo={"/blog/1"}
             title="Title of Blog"
-            thumnail={thumnailBlog}
+            thumbnail={thumnailBlog}
             description="description"
             categories={["1", "2"]}
           />

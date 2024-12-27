@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import * as Yup from "yup";
 import {
   Button,
@@ -9,18 +9,17 @@ import {
   FormGroup,
   TextField,
 } from "@mui/material";
-import { Field, Form, Formik, FormikErrors } from "formik";
-import TextEditor from "@/app/components/TextEditor";
-import { CreateBlog } from "@/app/types/blog";
-import { formatDate } from "@/app/utils/formatDate";
-import ErrorMessage from "@/app/components/ErrorMessage";
-import BlogComponent from "@/app/components/BlogComponent";
+import { Field, Form, Formik, FormikErrors, FormikHelpers } from "formik";
+import TextEditor from "@/components/TextEditor";
+import { CreateBlogData } from "@/types/blog";
+import ErrorMessage from "@/components/ErrorMessage";
+import BlogComponent from "@/components/BlogComponent";
 
 const validationSchema = Yup.object({
   title: Yup.string()
     .required("Title is required")
     .min(10, "Title has at least 10 characters."),
-  thumnail: Yup.string().required("Thumnail image is required"),
+  thumbnail: Yup.string().required("Thumbnail image is required"),
   categories: Yup.array().min(1, "At least one category must be selected"),
   description: Yup.string()
     .required("Description is required")
@@ -33,12 +32,11 @@ const validationSchema = Yup.object({
 const CreateBlogPage = () => {
   const initialValues = {
     title: "",
-    thumnail: "",
+    thumbnail: "",
     categories: [],
     description: "",
     content: "",
-  } as CreateBlog;
-  const createdAt = formatDate(new Date());
+  } as CreateBlogData;
 
   const titleRef = useRef<HTMLInputElement>(null);
   const thumbnailRef = useRef<HTMLInputElement>(null);
@@ -47,19 +45,19 @@ const CreateBlogPage = () => {
   const contentRef = useRef<HTMLInputElement>(null);
 
   const categoryOptions = [
-    { label: "Option 1", id: "1" },
-    { label: "Option 2", id: "2" },
-    { label: "Option 3", id: "3" },
+    { label: "Option 1", id: 1 },
+    { label: "Option 2", id: 2 },
+    { label: "Option 3", id: 3 },
   ];
 
-  const scrollToError = (errors: FormikErrors<CreateBlog>) => {
+  const scrollToError = (errors: FormikErrors<CreateBlogData>) => {
     if (errors.title) {
       titleRef?.current?.scrollIntoView({
         behavior: "instant",
         block: "center",
       });
       titleRef.current?.focus();
-    } else if (errors.thumnail) {
+    } else if (errors.thumbnail) {
       thumbnailRef?.current?.scrollIntoView({
         behavior: "instant",
         block: "center",
@@ -86,23 +84,38 @@ const CreateBlogPage = () => {
     }
   };
 
+  const handleSubmit = async (
+    values: CreateBlogData,
+    { setSubmitting, resetForm }: FormikHelpers<CreateBlogData>
+  ) => {
+    values.categories = values.categories.map((c) => parseInt(c));
+    const res = await fetch("api/blog", {
+      method: "POST",
+      body: JSON.stringify(values),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    console.log({ res });
+    if (res.ok) {
+      alert("Blog created successfully!");
+      resetForm();
+    } else {
+      const errorData = await res.json();
+      alert(errorData.error || "Failed to create blog");
+    }
+    setSubmitting(false);
+  };
+
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
-      // disable immediately validation input when typing input
-      // validateOnChange={false}
-      onSubmit={(values, { setSubmitting }) => {
-        setTimeout(() => {
-          alert(JSON.stringify(values, null, 2));
-          setSubmitting(false);
-        }, 400);
-      }}
+      onSubmit={handleSubmit}
     >
       {({
         values,
         errors,
-        touched,
         setFieldValue,
         handleChange,
         handleBlur,
@@ -110,13 +123,11 @@ const CreateBlogPage = () => {
         isSubmitting,
         validateForm,
       }) => {
-        console.log({ values, errors, touched });
         const handleFormSubmit = async (
           e: React.FormEvent<HTMLFormElement>
         ) => {
           e.preventDefault();
           const validationErrors = await validateForm();
-          console.log({ validationErrors });
           if (Object.keys(validationErrors).length > 0) {
             scrollToError(validationErrors);
           } else {
@@ -147,21 +158,21 @@ const CreateBlogPage = () => {
                   <FormControl fullWidth ref={thumbnailRef}>
                     <TextField
                       type="file"
-                      id="thumnail"
-                      name="thumnail"
+                      id="thumbnail"
+                      name="thumbnail"
                       onChange={(e) => {
                         const file = (e?.target as HTMLInputElement).files?.[0];
                         if (file) {
                           console.log({ file });
                           const previewImage = URL.createObjectURL(file);
-                          setFieldValue("thumnail", previewImage);
+                          setFieldValue("thumbnail", previewImage);
                         }
                       }}
                       onBlur={handleBlur}
-                      error={Boolean(errors.thumnail)}
+                      error={Boolean(errors.thumbnail)}
                     />
-                    {errors.thumnail && (
-                      <ErrorMessage textContent={errors.thumnail} />
+                    {errors.thumbnail && (
+                      <ErrorMessage textContent={errors.thumbnail} />
                     )}
                   </FormControl>
 
@@ -192,7 +203,7 @@ const CreateBlogPage = () => {
                           control={
                             <Field
                               type="checkbox"
-                              value={option.id}
+                              value={String(option.id)}
                               as={Checkbox}
                               onChange={(
                                 e: React.ChangeEvent<HTMLInputElement>
@@ -201,7 +212,7 @@ const CreateBlogPage = () => {
                                 const selectedCategory = checked
                                   ? [...values.categories, value]
                                   : values.categories.filter(
-                                      (opt) => opt !== value
+                                      (opt) => String(opt) !== value
                                     );
                                 setFieldValue("categories", selectedCategory);
                               }}
@@ -234,7 +245,7 @@ const CreateBlogPage = () => {
                 <BlogComponent
                   linkTo={"#"}
                   title={values.title}
-                  thumnail={values.thumnail as string}
+                  thumbnail={values.thumbnail as string}
                   categories={values.categories}
                   description={values.description}
                   content={values.content}
@@ -249,7 +260,7 @@ const CreateBlogPage = () => {
               disabled={isSubmitting}
               size="large"
             >
-              Submit
+              {isSubmitting ? "Submitting..." : "Create Blog"}
             </Button>
           </Form>
         );

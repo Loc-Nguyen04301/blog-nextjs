@@ -2,7 +2,7 @@
 import { Box, IconButton } from "@mui/material";
 import Link from "next/link";
 import React, { useState } from "react";
-import DrawerMenu from "../components/Drawer";
+import DrawerMenu from "../../components/Drawer";
 import MenuIcon from "@mui/icons-material/Menu";
 
 const MainAndAuthLayout = ({ children }: { children: React.ReactNode }) => {

@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import thumnailBlog from "@/assets/images/thumnailBlog.jpg";
-import { lato } from "@/app/fonts";
+import { lato } from "@/fonts";
 import {
   Box,
   FormControl,

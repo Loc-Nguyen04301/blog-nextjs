@@ -1,10 +1,10 @@
 export type IBlog = {
     title: string;
-    thumnail: string | File;
-    categories: string[];
+    thumbnail: string | File;
+    categories: number[];
     content: string;
     description: string;
     createdAt: string;
 }
 
-export type CreateBlog = Omit<IBlog, 'createdAt'>;
+export type CreateBlogData = Omit<IBlog, 'createdAt'>;

@@ -1,4 +1,4 @@
-import { lato } from "@/app/fonts";
+import { lato } from "@/fonts";
 import Link from "next/link";
 import React from "react";
 

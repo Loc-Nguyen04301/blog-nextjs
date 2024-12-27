@@ -1,5 +1,5 @@
 import React from "react";
-import { lato } from "@/app/fonts";
+import { lato } from "@/fonts";
 import Link from "next/link";
 import { Box, TextField } from "@mui/material";
 import { Metadata } from "next";

@@ -17,6 +17,7 @@ const common_1 = require("@nestjs/common");
 const blog_service_1 = require("./blog.service");
 const create_blog_dto_1 = require("./dto/create-blog.dto");
 const update_blog_dto_1 = require("./dto/update-blog.dto");
+const response_message_decorator_1 = require("../common/decorators/response-message.decorator");
 let BlogController = class BlogController {
     constructor(blogService) {
         this.blogService = blogService;
@@ -39,6 +40,7 @@ let BlogController = class BlogController {
 };
 exports.BlogController = BlogController;
 __decorate([
+    (0, response_message_decorator_1.ResponseMessage)(''),
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -74,7 +76,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], BlogController.prototype, "remove", null);
 exports.BlogController = BlogController = __decorate([
-    (0, common_1.Controller)('blog'),
+    (0, common_1.Controller)('api/v1/blog'),
     __metadata("design:paramtypes", [blog_service_1.BlogService])
 ], BlogController);
 //# sourceMappingURL=blog.controller.js.map

@@ -9,28 +9,27 @@ import { StaticImport } from "next/dist/shared/lib/get-img-props";
 interface BlogComponentProps {
   linkTo?: string | UrlObject;
   title?: string;
-  thumnail?: string | StaticImport;
-  categories?: string[];
+  thumbnail?: string | StaticImport;
+  categories?: number[];
   description?: string;
   content?: string;
 }
 
 const categoryOptions = [
-  { label: "Option 1", id: "1" },
-  { label: "Option 2", id: "2" },
-  { label: "Option 3", id: "3" },
+  { label: "Option 1", id: 1 },
+  { label: "Option 2", id: 2 },
+  { label: "Option 3", id: 3 },
 ];
 
 const BlogComponent: FC<BlogComponentProps> = ({
   title,
-  thumnail,
+  thumbnail,
   content,
   description,
   linkTo,
   categories,
 }) => {
   const createdAt = formatDate(new Date());
-
   return (
     <div className={`mb-16`}>
       <div className="text-center">
@@ -42,8 +41,8 @@ const BlogComponent: FC<BlogComponentProps> = ({
         >
           {createdAt} By Lộc Nguyễn 10 comments
         </p>
-        {thumnail && (
-          <Image src={thumnail} alt="thumnai-blog" fill className="!static" />
+        {thumbnail && (
+          <Image src={thumbnail} alt="thumnai-blog" fill className="!static" />
         )}
         <div className="mt-3 border-b border-[#dd9933]"></div>
       </div>
@@ -62,7 +61,7 @@ const BlogComponent: FC<BlogComponentProps> = ({
       )}
       {content && (
         <div
-          className="mt-3"
+          className="mt-3 break-words"
           dangerouslySetInnerHTML={{
             __html: content,
           }}
@@ -72,7 +71,9 @@ const BlogComponent: FC<BlogComponentProps> = ({
         <p className={`mt-5 text-subTitleColor`}>
           <span className="mr-1">Mục lục:</span>
           {categories.map((categoryId) => {
-            const option = categoryOptions.find((opt) => opt.id === categoryId);
+            const option = categoryOptions.find(
+              (opt) => Number(opt.id) === Number(categoryId)
+            );
             return (
               option && (
                 <Link href="/#" key={option.id}>

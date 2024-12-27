@@ -2,8 +2,8 @@ import Link from "next/link";
 import React from "react";
 import logoBlog from "@/assets/images/logoBlog.png";
 import Image from "next/image";
-import Footer from "../components/Footer";
-import AccordionMenu from "../components/AccordionMenu";
+import Footer from "../../components/Footer";
+import AccordionMenu from "../../components/AccordionMenu";
 
 const BlogLayout = ({ children }: { children: React.ReactNode }) => {
   return (
