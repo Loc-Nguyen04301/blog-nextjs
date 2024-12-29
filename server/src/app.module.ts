@@ -8,11 +8,7 @@ import { HttpExceptionFilter } from './common/exception-filters/http-exception.f
 import { ResponseInterceptor } from './common/interceptors/response.interceptor';
 
 @Module({
-  imports: [
-    PrismaModule,
-    BlogModule,
-    CategoryModule,
-  ],
+  imports: [PrismaModule, BlogModule, CategoryModule],
   providers: [
     {
       provide: APP_FILTER,
@@ -24,4 +20,4 @@ import { ResponseInterceptor } from './common/interceptors/response.interceptor'
     },
   ],
 })
-export class AppModule { }
+export class AppModule {}

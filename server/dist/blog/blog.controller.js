@@ -40,7 +40,7 @@ let BlogController = class BlogController {
 };
 exports.BlogController = BlogController;
 __decorate([
-    (0, response_message_decorator_1.ResponseMessage)(''),
+    (0, response_message_decorator_1.ResponseMessage)('Create Blog Successful'),
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),

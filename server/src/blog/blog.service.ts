@@ -5,15 +5,16 @@ import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class BlogService {
-  constructor(private prisma: PrismaService) { }
+  constructor(private prisma: PrismaService) {}
 
   async create(createBlogDto: CreateBlogDto) {
     try {
-      const { categories, content, description, thumbnail, title } = createBlogDto
+      const { categories, content, description, thumbnail, title } =
+        createBlogDto;
       const existingBlog = await this.prisma.blog.findUnique({
         where: {
-          title
-        }
+          title,
+        },
       });
       if (existingBlog) {
         throw new HttpException(
@@ -29,23 +30,24 @@ export class BlogService {
           description,
           thumbnail,
           categories: {
-            connect: categories.map((id) => ({ id }))
+            connect: categories.map((id) => ({ id })),
           },
         },
         include: {
           categories: {
             select: {
               id: true,
-              name: true
-            }
-          }
-        }
-      })
-      if (!blog) throw new HttpException('Not created Blog', HttpStatus.BAD_REQUEST)
-        
-      return blog
+              name: true,
+            },
+          },
+        },
+      });
+      if (!blog)
+        throw new HttpException('Not created Blog', HttpStatus.BAD_REQUEST);
+
+      return blog;
     } catch (error) {
-      throw error
+      throw error;
     }
   }
 

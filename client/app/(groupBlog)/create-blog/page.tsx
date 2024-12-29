@@ -14,6 +14,7 @@ import TextEditor from "@/components/TextEditor";
 import { CreateBlogData } from "@/types/blog";
 import ErrorMessage from "@/components/ErrorMessage";
 import BlogComponent from "@/components/BlogComponent";
+import BlogService from "@/services/BlogService";
 
 const validationSchema = Yup.object({
   title: Yup.string()
@@ -89,22 +90,8 @@ const CreateBlogPage = () => {
     { setSubmitting, resetForm }: FormikHelpers<CreateBlogData>
   ) => {
     values.categories = values.categories.map((c) => parseInt(c));
-    const res = await fetch("api/blog", {
-      method: "POST",
-      body: JSON.stringify(values),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const res = await BlogService.createBlog(values);
     console.log({ res });
-    if (res.ok) {
-      alert("Blog created successfully!");
-      resetForm();
-    } else {
-      const errorData = await res.json();
-      alert(errorData.error || "Failed to create blog");
-    }
-    setSubmitting(false);
   };
 
   return (

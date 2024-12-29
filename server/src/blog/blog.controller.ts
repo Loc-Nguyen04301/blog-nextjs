@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { BlogService } from './blog.service';
 import { CreateBlogDto } from './dto/create-blog.dto';
 import { UpdateBlogDto } from './dto/update-blog.dto';
@@ -6,9 +14,9 @@ import { ResponseMessage } from 'src/common/decorators/response-message.decorato
 
 @Controller('api/v1/blog')
 export class BlogController {
-  constructor(private readonly blogService: BlogService) { }
+  constructor(private readonly blogService: BlogService) {}
 
-  @ResponseMessage('')
+  @ResponseMessage('Create Blog Successful')
   @Post()
   create(@Body() createBlogDto: CreateBlogDto) {
     return this.blogService.create(createBlogDto);
