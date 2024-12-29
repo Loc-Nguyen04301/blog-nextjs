@@ -19,11 +19,7 @@ let AppModule = class AppModule {
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [
-            prisma_module_1.PrismaModule,
-            blog_module_1.BlogModule,
-            category_module_1.CategoryModule,
-        ],
+        imports: [prisma_module_1.PrismaModule, blog_module_1.BlogModule, category_module_1.CategoryModule],
         providers: [
             {
                 provide: core_1.APP_FILTER,

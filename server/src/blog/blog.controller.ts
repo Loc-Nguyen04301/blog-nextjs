@@ -14,7 +14,7 @@ import { ResponseMessage } from 'src/common/decorators/response-message.decorato
 
 @Controller('api/v1/blog')
 export class BlogController {
-  constructor(private readonly blogService: BlogService) {}
+  constructor(private readonly blogService: BlogService) { }
 
   @ResponseMessage('Create Blog Successful')
   @Post()

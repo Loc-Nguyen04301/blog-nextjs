@@ -21,8 +21,8 @@ let BlogService = class BlogService {
             const { categories, content, description, thumbnail, title } = createBlogDto;
             const existingBlog = await this.prisma.blog.findUnique({
                 where: {
-                    title
-                }
+                    title,
+                },
             });
             if (existingBlog) {
                 throw new common_1.HttpException('Blog with this title already exists', common_1.HttpStatus.BAD_REQUEST);
@@ -34,17 +34,17 @@ let BlogService = class BlogService {
                     description,
                     thumbnail,
                     categories: {
-                        connect: categories.map((id) => ({ id }))
+                        connect: categories.map((id) => ({ id })),
                     },
                 },
                 include: {
                     categories: {
                         select: {
                             id: true,
-                            name: true
-                        }
-                    }
-                }
+                            name: true,
+                        },
+                    },
+                },
             });
             if (!blog)
                 throw new common_1.HttpException('Not created Blog', common_1.HttpStatus.BAD_REQUEST);

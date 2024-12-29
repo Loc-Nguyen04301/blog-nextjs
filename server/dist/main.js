@@ -11,7 +11,7 @@ async function bootstrap() {
         credentials: true,
     });
     await app.listen(port).then(() => {
-        console.log("Server listening on port " + port);
+        console.log('Server listening on port ' + port);
     });
     if (module.hot) {
         module.hot.accept();

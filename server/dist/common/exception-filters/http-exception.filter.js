@@ -16,9 +16,7 @@ let HttpExceptionFilter = class HttpExceptionFilter {
         const statusCode = exception.getStatus();
         const { message } = exception.getResponse();
         const error = exception.name;
-        response
-            .status(statusCode)
-            .json({
+        response.status(statusCode).json({
             statusCode,
             message,
             error,
