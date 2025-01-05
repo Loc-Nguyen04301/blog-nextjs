@@ -6,18 +6,19 @@ import {
   Patch,
   Param,
   Delete,
+  UseInterceptors,
 } from '@nestjs/common';
 import { BlogService } from './blog.service';
 import { CreateBlogDto } from './dto/create-blog.dto';
 import { UpdateBlogDto } from './dto/update-blog.dto';
-import { ResponseMessage } from 'src/common/decorators/response-message.decorator';
+import { ResponseInterceptor } from 'src/common/interceptors/response.interceptor';
 
 @Controller('api/v1/blog')
 export class BlogController {
   constructor(private readonly blogService: BlogService) { }
 
-  @ResponseMessage('Create Blog Successful')
   @Post()
+  @UseInterceptors(new ResponseInterceptor("Create Blog Success"))
   create(@Body() createBlogDto: CreateBlogDto) {
     return this.blogService.create(createBlogDto);
   }

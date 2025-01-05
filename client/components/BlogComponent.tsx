@@ -34,7 +34,9 @@ const BlogComponent: FC<BlogComponentProps> = ({
     <div className={`mb-16`}>
       <div className="text-center">
         <h1 className="uppercase text-2xl mb-2">
-          <Link href={linkTo || "#"}>{title}</Link>
+          <Link className="break-words" href={linkTo || "#"}>
+            {title}
+          </Link>
         </h1>
         <p
           className={`uppercase text-xs text-subTitleColor mb-2 font-medium tracking-wider ${lato.variable} font-sans`}

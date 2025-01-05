@@ -10,11 +10,11 @@ export declare class BlogService {
             name: string;
         }[];
     } & {
-        id: string;
         title: string;
         content: string;
         description: string;
         thumbnail: string;
+        id: string;
         createdAt: Date;
         updatedAt: Date;
     }>;

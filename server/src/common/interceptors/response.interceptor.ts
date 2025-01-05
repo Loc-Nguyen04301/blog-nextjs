@@ -21,14 +21,16 @@ export type Response<T> = {
 
 @Injectable()
 export class ResponseInterceptor<T> implements NestInterceptor<T, Response<T>> {
-  constructor(private reflector: Reflector) { }
+  constructor(
+    private readonly customMessage: string = 'Success'
+  ) { }
 
   intercept(
     context: ExecutionContext,
     next: CallHandler,
   ): Observable<Response<T>> {
     return next.handle().pipe(
-      map((res: unknown) => this.responseHandler(res, context)),
+      map((res: unknown) => this.responseHandler(res, context, this.customMessage)),
       catchError((exception: HttpException) =>
         throwError(() => this.errorHandler(exception, context)),
       ),
@@ -53,15 +55,12 @@ export class ResponseInterceptor<T> implements NestInterceptor<T, Response<T>> {
     });
   }
 
-  responseHandler(res: any, context: ExecutionContext) {
+  responseHandler(res: any, context: ExecutionContext, customMessage: string) {
     const ctx = context.switchToHttp();
     const response = ctx.getResponse();
     const request = ctx.getRequest();
     const statusCode = response.statusCode;
-    const message = this.reflector.get<string>(
-      RESPONSE_MESSAGE_METADATA,
-      context.getHandler(),
-    );
+    const message = customMessage;
 
     return {
       statusCode,

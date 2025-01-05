@@ -31,7 +31,7 @@ const BlogPageClientSide = () => {
             title="Title of Blog"
             thumbnail={thumnailBlog}
             description="description"
-            categories={["1", "2"]}
+            categories={[1, 2]}
           />
         </div>
       ))}

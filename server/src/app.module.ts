@@ -14,10 +14,6 @@ import { ResponseInterceptor } from './common/interceptors/response.interceptor'
       provide: APP_FILTER,
       useClass: HttpExceptionFilter,
     },
-    {
-      provide: APP_INTERCEPTOR,
-      useClass: ResponseInterceptor,
-    },
   ],
 })
-export class AppModule {}
+export class AppModule { }

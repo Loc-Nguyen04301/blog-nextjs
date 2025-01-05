@@ -15,6 +15,7 @@ import { CreateBlogData } from "@/types/blog";
 import ErrorMessage from "@/components/ErrorMessage";
 import BlogComponent from "@/components/BlogComponent";
 import BlogService from "@/services/BlogService";
+import { useAlertStore } from "@/zustand/stores/alert-store";
 
 const validationSchema = Yup.object({
   title: Yup.string()
@@ -85,20 +86,22 @@ const CreateBlogPage = () => {
     }
   };
 
-  const handleSubmit = async (
-    values: CreateBlogData,
-    { setSubmitting, resetForm }: FormikHelpers<CreateBlogData>
-  ) => {
-    values.categories = values.categories.map((c) => parseInt(c));
-    const res = await BlogService.createBlog(values);
-    console.log({ res });
-  };
+  const { addError, setSuccess } = useAlertStore((state) => state);
 
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
-      onSubmit={handleSubmit}
+      onSubmit={async (values, { setSubmitting, resetForm }) => {
+        values.categories = values.categories.map((c) => parseInt(c));
+        try {
+          const res = await BlogService.createBlog(values);
+          setSuccess(res.message);
+          console.log({ res });
+        } catch (error: any) {
+          addError(error.response.data.message);
+        }
+      }}
     >
       {({
         values,

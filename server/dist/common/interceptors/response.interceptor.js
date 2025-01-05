@@ -11,16 +11,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ResponseInterceptor = void 0;
 const common_1 = require("@nestjs/common");
-const core_1 = require("@nestjs/core");
 const rxjs_1 = require("rxjs");
 const operators_1 = require("rxjs/operators");
-const response_message_decorator_1 = require("../decorators/response-message.decorator");
 let ResponseInterceptor = class ResponseInterceptor {
-    constructor(reflector) {
-        this.reflector = reflector;
+    constructor(customMessage = 'Success') {
+        this.customMessage = customMessage;
     }
     intercept(context, next) {
-        return next.handle().pipe((0, operators_1.map)((res) => this.responseHandler(res, context)), (0, operators_1.catchError)((exception) => (0, rxjs_1.throwError)(() => this.errorHandler(exception, context))));
+        return next.handle().pipe((0, operators_1.map)((res) => this.responseHandler(res, context, this.customMessage)), (0, operators_1.catchError)((exception) => (0, rxjs_1.throwError)(() => this.errorHandler(exception, context))));
     }
     errorHandler(exception, context) {
         const ctx = context.switchToHttp();
@@ -36,12 +34,12 @@ let ResponseInterceptor = class ResponseInterceptor {
             timestamp: new Date().toISOString(),
         });
     }
-    responseHandler(res, context) {
+    responseHandler(res, context, customMessage) {
         const ctx = context.switchToHttp();
         const response = ctx.getResponse();
         const request = ctx.getRequest();
         const statusCode = response.statusCode;
-        const message = this.reflector.get(response_message_decorator_1.RESPONSE_MESSAGE_METADATA, context.getHandler());
+        const message = customMessage;
         return {
             statusCode,
             message,
@@ -54,6 +52,6 @@ let ResponseInterceptor = class ResponseInterceptor {
 exports.ResponseInterceptor = ResponseInterceptor;
 exports.ResponseInterceptor = ResponseInterceptor = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [core_1.Reflector])
+    __metadata("design:paramtypes", [String])
 ], ResponseInterceptor);
 //# sourceMappingURL=response.interceptor.js.map

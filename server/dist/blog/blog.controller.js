@@ -17,7 +17,7 @@ const common_1 = require("@nestjs/common");
 const blog_service_1 = require("./blog.service");
 const create_blog_dto_1 = require("./dto/create-blog.dto");
 const update_blog_dto_1 = require("./dto/update-blog.dto");
-const response_message_decorator_1 = require("../common/decorators/response-message.decorator");
+const response_interceptor_1 = require("../common/interceptors/response.interceptor");
 let BlogController = class BlogController {
     constructor(blogService) {
         this.blogService = blogService;
@@ -40,8 +40,8 @@ let BlogController = class BlogController {
 };
 exports.BlogController = BlogController;
 __decorate([
-    (0, response_message_decorator_1.ResponseMessage)('Create Blog Successful'),
     (0, common_1.Post)(),
+    (0, common_1.UseInterceptors)(new response_interceptor_1.ResponseInterceptor("Create Blog Success")),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_blog_dto_1.CreateBlogDto]),

@@ -13,7 +13,6 @@ const prisma_module_1 = require("./prisma/prisma.module");
 const category_module_1 = require("./category/category.module");
 const core_1 = require("@nestjs/core");
 const http_exception_filter_1 = require("./common/exception-filters/http-exception.filter");
-const response_interceptor_1 = require("./common/interceptors/response.interceptor");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -24,10 +23,6 @@ exports.AppModule = AppModule = __decorate([
             {
                 provide: core_1.APP_FILTER,
                 useClass: http_exception_filter_1.HttpExceptionFilter,
-            },
-            {
-                provide: core_1.APP_INTERCEPTOR,
-                useClass: response_interceptor_1.ResponseInterceptor,
             },
         ],
     })
