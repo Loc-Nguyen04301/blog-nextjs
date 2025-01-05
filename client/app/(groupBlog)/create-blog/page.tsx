@@ -96,7 +96,7 @@ const CreateBlogPage = () => {
         values.categories = values.categories.map((c) => parseInt(c));
         try {
           const res = await BlogService.createBlog(values);
-          setSuccess(res.message);
+          setSuccess(res.data.message);
           console.log({ res });
         } catch (error: any) {
           addError(error.response.data.message);

@@ -12,11 +12,11 @@ interface AlertState {
 
 export const useAlertStore = create<AlertState>()(
     devtools((set) => ({
-        errors: ['123', '456'],
+        errors: [],
         success: "",
 
         addError: (message) =>
-            set((state) => ({ errors: [...state.errors, message] })),
+            set((state) => ({ errors: [message, ...state.errors] })),
 
         clearErrors: () => set({ errors: [] }),
 

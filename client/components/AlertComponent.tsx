@@ -3,6 +3,8 @@ import { useAlertStore } from "@/zustand/stores/alert-store";
 import { Alert, Snackbar } from "@mui/material";
 import React, { useEffect, useState } from "react";
 
+const MAX_ERROR_SHOW = 3;
+
 const AlertComponent = () => {
   const { errors, success, clearSuccess, clearErrors } = useAlertStore(
     (state) => state
@@ -22,55 +24,48 @@ const AlertComponent = () => {
     }
   }, [errors.length]);
 
-  const handleCloseSuccess = (
-    event?: React.SyntheticEvent | Event,
-    reason?: string
-  ) => {
-    if (reason === "clickaway") return;
-    setOpenSuccess(false);
-    clearSuccess();
-  };
-
-  const handleCloseErrors = (
+  const handleClose = (
     event?: React.SyntheticEvent | Event,
     reason?: string
   ) => {
     if (reason === "clickaway") return;
     setOpenErrors(false);
     clearErrors();
+    setOpenSuccess(false);
+    clearSuccess();
   };
 
   return (
     <>
       <Snackbar
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        autoHideDuration={6000}
-        open={isOpenErrors}
-        onClose={handleCloseErrors}
+        autoHideDuration={5000}
+        open={isOpenErrors || isOpenSuccess}
+        onClose={handleClose}
       >
         <div>
-          {errors.map((error) => (
+          {errors.length > 0 &&
+            errors.slice(0, MAX_ERROR_SHOW).map((error, index) => (
+              <Alert
+                severity="error"
+                variant="filled"
+                sx={{ width: "100%", mb: 1 }}
+                key={`${error}${index}`}
+              >
+                {error}
+              </Alert>
+            ))}
+          {success && (
             <Alert
-              severity="error"
+              severity="success"
               variant="filled"
-              sx={{ width: "100%", mb: 1 }}
-              key={error}
+              sx={{ width: "100%" }}
+              key={success}
             >
-              {error}
+              {success}
             </Alert>
-          ))}
+          )}
         </div>
-      </Snackbar>
-
-      <Snackbar
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        autoHideDuration={6000}
-        open={isOpenSuccess}
-        onClose={handleCloseSuccess}
-      >
-        <Alert severity="success" variant="filled" sx={{ width: "100%" }}>
-          {success}
-        </Alert>
       </Snackbar>
     </>
   );
