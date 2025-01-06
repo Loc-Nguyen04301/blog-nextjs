@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseInterceptors,
+  Query,
 } from '@nestjs/common';
 import { BlogService } from './blog.service';
 import { CreateBlogDto } from './dto/create-blog.dto';
@@ -24,8 +25,17 @@ export class BlogController {
   }
 
   @Get()
-  findAll() {
-    return this.blogService.findAll();
+  @UseInterceptors(new ResponseInterceptor("Get Blog Success"))
+  findAll(
+    @Query('page') page: string,
+    @Query('itemsPerPage') itemsPerPage: string,
+    @Query('keyword') keyword: string,
+  ) {
+    return this.blogService.findAll({
+      itemsPerPage: Number(itemsPerPage) || 3,
+      keyword: keyword || "",
+      page: Number(page) || 1,
+    });
   }
 
   @Get(':id')

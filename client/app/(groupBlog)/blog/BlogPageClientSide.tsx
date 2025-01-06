@@ -1,9 +1,11 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import thumnailBlog from "@/assets/images/thumnailBlog.jpg";
 import { Box, Pagination } from "@mui/material";
 import { useSearchParams } from "next/navigation";
 import BlogComponent from "@/components/BlogComponent";
+import { useRouter } from "next/navigation";
+import { useBlogStore } from "@/zustand/stores/blog-store";
 
 interface SearchParams {
   page: string;
@@ -11,36 +13,42 @@ interface SearchParams {
 }
 
 const BlogPageClientSide = () => {
-  const [currentPage, setCurrentPage] = React.useState(1);
   const searchParams = useSearchParams();
-  const pageParam = searchParams.get("page");
-  const keywordParam = searchParams.get("keyword");
+  const router = useRouter();
+
+  const pageParam = Number(searchParams.get("page") || "1");
+  const keywordParam = searchParams.get("keyword") || "";
   console.log({ keywordParam, pageParam });
 
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
-    // setCurrentPage(value);
-    // router.push(`/blog?page=${value}`);
+    router.push(`/blog?page=${value}`);
   };
+
+  const { fetchBlog, listBlogs, pageNumbers } = useBlogStore((state) => state);
+
+  useEffect(() => {
+    fetchBlog(pageParam, keywordParam);
+  }, [pageParam, keywordParam]);
 
   return (
     <>
-      {Array.from({ length: 3 }, (_, idx) => (
-        <div className="mb-16 border-b border-[#000]" key={idx}>
+      {listBlogs?.map((blog) => (
+        <div className="mb-16 border-b border-[#000]" key={blog.id}>
           <BlogComponent
-            linkTo={"/blog/1"}
-            title="Title of Blog"
-            thumbnail={thumnailBlog}
-            description="description"
+            linkTo={`/blog/${blog.id}`}
+            title={blog.title}
+            thumbnail={String(blog.thumbnail)}
+            description={blog.description}
             categories={[1, 2]}
           />
         </div>
       ))}
       <Box>
         <Pagination
-          count={10}
+          count={pageNumbers}
           showFirstButton
           showLastButton
-          page={Number(pageParam) || 1}
+          page={Number(pageParam)}
           onChange={handleChange}
         />
       </Box>

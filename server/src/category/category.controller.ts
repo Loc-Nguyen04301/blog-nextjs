@@ -6,14 +6,16 @@ import {
   Patch,
   Param,
   Delete,
+  UseInterceptors,
 } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
+import { ResponseInterceptor } from 'src/common/interceptors/response.interceptor';
 
 @Controller('api/v1/category')
 export class CategoryController {
-  constructor(private readonly categoryService: CategoryService) {}
+  constructor(private readonly categoryService: CategoryService) { }
 
   @Post()
   create(@Body() createCategoryDto: CreateCategoryDto) {
@@ -21,6 +23,7 @@ export class CategoryController {
   }
 
   @Get()
+  @UseInterceptors(new ResponseInterceptor("Get Category Success"))
   findAll() {
     return this.categoryService.findAll();
   }

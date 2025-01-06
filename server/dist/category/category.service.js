@@ -21,7 +21,12 @@ let CategoryService = class CategoryService {
     }
     findAll() {
         try {
-            const listCategories = this.prisma.category.findMany();
+            const listCategories = this.prisma.category.findMany({
+                select: {
+                    id: true,
+                    name: true
+                }
+            });
             return listCategories;
         }
         catch (error) {

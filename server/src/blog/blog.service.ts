@@ -2,6 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateBlogDto } from './dto/create-blog.dto';
 import { UpdateBlogDto } from './dto/update-blog.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { BlogPageParams } from './types';
 
 @Injectable()
 export class BlogService {
@@ -51,8 +52,50 @@ export class BlogService {
     }
   }
 
-  findAll() {
-    return `This action returns all blog`;
+  async findAll({ itemsPerPage, keyword, page }: BlogPageParams) {
+    try {
+      const skip = (page - 1) * itemsPerPage;
+
+      const [blogs, total] = await this.prisma.$transaction([
+        this.prisma.blog.findMany({
+          where: {
+            title: { contains: keyword, mode: 'insensitive' }
+          },
+          skip,
+          take: itemsPerPage,
+          orderBy: {
+            createdAt: 'desc'
+          },
+          select: {
+            id: true,
+            title: true,
+            description: true,
+            thumbnail: true,
+            categories: {
+              select: {
+                id: true,
+                name: true
+              }
+            },
+            createdAt: true
+          }
+        }),
+        this.prisma.blog.count({
+          where: {
+            title: { contains: keyword, mode: 'insensitive' }
+          },
+        })
+      ])
+
+      return {
+        total,
+        pageNumbers: Math.ceil(total / itemsPerPage),
+        page,
+        listBlogs: blogs,
+      };
+    } catch (error) {
+      throw error;
+    }
   }
 
   findOne(id: number) {

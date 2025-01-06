@@ -5,7 +5,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class CategoryService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
   create(createCategoryDto: CreateCategoryDto) {
     return 'This action adds a new category';
@@ -13,7 +13,12 @@ export class CategoryService {
 
   findAll() {
     try {
-      const listCategories = this.prisma.category.findMany();
+      const listCategories = this.prisma.category.findMany({
+        select: {
+          id: true,
+          name: true
+        }
+      });
       return listCategories;
     } catch (error) {
       return error;

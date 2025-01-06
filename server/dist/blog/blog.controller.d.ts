@@ -18,7 +18,22 @@ export declare class BlogController {
         createdAt: Date;
         updatedAt: Date;
     }>;
-    findAll(): string;
+    findAll(page: string, itemsPerPage: string, keyword: string): Promise<{
+        total: number;
+        pageNumbers: number;
+        page: number;
+        listBlogs: {
+            id: string;
+            title: string;
+            description: string;
+            thumbnail: string;
+            createdAt: Date;
+            categories: {
+                id: number;
+                name: string;
+            }[];
+        }[];
+    }>;
     findOne(id: string): string;
     update(id: string, updateBlogDto: UpdateBlogDto): string;
     remove(id: string): string;

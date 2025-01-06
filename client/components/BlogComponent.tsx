@@ -5,6 +5,7 @@ import { lato } from "../fonts";
 import { formatDate } from "../utils/formatDate";
 import type { UrlObject } from "url";
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
+import thumnailBlog from "@/assets/images/thumnailBlog.jpg";
 
 interface BlogComponentProps {
   linkTo?: string | UrlObject;
@@ -41,10 +42,15 @@ const BlogComponent: FC<BlogComponentProps> = ({
         <p
           className={`uppercase text-xs text-subTitleColor mb-2 font-medium tracking-wider ${lato.variable} font-sans`}
         >
-          {createdAt} By Lộc Nguyễn 10 comments
+          {createdAt} By Lộc Nguyễn
         </p>
         {thumbnail && (
-          <Image src={thumbnail} alt="thumnai-blog" fill className="!static" />
+          <Image
+            src={thumnailBlog || thumbnail}
+            alt="thumnai-blog"
+            fill
+            className="!static"
+          />
         )}
         <div className="mt-3 border-b border-[#dd9933]"></div>
       </div>

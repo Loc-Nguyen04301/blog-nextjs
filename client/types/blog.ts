@@ -1,4 +1,5 @@
-export type IBlog = {
+export type IBlogDetail = {
+    id: string
     title: string;
     thumbnail: string | File;
     categories: number[];
@@ -15,5 +16,12 @@ export type CreateBlogFormValues = {
     description: string;
 }
 
+export type IBlog = Omit<IBlogDetail, 'content'>;
 
-export type CreateBlogData = Omit<IBlog, 'createdAt'>;
+export type CreateBlogData = Omit<IBlogDetail, 'createdAt' | 'id'>;
+
+export interface BlogPageParams {
+    page?: number;
+    itemsPerPage?: number;
+    keyword?: string
+}

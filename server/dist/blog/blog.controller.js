@@ -25,8 +25,12 @@ let BlogController = class BlogController {
     create(createBlogDto) {
         return this.blogService.create(createBlogDto);
     }
-    findAll() {
-        return this.blogService.findAll();
+    findAll(page, itemsPerPage, keyword) {
+        return this.blogService.findAll({
+            itemsPerPage: Number(itemsPerPage) || 3,
+            keyword: keyword || "",
+            page: Number(page) || 1,
+        });
     }
     findOne(id) {
         return this.blogService.findOne(+id);
@@ -49,8 +53,12 @@ __decorate([
 ], BlogController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(),
+    (0, common_1.UseInterceptors)(new response_interceptor_1.ResponseInterceptor("Get Blog Success")),
+    __param(0, (0, common_1.Query)('page')),
+    __param(1, (0, common_1.Query)('itemsPerPage')),
+    __param(2, (0, common_1.Query)('keyword')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [String, String, String]),
     __metadata("design:returntype", void 0)
 ], BlogController.prototype, "findAll", null);
 __decorate([
