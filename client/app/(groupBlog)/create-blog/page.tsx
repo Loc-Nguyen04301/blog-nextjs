@@ -40,6 +40,8 @@ const CreateBlogPage = () => {
     content: "",
   } as CreateBlogData;
 
+  const { setLoading } = useAlertStore((state) => state);
+
   const titleRef = useRef<HTMLInputElement>(null);
   const thumbnailRef = useRef<HTMLInputElement>(null);
   const categoriesRef = useRef<HTMLInputElement>(null);
@@ -93,15 +95,16 @@ const CreateBlogPage = () => {
       initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={async (values, { setSubmitting, resetForm, setFieldValue }) => {
+        setLoading(true);
         try {
           setSubmitting(true);
           const res = await BlogService.createBlog(values);
           setSuccess(res.data.message);
-          setFieldValue("thumbnail", "");
-          setFieldValue("content", "");
           resetForm();
         } catch (error: any) {
           addError(error.response.data.message);
+        } finally {
+          setLoading(false);
         }
       }}
     >
@@ -126,7 +129,6 @@ const CreateBlogPage = () => {
             handleSubmit(e);
           }
         };
-        console.log({ values, errors });
         return (
           <Form onSubmit={handleFormSubmit} className="flex flex-col gap-5">
             <div className="grid grid-cols-11 gap-5">

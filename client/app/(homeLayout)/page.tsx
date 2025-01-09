@@ -1,16 +1,17 @@
-import FacebookIcon from "@/assets/icons/FacebookIcon";
-import YoutubeIcon from "@/assets/icons/YoutubeIcon";
 import avatarImage from "@/assets/images/avatarMyself.jpg";
 import bannerBlogImage from "@/assets/images/bannerBlog.jpg";
-
-import { Box } from "@mui/material";
+import wifiIcon from "@/assets/images/wifiIcon.png";
+import emailIcon from "@/assets/images/emailIcon.png";
+import fbIcon from "@/assets/images/fbIcon.png";
+import instagramIcon from "@/assets/images/instagramIcon.png";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 const MainPage = () => {
   return (
     <>
-      <section>
+      {/* <section>
         <Box
           className="p-6"
           sx={{
@@ -19,14 +20,27 @@ const MainPage = () => {
         >
           <Image alt="cover-image" src={bannerBlogImage} className="w-full" />
         </Box>
+      </section> */}
+
+      <section className="text-right p-3 flex gap-2 justify-end">
+        <Link target="_blank" href="/">
+          <Image src={wifiIcon} alt="wifi-icon" width={40} />
+        </Link>
+        <Link target="_blank" href="mailto:nguyengialoc7@gmail.com">
+          <Image src={emailIcon} alt="email-icon" width={40} />
+        </Link>
+        <Link
+          target="_blank"
+          href="https://www.facebook.com/profile.php?id=100009072109785"
+        >
+          <Image src={fbIcon} alt="fb-icon" width={40} />
+        </Link>
+        <Link target="_blank" href="https://www.instagram.com/loc_nguyen_43/">
+          <Image src={instagramIcon} alt="fb-icon" width={40} />
+        </Link>
       </section>
 
-      <section className="text-right p-3">
-        <FacebookIcon />
-        <YoutubeIcon />
-      </section>
-
-      <section>
+      <section className="flex-auto">
         <div className="py-10 px-3 gap-8 container mx-auto flex max-md:flex-col">
           <div className="p-5 w-[30%] max-md:w-full">
             <Image

@@ -19,7 +19,7 @@ const MainAndAuthLayout = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   return (
-    <>
+    <div className="min-h-screen flex flex-col">
       <header>
         <div className="flex justify-between items-center h-[100px] px-6 border-b">
           <Link
@@ -86,7 +86,7 @@ const MainAndAuthLayout = ({ children }: { children: React.ReactNode }) => {
           </div>
         </Box>
       </footer>
-    </>
+    </div>
   );
 };
 

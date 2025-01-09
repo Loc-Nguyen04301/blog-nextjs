@@ -120,7 +120,8 @@ export class BlogService {
               name: true
             }
           },
-          createdAt: true
+          createdAt: true,
+          content: true
         }
       })
       const blogReturn = { ...blog, categories: blog.categories.map(c => c.id) }

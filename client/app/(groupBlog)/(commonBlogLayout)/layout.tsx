@@ -165,10 +165,10 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             <div className="p-10 pb-7 mt-3 mb-4">
               <div className="flex gap-2">
                 <Link target="_blank" href="/">
-                  <Image src={wifiIcon} alt="fb-icon" width={40} />
+                  <Image src={wifiIcon} alt="wifi-icon" width={40} />
                 </Link>
                 <Link target="_blank" href="mailto:nguyengialoc7@gmail.com">
-                  <Image src={emailIcon} alt="fb-icon" width={40} />
+                  <Image src={emailIcon} alt="email-icon" width={40} />
                 </Link>
                 <Link
                   target="_blank"
@@ -180,7 +180,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                   target="_blank"
                   href="https://www.instagram.com/loc_nguyen_43/"
                 >
-                  <Image src={instagramIcon} alt="fb-icon" width={40} />
+                  <Image src={instagramIcon} alt="instagram-icon" width={40} />
                 </Link>
               </div>
             </div>
