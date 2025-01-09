@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import thumnailBlog from "@/assets/images/thumnailBlog.jpg";
+import avatarMySelf from "@/assets/images/avatarMyself.jpg";
 import { lato } from "@/fonts";
 import {
   Box,
@@ -16,21 +16,10 @@ import fbIcon from "@/assets/images/fbIcon.png";
 import instagramIcon from "@/assets/images/instagramIcon.png";
 import wifiIcon from "@/assets/images/wifiIcon.png";
 import emailIcon from "@/assets/images/emailIcon.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useCategoryStore } from "@/zustand/stores/category-store";
+import { useRouter } from "next/navigation";
 
-const names = [
-  "Oliver Hansen",
-  "Van Henry",
-  "April Tucker",
-  "Ralph Hubbard",
-  "Omar Alexander",
-  "Carlos Abbott",
-  "Miriam Wagner",
-  "Bradley Wilkerson",
-  "Virginia Andrews",
-  "Kelly Snyder",
-  "Chủ nghĩa tối giản (Minimalism)",
-];
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -42,14 +31,24 @@ const MenuProps = {
   },
 };
 const Layout = ({ children }: { children: React.ReactNode }) => {
-  const [personName, setPersonName] = useState<string>("");
-  const handleChangeSelect = (event: SelectChangeEvent<typeof personName>) => {
+  const { listCategories, selectedCategory, setSelectedCategory } =
+    useCategoryStore((state) => state);
+
+  const router = useRouter();
+
+  const handleChangeSelect = (
+    event: SelectChangeEvent<typeof selectedCategory>
+  ) => {
     const {
       target: { value },
     } = event;
 
-    setPersonName(value);
+    setSelectedCategory(value);
   };
+
+  useEffect(() => {
+    if (selectedCategory) router.push(`/category/${selectedCategory}`);
+  }, [selectedCategory]);
 
   return (
     <div className="grid grid-cols-11">
@@ -57,10 +56,16 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       <div className="col-span-4 max-md:col-span-12 ml-16 max-md:ml-0">
         <div className="flex flex-col gap-16">
           <div className="border border-[#000] p-8 pb-7">
-            <Image src={thumnailBlog} alt="thumnaiblog" />
+            <Image src={avatarMySelf} alt="avatarMySelf" />
             <p className={`mt-5 ${lato.variable} font-sans text-[15px]`}>
               The Present Writer là “khu vườn xanh yên tĩnh” của Chi Nguyễn—Tiến
-              sĩ Giáo dục tại Mỹ. Đọc thêm về Chi & Blog
+              sĩ Giáo dục tại Mỹ. Đọc thêm về{" "}
+              <Link
+                className="font-semibold border-b border-b-primaryColorBold"
+                href={"/gioi-thieu"}
+              >
+                Loc Nguyen Blog
+              </Link>
             </p>
           </div>
           {/* Tìm kiếm */}
@@ -106,7 +111,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
               <FormControl fullWidth className="mt-3" variant="filled">
                 <Select
                   displayEmpty
-                  value={personName}
+                  value={selectedCategory}
                   onChange={handleChangeSelect}
                   input={<OutlinedInput />}
                   MenuProps={MenuProps}
@@ -115,13 +120,13 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                   <MenuItem className={`${lato.variable} font-sans`} value={""}>
                     Select Category
                   </MenuItem>
-                  {names.map((name) => (
+                  {listCategories.map((c) => (
                     <MenuItem
-                      key={name}
-                      value={name}
+                      key={c.id}
+                      value={c.id}
                       className={`${lato.variable} font-sans`}
                     >
-                      {name}
+                      {c.name}
                     </MenuItem>
                   ))}
                 </Select>

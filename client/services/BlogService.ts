@@ -9,9 +9,14 @@ const getAllBlogs = (params: BlogPageParams) => {
     return api.get("/blog", { params })
 }
 
+const getCurrentBlog = (id: string) => {
+    return api.get(`/blog/${id}`)
+}
+
 const BlogService = {
     createBlog,
-    getAllBlogs
+    getAllBlogs,
+    getCurrentBlog
 }
 
 export default BlogService

@@ -1,11 +1,19 @@
+"use client";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
 import logoBlog from "@/assets/images/logoBlog.png";
 import Image from "next/image";
 import Footer from "../../components/Footer";
 import AccordionMenu from "../../components/AccordionMenu";
+import { useCategoryStore } from "@/zustand/stores/category-store";
 
 const BlogLayout = ({ children }: { children: React.ReactNode }) => {
+  const { fetchCategories } = useCategoryStore((state) => state);
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
   return (
     <div className="bg-[#f4f4f4] h-full py-10 min-h-screen">
       <div className="container mx-auto bg-white shadow-[0_0_5px_#ddd] max-lg:mx-0 max-lg:!max-w-full">
@@ -77,7 +85,6 @@ const BlogLayout = ({ children }: { children: React.ReactNode }) => {
         </div>
         <div className="px-16 pb-10">{children}</div>
       </div>
-
       <Footer />
     </div>
   );

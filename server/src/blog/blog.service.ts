@@ -87,19 +87,50 @@ export class BlogService {
         })
       ])
 
+      const blogsReturn = blogs.map(blog => {
+        return {
+          ...blog, categories: blog.categories.map(c => c.id)
+
+        }
+      })
+
       return {
         total,
         pageNumbers: Math.ceil(total / itemsPerPage),
         page,
-        listBlogs: blogs,
+        listBlogs: blogsReturn,
       };
     } catch (error) {
       throw error;
     }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} blog`;
+  async findOne(id: string) {
+    try {
+      const blog = await this.prisma.blog.findUnique({
+        where: { id },
+        select: {
+          id: true,
+          title: true,
+          description: true,
+          thumbnail: true,
+          categories: {
+            select: {
+              id: true,
+              name: true
+            }
+          },
+          createdAt: true
+        }
+      })
+      const blogReturn = { ...blog, categories: blog.categories.map(c => c.id) }
+
+
+      if (!blogReturn) throw new HttpException('Not get Blog', HttpStatus.BAD_REQUEST);
+      return { blogReturn }
+    } catch (error) {
+      throw error;
+    }
   }
 
   update(id: number, updateBlogDto: UpdateBlogDto) {

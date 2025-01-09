@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { lato } from "@/fonts";
@@ -12,21 +12,33 @@ import defaultImage from "@/assets/images/defaultImage.png";
 import { Formik } from "formik";
 import { TextField } from "@mui/material";
 import BlogComponent from "@/components/BlogComponent";
+import { useBlogStore } from "@/zustand/stores/blog-store";
 
 interface DetailBlogPageClientSide {
   slug: string;
 }
 
 const DetailBlogPageClientSide = ({ slug }: DetailBlogPageClientSide) => {
+  console.log({ slug });
+  const { currentBlog, fetchDetailBlog } = useBlogStore((state) => state);
+
+  useEffect(() => {
+    if (slug) {
+      fetchDetailBlog(slug);
+    }
+  }, [slug]);
+
   return (
     <>
-      <BlogComponent
-        linkTo={"#"}
-        title="Title of Blog"
-        thumbnail={fbIcon}
-        content="content"
-        categories={["1", "2"]}
-      />
+      {currentBlog && (
+        <BlogComponent
+          linkTo={`/blog/${currentBlog.id}`}
+          title={currentBlog.title}
+          thumbnail={String(currentBlog.thumbnail)}
+          content={currentBlog.content}
+          categories={currentBlog.categories}
+        />
+      )}
 
       {/* <div className="list-blog">
         <div className="flex gap-2 mt-20 mb-5 ml-3">

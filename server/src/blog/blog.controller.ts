@@ -39,8 +39,9 @@ export class BlogController {
   }
 
   @Get(':id')
+  @UseInterceptors(new ResponseInterceptor("Get Blog Success"))
   findOne(@Param('id') id: string) {
-    return this.blogService.findOne(+id);
+    return this.blogService.findOne(id);
   }
 
   @Patch(':id')

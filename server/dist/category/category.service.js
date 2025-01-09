@@ -19,15 +19,26 @@ let CategoryService = class CategoryService {
     create(createCategoryDto) {
         return 'This action adds a new category';
     }
-    findAll() {
+    async findAll() {
         try {
-            const listCategories = this.prisma.category.findMany({
+            const listCategories = await this.prisma.category.findMany({
                 select: {
                     id: true,
-                    name: true
+                    name: true,
+                    _count: true
                 }
             });
-            return listCategories;
+            const listCategoriesReturn = listCategories.map((c) => {
+                return {
+                    id: c.id,
+                    name: c.name,
+                    numberBlogs: c._count.blogs
+                };
+            });
+            if (listCategoriesReturn)
+                return { listCategoriesReturn };
+            else
+                throw new common_1.HttpException('Not Get Categories', common_1.HttpStatus.BAD_REQUEST);
         }
         catch (error) {
             return error;

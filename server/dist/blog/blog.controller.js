@@ -33,7 +33,7 @@ let BlogController = class BlogController {
         });
     }
     findOne(id) {
-        return this.blogService.findOne(+id);
+        return this.blogService.findOne(id);
     }
     update(id, updateBlogDto) {
         return this.blogService.update(+id, updateBlogDto);
@@ -63,6 +63,7 @@ __decorate([
 ], BlogController.prototype, "findAll", null);
 __decorate([
     (0, common_1.Get)(':id'),
+    (0, common_1.UseInterceptors)(new response_interceptor_1.ResponseInterceptor("Get Blog Success")),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),

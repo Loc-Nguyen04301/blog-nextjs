@@ -1,16 +1,22 @@
 "use client";
 import { Box, IconButton } from "@mui/material";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DrawerMenu from "../../components/Drawer";
 import MenuIcon from "@mui/icons-material/Menu";
+import { useCategoryStore } from "@/zustand/stores/category-store";
 
 const MainAndAuthLayout = ({ children }: { children: React.ReactNode }) => {
   const [openDrawer, setOpenDrawer] = useState(false);
+  const { fetchCategories } = useCategoryStore((state) => state);
 
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpenDrawer(newOpen);
   };
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
 
   return (
     <>

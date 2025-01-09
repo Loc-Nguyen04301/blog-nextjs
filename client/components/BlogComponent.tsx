@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import React, { FC } from "react";
@@ -6,6 +7,7 @@ import { formatDate } from "../utils/formatDate";
 import type { UrlObject } from "url";
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
 import thumnailBlog from "@/assets/images/thumnailBlog.jpg";
+import { useCategoryStore } from "@/zustand/stores/category-store";
 
 interface BlogComponentProps {
   linkTo?: string | UrlObject;
@@ -16,12 +18,6 @@ interface BlogComponentProps {
   content?: string;
 }
 
-const categoryOptions = [
-  { label: "Option 1", id: 1 },
-  { label: "Option 2", id: 2 },
-  { label: "Option 3", id: 3 },
-];
-
 const BlogComponent: FC<BlogComponentProps> = ({
   title,
   thumbnail,
@@ -30,7 +26,9 @@ const BlogComponent: FC<BlogComponentProps> = ({
   linkTo,
   categories,
 }) => {
+  const categoryOptions = useCategoryStore((state) => state.listCategories);
   const createdAt = formatDate(new Date());
+
   return (
     <div className={`mb-16`}>
       <div className="text-center">
@@ -75,7 +73,7 @@ const BlogComponent: FC<BlogComponentProps> = ({
           }}
         />
       )}
-      {categories && (
+      {categories && categoryOptions && (
         <p className={`mt-5 text-subTitleColor`}>
           <span className="mr-1">Mục lục:</span>
           {categories.map((categoryId) => {
@@ -85,7 +83,7 @@ const BlogComponent: FC<BlogComponentProps> = ({
             return (
               option && (
                 <Link href="/#" key={option.id}>
-                  {option.label},{" "}
+                  {option.name},{" "}
                 </Link>
               )
             );

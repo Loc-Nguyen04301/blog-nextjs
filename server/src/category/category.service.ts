@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -11,15 +11,26 @@ export class CategoryService {
     return 'This action adds a new category';
   }
 
-  findAll() {
+  async findAll() {
     try {
-      const listCategories = this.prisma.category.findMany({
+      const listCategories = await this.prisma.category.findMany({
         select: {
           id: true,
-          name: true
+          name: true,
+          _count: true
         }
       });
-      return listCategories;
+      const listCategoriesReturn = listCategories.map((c) => {
+        return {
+          id: c.id,
+          name: c.name,
+          numberBlogs: c._count.blogs
+        }
+      })
+
+      if (listCategoriesReturn)
+        return { listCategoriesReturn }
+      else throw new HttpException('Not Get Categories', HttpStatus.BAD_REQUEST);
     } catch (error) {
       return error;
     }

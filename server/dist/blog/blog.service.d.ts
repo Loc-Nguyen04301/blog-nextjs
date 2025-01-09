@@ -11,11 +11,11 @@ export declare class BlogService {
             name: string;
         }[];
     } & {
-        id: string;
         title: string;
         content: string;
         description: string;
         thumbnail: string;
+        id: string;
         createdAt: Date;
         updatedAt: Date;
     }>;
@@ -24,18 +24,24 @@ export declare class BlogService {
         pageNumbers: number;
         page: number;
         listBlogs: {
-            id: string;
+            categories: number[];
             title: string;
             description: string;
             thumbnail: string;
+            id: string;
             createdAt: Date;
-            categories: {
-                id: number;
-                name: string;
-            }[];
         }[];
     }>;
-    findOne(id: number): string;
+    findOne(id: string): Promise<{
+        blogReturn: {
+            categories: number[];
+            title: string;
+            description: string;
+            thumbnail: string;
+            id: string;
+            createdAt: Date;
+        };
+    }>;
     update(id: number, updateBlogDto: UpdateBlogDto): string;
     remove(id: number): string;
 }

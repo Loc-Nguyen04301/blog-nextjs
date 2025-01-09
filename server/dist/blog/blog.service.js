@@ -87,19 +87,48 @@ let BlogService = class BlogService {
                     },
                 })
             ]);
+            const blogsReturn = blogs.map(blog => {
+                return {
+                    ...blog, categories: blog.categories.map(c => c.id)
+                };
+            });
             return {
                 total,
                 pageNumbers: Math.ceil(total / itemsPerPage),
                 page,
-                listBlogs: blogs,
+                listBlogs: blogsReturn,
             };
         }
         catch (error) {
             throw error;
         }
     }
-    findOne(id) {
-        return `This action returns a #${id} blog`;
+    async findOne(id) {
+        try {
+            const blog = await this.prisma.blog.findUnique({
+                where: { id },
+                select: {
+                    id: true,
+                    title: true,
+                    description: true,
+                    thumbnail: true,
+                    categories: {
+                        select: {
+                            id: true,
+                            name: true
+                        }
+                    },
+                    createdAt: true
+                }
+            });
+            const blogReturn = { ...blog, categories: blog.categories.map(c => c.id) };
+            if (!blogReturn)
+                throw new common_1.HttpException('Not get Blog', common_1.HttpStatus.BAD_REQUEST);
+            return { blogReturn };
+        }
+        catch (error) {
+            throw error;
+        }
     }
     update(id, updateBlogDto) {
         return `This action updates a #${id} blog`;
