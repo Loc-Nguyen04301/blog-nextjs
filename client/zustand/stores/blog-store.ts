@@ -24,6 +24,7 @@ export const useBlogStore = create<BlogState>()(
 
         fetchBlog: async (page, keyword) => {
             try {
+                useAlertStore.getState().setLoading(true)
                 const response = await BlogService.getAllBlogs({ page, keyword })
                 set({
                     listBlogs: response.data.data.listBlogs,
@@ -31,6 +32,7 @@ export const useBlogStore = create<BlogState>()(
                     page: response.data.data.page,
                     pageNumbers: response.data.data.pageNumbers,
                 })
+                useAlertStore.getState().setLoading(false)
             } catch (error: any) {
                 useAlertStore.getState().addError(error.response.data.message);
             }

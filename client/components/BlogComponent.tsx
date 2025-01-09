@@ -13,7 +13,7 @@ interface BlogComponentProps {
   linkTo?: string | UrlObject;
   title?: string;
   thumbnail?: string | StaticImport;
-  categories?: number[];
+  categories?: string[];
   description?: string;
   content?: string;
 }

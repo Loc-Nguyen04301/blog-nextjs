@@ -36,38 +36,36 @@ const AlertComponent = () => {
   };
 
   return (
-    <>
-      <Snackbar
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        autoHideDuration={5000}
-        open={isOpenErrors || isOpenSuccess}
-        onClose={handleClose}
-      >
-        <div>
-          {errors.length > 0 &&
-            errors.slice(0, MAX_ERROR_SHOW).map((error, index) => (
-              <Alert
-                severity="error"
-                variant="filled"
-                sx={{ width: "100%", mb: 1 }}
-                key={`${error}${index}`}
-              >
-                {error}
-              </Alert>
-            ))}
-          {success && (
+    <Snackbar
+      anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      autoHideDuration={4000}
+      open={isOpenErrors || isOpenSuccess}
+      onClose={handleClose}
+    >
+      <div>
+        {errors.length > 0 &&
+          errors.slice(0, MAX_ERROR_SHOW).map((error, index) => (
             <Alert
-              severity="success"
+              severity="error"
               variant="filled"
-              sx={{ width: "100%" }}
-              key={success}
+              sx={{ width: "100%", mb: 1 }}
+              key={`${error}${index}`}
             >
-              {success}
+              {error}
             </Alert>
-          )}
-        </div>
-      </Snackbar>
-    </>
+          ))}
+        {success && (
+          <Alert
+            severity="success"
+            variant="filled"
+            sx={{ width: "100%" }}
+            key={success}
+          >
+            {success}
+          </Alert>
+        )}
+      </div>
+    </Snackbar>
   );
 };
 

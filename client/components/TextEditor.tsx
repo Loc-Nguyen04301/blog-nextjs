@@ -3,7 +3,7 @@ import { useFormikContext } from "formik";
 import React, { FC, LegacyRef } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { CreateBlog } from "../types/blog";
+import { CreateBlogFormValues } from "../types/blog";
 
 interface TextEditorProps {
   editorRef?: HTMLInputElement | LegacyRef<ReactQuill>;
@@ -11,7 +11,7 @@ interface TextEditorProps {
 }
 
 const TextEditor: FC<TextEditorProps> = ({ editorRef, className }) => {
-  const { values, setFieldValue } = useFormikContext<CreateBlog>();
+  const { values, setFieldValue } = useFormikContext<CreateBlogFormValues>();
 
   const modules = {
     toolbar: [
@@ -53,6 +53,7 @@ const TextEditor: FC<TextEditorProps> = ({ editorRef, className }) => {
       modules={modules}
       formats={formats}
       onChange={handleChange}
+      value={values.content}
       className={className}
     />
   );

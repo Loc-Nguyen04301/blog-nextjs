@@ -1,8 +1,8 @@
 export type IBlogDetail = {
     id: string
     title: string;
-    thumbnail: string | File;
-    categories: number[];
+    thumbnail: string;
+    categories: string[];
     content: string;
     description: string;
     createdAt: string;

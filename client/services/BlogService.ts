@@ -2,7 +2,8 @@ import api from "./axios"
 import { BlogPageParams, CreateBlogData } from "@/types/blog"
 
 const createBlog = (data: CreateBlogData) => {
-    return api.post('/blog', data)
+    const dataDto = { ...data, categories: data.categories.map(c => Number(c)) }
+    return api.post('/blog', dataDto)
 }
 
 const getAllBlogs = (params: BlogPageParams) => {

@@ -10,7 +10,6 @@ const montserrat = Montserrat({
 
 const theme = createTheme({
   palette: {
-    mode: 'light',
     primary: {
       main: '#C4AC99'
     },

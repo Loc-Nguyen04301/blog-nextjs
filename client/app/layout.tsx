@@ -5,6 +5,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import theme from "./theme";
 import ScrollToTop from "../utils/ScrollToTop";
 import AlertComponent from "@/components/AlertComponent";
+import LoadingComponent from "@/components/LoadingComponent";
 
 export const metadata: Metadata = {
   title: "Loc Nguyen Writer",
@@ -37,6 +38,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <AlertComponent />
+        <LoadingComponent />
         <ScrollToTop />
         <ThemeProvider theme={theme}>
           <CssBaseline />

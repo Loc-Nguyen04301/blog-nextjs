@@ -92,12 +92,14 @@ const CreateBlogPage = () => {
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
-      onSubmit={async (values, { setSubmitting, resetForm }) => {
-        values.categories = values.categories.map((c) => parseInt(c));
+      onSubmit={async (values, { setSubmitting, resetForm, setFieldValue }) => {
         try {
+          setSubmitting(true);
           const res = await BlogService.createBlog(values);
           setSuccess(res.data.message);
-          console.log({ res });
+          setFieldValue("thumbnail", "");
+          setFieldValue("content", "");
+          resetForm();
         } catch (error: any) {
           addError(error.response.data.message);
         }
@@ -124,7 +126,7 @@ const CreateBlogPage = () => {
             handleSubmit(e);
           }
         };
-
+        console.log({ values, errors });
         return (
           <Form onSubmit={handleFormSubmit} className="flex flex-col gap-5">
             <div className="grid grid-cols-11 gap-5">
@@ -137,6 +139,7 @@ const CreateBlogPage = () => {
                       name="title"
                       label="Title"
                       onChange={handleChange}
+                      value={values.title}
                       onBlur={handleBlur}
                       error={Boolean(errors.title)}
                     />
@@ -153,9 +156,10 @@ const CreateBlogPage = () => {
                       onChange={(e) => {
                         const file = (e?.target as HTMLInputElement).files?.[0];
                         if (file) {
-                          console.log({ file });
                           const previewImage = URL.createObjectURL(file);
                           setFieldValue("thumbnail", previewImage);
+                        } else {
+                          setFieldValue("thumbnail", "");
                         }
                       }}
                       onBlur={handleBlur}
@@ -172,6 +176,7 @@ const CreateBlogPage = () => {
                       name="description"
                       label="Description"
                       onChange={handleChange}
+                      value={values.description}
                       onBlur={handleBlur}
                       error={Boolean(errors.description)}
                       multiline
