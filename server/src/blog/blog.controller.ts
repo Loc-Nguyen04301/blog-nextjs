@@ -32,9 +32,23 @@ export class BlogController {
     @Query('keyword') keyword: string,
   ) {
     return this.blogService.findAll({
-      itemsPerPage: Number(itemsPerPage) || 3,
       keyword: keyword || "",
       page: Number(page) || 1,
+      itemsPerPage: Number(itemsPerPage) || 3,
+    });
+  }
+
+  @Get("category/:categoryId")
+  @UseInterceptors(new ResponseInterceptor("Get Blog Success"))
+  findByCategory(
+    @Param('categoryId') categoryId: string,
+    @Query('itemsPerPage') itemsPerPage: string,
+    @Query('page') page: string,
+  ) {
+    return this.blogService.findByCategory({
+      categoryId: +categoryId,
+      page: Number(page) || 1,
+      itemsPerPage: Number(itemsPerPage) || 3,
     });
   }
 

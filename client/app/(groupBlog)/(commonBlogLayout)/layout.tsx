@@ -19,6 +19,7 @@ import emailIcon from "@/assets/images/emailIcon.png";
 import { useEffect, useState } from "react";
 import { useCategoryStore } from "@/zustand/stores/category-store";
 import { useRouter } from "next/navigation";
+import { useBlogStore } from "@/zustand/stores/blog-store";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -33,6 +34,7 @@ const MenuProps = {
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const { listCategories, selectedCategory, setSelectedCategory } =
     useCategoryStore((state) => state);
+  const { searchText, setSearchText } = useBlogStore((state) => state);
 
   const router = useRouter();
 
@@ -42,7 +44,6 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     const {
       target: { value },
     } = event;
-
     setSelectedCategory(value);
   };
 
@@ -95,6 +96,18 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                     "& .MuiInputBase-input": {
                       fontSize: "14px",
                     },
+                  }}
+                  value={searchText}
+                  onChange={(e) => setSearchText(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      setSelectedCategory("");
+                      const searchTextTrim = searchText.trim();
+                      router.push(
+                        `/blog?search=${encodeURIComponent(searchTextTrim)}`
+                      );
+                    }
                   }}
                 />
               </Box>

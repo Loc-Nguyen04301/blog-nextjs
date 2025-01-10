@@ -13,13 +13,13 @@ import { Formik } from "formik";
 import { TextField } from "@mui/material";
 import BlogComponent from "@/components/BlogComponent";
 import { useBlogStore } from "@/zustand/stores/blog-store";
+import { useCategoryStore } from "@/zustand/stores/category-store";
 
 interface DetailBlogPageClientSide {
   slug: string;
 }
 
 const DetailBlogPageClientSide = ({ slug }: DetailBlogPageClientSide) => {
-  console.log({ slug });
   const { currentBlog, fetchDetailBlog } = useBlogStore((state) => state);
 
   useEffect(() => {

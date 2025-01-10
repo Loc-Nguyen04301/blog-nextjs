@@ -27,9 +27,16 @@ let BlogController = class BlogController {
     }
     findAll(page, itemsPerPage, keyword) {
         return this.blogService.findAll({
-            itemsPerPage: Number(itemsPerPage) || 3,
             keyword: keyword || "",
             page: Number(page) || 1,
+            itemsPerPage: Number(itemsPerPage) || 3,
+        });
+    }
+    findByCategory(categoryId, itemsPerPage, page) {
+        return this.blogService.findByCategory({
+            categoryId: +categoryId,
+            page: Number(page) || 1,
+            itemsPerPage: Number(itemsPerPage) || 3,
         });
     }
     findOne(id) {
@@ -61,6 +68,16 @@ __decorate([
     __metadata("design:paramtypes", [String, String, String]),
     __metadata("design:returntype", void 0)
 ], BlogController.prototype, "findAll", null);
+__decorate([
+    (0, common_1.Get)("category/:categoryId"),
+    (0, common_1.UseInterceptors)(new response_interceptor_1.ResponseInterceptor("Get Blog Success")),
+    __param(0, (0, common_1.Param)('categoryId')),
+    __param(1, (0, common_1.Query)('itemsPerPage')),
+    __param(2, (0, common_1.Query)('page')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String, String]),
+    __metadata("design:returntype", void 0)
+], BlogController.prototype, "findByCategory", null);
 __decorate([
     (0, common_1.Get)(':id'),
     (0, common_1.UseInterceptors)(new response_interceptor_1.ResponseInterceptor("Get Blog Success")),

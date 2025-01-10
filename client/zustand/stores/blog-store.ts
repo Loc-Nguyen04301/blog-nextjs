@@ -12,6 +12,9 @@ interface BlogState {
     currentBlog: IBlogDetail;
     fetchBlog: (page?: number, search?: string) => Promise<void>
     fetchDetailBlog: (id: string) => Promise<void>
+
+    searchText: string;
+    setSearchText: (text: string) => void;
 }
 
 export const useBlogStore = create<BlogState>()(
@@ -21,6 +24,7 @@ export const useBlogStore = create<BlogState>()(
         page: null,
         pageNumbers: null,
         currentBlog: null,
+        searchText: "",
 
         fetchBlog: async (page, keyword) => {
             try {
@@ -37,7 +41,6 @@ export const useBlogStore = create<BlogState>()(
                 useAlertStore.getState().addError(error.response.data.message);
             }
         },
-
         fetchDetailBlog: async (id) => {
             try {
                 const response = await BlogService.getCurrentBlog(id)
@@ -47,6 +50,9 @@ export const useBlogStore = create<BlogState>()(
             } catch (error: any) {
                 useAlertStore.getState().addError(error.response.data.message);
             }
+        },
+        setSearchText: (text) => {
+            set({ searchText: text });
         },
     }), { name: 'BlogStore' })
 );

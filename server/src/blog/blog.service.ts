@@ -134,6 +134,68 @@ export class BlogService {
     }
   }
 
+  async findByCategory({ categoryId, page, itemsPerPage }: { categoryId: number, page: number, itemsPerPage?: number }) {
+    try {
+      const skip = (page - 1) * itemsPerPage;
+
+
+      const [blogs, total] = await this.prisma.$transaction([
+        this.prisma.blog.findMany({
+          where: {
+            categories: {
+              some: {
+                id: categoryId
+              }
+            }
+          },
+          skip,
+          take: itemsPerPage,
+          orderBy: {
+            createdAt: 'desc'
+          },
+          select: {
+            id: true,
+            title: true,
+            description: true,
+            thumbnail: true,
+            categories: {
+              select: {
+                id: true,
+                name: true
+              }
+            },
+            createdAt: true
+          }
+        }),
+        this.prisma.blog.count({
+          where: {
+            categories: {
+              some: {
+                id: categoryId
+              }
+            }
+          },
+        })
+      ])
+
+      const blogsReturn = blogs.map(blog => {
+        return {
+          ...blog, categories: blog.categories.map(c => c.id)
+
+        }
+      })
+
+      return {
+        total,
+        pageNumbers: Math.ceil(total / itemsPerPage),
+        page,
+        listBlogs: blogsReturn,
+      };
+    } catch (error) {
+      throw error;
+    }
+  }
+
   update(id: number, updateBlogDto: UpdateBlogDto) {
     return `This action updates a #${id} blog`;
   }

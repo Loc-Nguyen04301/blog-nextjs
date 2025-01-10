@@ -31,6 +31,19 @@ export declare class BlogController {
             createdAt: Date;
         }[];
     }>;
+    findByCategory(categoryId: string, itemsPerPage: string, page: string): Promise<{
+        total: number;
+        pageNumbers: number;
+        page: number;
+        listBlogs: {
+            categories: number[];
+            id: string;
+            title: string;
+            description: string;
+            thumbnail: string;
+            createdAt: Date;
+        }[];
+    }>;
     findOne(id: string): Promise<{
         blogReturn: {
             categories: number[];
