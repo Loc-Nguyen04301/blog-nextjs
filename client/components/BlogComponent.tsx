@@ -82,7 +82,7 @@ const BlogComponent: FC<BlogComponentProps> = ({
             );
             return (
               option && (
-                <Link href="/#" key={option.id}>
+                <Link href={`/category/${option.id}`} key={option.id}>
                   {option.name},{" "}
                 </Link>
               )

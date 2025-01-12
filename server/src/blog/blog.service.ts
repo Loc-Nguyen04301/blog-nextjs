@@ -189,7 +189,7 @@ export class BlogService {
         total,
         pageNumbers: Math.ceil(total / itemsPerPage),
         page,
-        listBlogs: blogsReturn,
+        listBlogsByCategory: blogsReturn,
       };
     } catch (error) {
       throw error;

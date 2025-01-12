@@ -50,24 +50,22 @@ const MainPage = () => {
             />
           </div>
           <div className="text-black w-[70%] max-md:w-full font-[Arial]">
-            <h1 className="font-bold text-center mb-2 text-xl">Xin Chào!</h1>
+            <h1 className="font-bold text-center mb-2 text-xl">
+              Chào mừng bạn đến với Loc Nguyen Writter!
+            </h1>
             <div className="text-[15px] font-sans">
-              <p className="my-4">
-                Cảm ơn bạn đã ghé thăm website The Present Writer. Đây là một
-                “khu vườn xanh yên tĩnh”—theo cách gọi của nhiều người yêu The
-                Present Writer—là nơi để bạn nghỉ ngơi, suy ngẫm và lắng nghe
-                tâm hồn mình sau những ồn ào, mệt mỏi của thế giới bên ngoài.
+              <p className="mt-14">
+                Hello các bạn, mình là Nguyễn Gia Lộc, một lập trình viên !
               </p>
               <p className="my-4">
-                The Present Writer bắt đầu là một Blog cá nhân từ năm 2016 và
-                dần được phát triển thêm thành kênh Youtube và Podcast về bài
-                học cuộc sống, phát triển bản thân và Chủ nghĩa tối giản.
+                Cảm ơn bạn đã ghé thăm blog Loc Nguyen Writter. Nơi đây là góc
+                nhỏ để tôi – Lộc Nguyễn – chia sẻ những ý kiến, quan điểm cá
+                nhân về cuộc sống. Mỗi bài viết không chỉ là lời kể, những suy
+                nghĩ của tôi, mà còn là những mảnh ghép của cuộc sống, những
+                khoảnh khắc ý nghĩa.
               </p>
-              <p className="my-4">
-                The Present Writer được sáng tạo bởi Chi Nguyễn—Tiến sĩ Giáo dục
-                tại Mỹ, blogger, và tác giả “Một Cuốn Sách Về Chủ Nghĩa Tối
-                Giản”. Đọc thêm về Chi và The Present Writer tại đây
-              </p>
+              <p className="mt-4">Cảm ơn bạn đã ghé thăm</p>
+              <p className="mt-1 font-semibold">Lộc Nguyễn</p>
             </div>
           </div>
         </div>

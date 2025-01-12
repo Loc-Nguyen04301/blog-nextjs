@@ -10,7 +10,7 @@ interface BlogState {
     page: number;
     pageNumbers: number;
     currentBlog: IBlogDetail;
-    fetchBlog: (page?: number, search?: string) => Promise<void>
+    fetchBlogs: (page?: number, search?: string) => Promise<void>
     fetchDetailBlog: (id: string) => Promise<void>
 
     searchText: string;
@@ -19,16 +19,16 @@ interface BlogState {
 
 export const useBlogStore = create<BlogState>()(
     devtools((set) => ({
-        listBlogs: [],
+        listBlogs: null,
         total: null,
         page: null,
         pageNumbers: null,
         currentBlog: null,
         searchText: "",
 
-        fetchBlog: async (page, keyword) => {
+        fetchBlogs: async (page, keyword) => {
+            useAlertStore.getState().setLoading(true)
             try {
-                useAlertStore.getState().setLoading(true)
                 const response = await BlogService.getAllBlogs({ page, keyword })
                 set({
                     listBlogs: response.data.data.listBlogs,
@@ -36,12 +36,15 @@ export const useBlogStore = create<BlogState>()(
                     page: response.data.data.page,
                     pageNumbers: response.data.data.pageNumbers,
                 })
-                useAlertStore.getState().setLoading(false)
             } catch (error: any) {
                 useAlertStore.getState().addError(error.response.data.message);
             }
+            finally {
+                useAlertStore.getState().setLoading(false)
+            }
         },
         fetchDetailBlog: async (id) => {
+            useAlertStore.getState().setLoading(true)
             try {
                 const response = await BlogService.getCurrentBlog(id)
                 set({
@@ -49,6 +52,9 @@ export const useBlogStore = create<BlogState>()(
                 })
             } catch (error: any) {
                 useAlertStore.getState().addError(error.response.data.message);
+            }
+            finally {
+                useAlertStore.getState().setLoading(false)
             }
         },
         setSearchText: (text) => {

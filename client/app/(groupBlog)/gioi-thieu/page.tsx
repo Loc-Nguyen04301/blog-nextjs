@@ -138,8 +138,7 @@ const AboutMePage = () => {
           nó vốn có.
         </p>
         <p className="mt-8">Chúc bạn một ngày tốt lành!</p>
-        <p className="mt-8">Be present,</p>
-        <p className="mt-8 mb-20">Chi Nguyễn</p>
+        <p className="mt-8 mb-20">Lộc Nguyễn</p>
       </div>
     </div>
   );

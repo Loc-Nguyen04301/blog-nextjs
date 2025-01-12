@@ -58,16 +58,18 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         <div className="flex flex-col gap-16">
           <div className="border border-[#000] p-8 pb-7">
             <Image src={avatarMySelf} alt="avatarMySelf" />
-            <p className={`mt-5 ${lato.variable} font-sans text-[15px]`}>
-              The Present Writer là “khu vườn xanh yên tĩnh” của Chi Nguyễn—Tiến
-              sĩ Giáo dục tại Mỹ. Đọc thêm về{" "}
+            <div className={`mt-5 ${lato.variable} font-sans text-[15px]`}>
+              <span>
+                Loc Nguyen Writer là “khu vườn xanh yên tĩnh” - nơi chia sẻ
+                khoảnh khắc, cảm xúc của bản thân. Giới thiệu về
+              </span>
               <Link
-                className="font-semibold border-b border-b-primaryColorBold"
+                className="font-semibold border-b border-b-primaryColorBold ml-1"
                 href={"/gioi-thieu"}
               >
-                Loc Nguyen Blog
+                tôi
               </Link>
-            </p>
+            </div>
           </div>
           {/* Tìm kiếm */}
           <div className="border border-[#000] relative">
@@ -133,15 +135,16 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                   <MenuItem className={`${lato.variable} font-sans`} value={""}>
                     Select Category
                   </MenuItem>
-                  {listCategories.map((c) => (
-                    <MenuItem
-                      key={c.id}
-                      value={c.id}
-                      className={`${lato.variable} font-sans`}
-                    >
-                      {c.name}
-                    </MenuItem>
-                  ))}
+                  {listCategories &&
+                    listCategories.map((c) => (
+                      <MenuItem
+                        key={c.id}
+                        value={c.id}
+                        className={`${lato.variable} font-sans`}
+                      >
+                        {c.name}
+                      </MenuItem>
+                    ))}
                 </Select>
               </FormControl>
             </div>

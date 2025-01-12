@@ -35,7 +35,7 @@ export declare class BlogController {
         total: number;
         pageNumbers: number;
         page: number;
-        listBlogs: {
+        listBlogsByCategory: {
             categories: number[];
             id: string;
             title: string;
