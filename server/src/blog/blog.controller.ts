@@ -34,7 +34,7 @@ export class BlogController {
     return this.blogService.findAll({
       keyword: keyword || "",
       page: Number(page) || 1,
-      itemsPerPage: Number(itemsPerPage) || 3,
+      itemsPerPage: Number(itemsPerPage) || 5,
     });
   }
 
@@ -48,7 +48,7 @@ export class BlogController {
     return this.blogService.findByCategory({
       categoryId: +categoryId,
       page: Number(page) || 1,
-      itemsPerPage: Number(itemsPerPage) || 3,
+      itemsPerPage: Number(itemsPerPage) || 5,
     });
   }
 
@@ -62,6 +62,22 @@ export class BlogController {
   @UseInterceptors(new ResponseInterceptor("Get Blog Success"))
   async getBlogStats() {
     return this.blogService.getBlogStats();
+  }
+
+  @Get('stats/month/:year/:month')
+  @UseInterceptors(new ResponseInterceptor("Get Blog Success"))
+  async findBlogByMonth(
+    @Param('year') year: number,
+    @Param('month') month: number,
+    @Query('page') page: string,
+    @Query('itemsPerPage') itemsPerPage: string,
+  ) {
+    return this.blogService.findBlogByMonth({
+      page: Number(page) || 1,
+      itemsPerPage: Number(itemsPerPage) || 5,
+      year,
+      month
+    });
   }
 
   @Patch(':id')

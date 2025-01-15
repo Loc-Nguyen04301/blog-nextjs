@@ -1,7 +1,7 @@
 import { CreateBlogDto } from './dto/create-blog.dto';
 import { UpdateBlogDto } from './dto/update-blog.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { BlogPageParams } from './types';
+import { BlogByMonthPageParams, BlogPageParams } from './types';
 export declare class BlogService {
     private prisma;
     constructor(prisma: PrismaService);
@@ -64,6 +64,19 @@ export declare class BlogService {
         statisticMonths: {
             time: any;
             blogNumbers: number;
+        }[];
+    }>;
+    findBlogByMonth({ itemsPerPage, page, year, month }: BlogByMonthPageParams): Promise<{
+        total: number;
+        pageNumbers: number;
+        page: number;
+        listBlogs: {
+            categories: number[];
+            id: string;
+            title: string;
+            description: string;
+            thumbnail: string;
+            createdAt: Date;
         }[];
     }>;
     update(id: number, updateBlogDto: UpdateBlogDto): string;

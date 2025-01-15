@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Box, TextField } from "@mui/material";
 import { useCategoryStore } from "@/zustand/stores/category-store";
 import { useBlogStore } from "@/zustand/stores/blog-store";
+import { convertToMonthYear } from "@/utils/formatDate";
 const MenuPageClientSide = () => {
   const { listCategories } = useCategoryStore((state) => state);
   const { statisticMonths } = useBlogStore((state) => state);
@@ -59,7 +60,7 @@ const MenuPageClientSide = () => {
           listCategories.map((c) => (
             <li className="mb-4" key={c.id}>
               <Link
-                href={"abc"}
+                href={`/category/${c.id}`}
                 className="text-primaryColorBold hover:text-black"
               >
                 {c.name}
@@ -72,17 +73,20 @@ const MenuPageClientSide = () => {
       <h1 className="uppercase pt-10 text-2xl tracking-wide">Theo thời gian</h1>
       <ul className={`${lato.variable} font-sans mt-5`}>
         {statisticMonths &&
-          statisticMonths.map((item) => (
-            <li className="mb-4" key={item.time}>
-              <Link
-                href={"abc"}
-                className="text-primaryColorBold hover:text-black"
-              >
-                {item.time}
-              </Link>{" "}
-              ({item.blogNumbers})
-            </li>
-          ))}
+          statisticMonths.map((item) => {
+            const { displayMonth, month, year } = convertToMonthYear(item.time);
+            return (
+              <li className="mb-4" key={item.time}>
+                <Link
+                  href={`${year}/${month}`}
+                  className="text-primaryColorBold hover:text-black"
+                >
+                  {displayMonth}
+                </Link>{" "}
+                ({item.blogNumbers})
+              </li>
+            );
+          })}
       </ul>
     </div>
   );

@@ -42,17 +42,18 @@ const CategoryPageClientSide = ({
 
   return (
     <>
-      {listBlogsByCategory?.map((blog) => (
-        <div className="mb-16 border-b border-[#000]" key={blog.id}>
-          <BlogComponent
-            linkTo={`/blog/${blog.id}`}
-            title={blog.title}
-            thumbnail={String(blog.thumbnail)}
-            description={blog.description}
-            categories={blog.categories}
-          />
-        </div>
-      ))}
+      {listBlogsByCategory &&
+        listBlogsByCategory.map((blog) => (
+          <div className="mb-16 border-b border-[#000]" key={blog.id}>
+            <BlogComponent
+              linkTo={`/blog/${blog.id}`}
+              title={blog.title}
+              thumbnail={String(blog.thumbnail)}
+              description={blog.description}
+              categories={blog.categories}
+            />
+          </div>
+        ))}
       {pageNumbers > 0 && (
         <Pagination
           count={pageNumbers}

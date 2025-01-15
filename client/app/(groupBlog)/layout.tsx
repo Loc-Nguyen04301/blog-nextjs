@@ -26,15 +26,20 @@ const BlogLayout = ({ children }: { children: React.ReactNode }) => {
               <div className="flex justify-between max-md:hidden">
                 <ul className="flex w-[40%] justify-start flex-wrap tracking-wide">
                   <li className="p-4 py-7">
-                    <Link href={"/"} className="hover:text-primaryColor">
-                      Home
-                    </Link>
-                  </li>
-                  <li className="p-4 py-7">
                     <Link href={"/blog"} className="hover:text-primaryColor">
                       Blog
                     </Link>
                   </li>
+                  <li className="p-4 py-7">
+                    <Link
+                      href={"/create-blog"}
+                      className="hover:text-primaryColor"
+                    >
+                      Tạo Blog
+                    </Link>
+                  </li>
+                </ul>
+                <ul className="flex w-[40%] justify-end flex-wrap">
                   <li className="p-4 py-7">
                     <Link href={"/menu"} className="hover:text-primaryColor">
                       Mục lục
@@ -46,16 +51,6 @@ const BlogLayout = ({ children }: { children: React.ReactNode }) => {
                       className="hover:text-primaryColor"
                     >
                       Giới thiệu
-                    </Link>
-                  </li>
-                </ul>
-                <ul className="flex w-[40%] justify-end flex-wrap">
-                  <li className="p-4 py-7">
-                    <Link
-                      href={"/create-blog"}
-                      className="hover:text-primaryColor"
-                    >
-                      Tạo Blog
                     </Link>
                   </li>
                   <li className="p-4 py-7">

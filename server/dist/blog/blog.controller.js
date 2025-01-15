@@ -29,14 +29,14 @@ let BlogController = class BlogController {
         return this.blogService.findAll({
             keyword: keyword || "",
             page: Number(page) || 1,
-            itemsPerPage: Number(itemsPerPage) || 3,
+            itemsPerPage: Number(itemsPerPage) || 5,
         });
     }
     findByCategory(categoryId, itemsPerPage, page) {
         return this.blogService.findByCategory({
             categoryId: +categoryId,
             page: Number(page) || 1,
-            itemsPerPage: Number(itemsPerPage) || 3,
+            itemsPerPage: Number(itemsPerPage) || 5,
         });
     }
     findOne(id) {
@@ -44,6 +44,14 @@ let BlogController = class BlogController {
     }
     async getBlogStats() {
         return this.blogService.getBlogStats();
+    }
+    async findBlogByMonth(year, month, page, itemsPerPage) {
+        return this.blogService.findBlogByMonth({
+            page: Number(page) || 1,
+            itemsPerPage: Number(itemsPerPage) || 5,
+            year,
+            month
+        });
     }
     update(id, updateBlogDto) {
         return this.blogService.update(+id, updateBlogDto);
@@ -96,6 +104,17 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], BlogController.prototype, "getBlogStats", null);
+__decorate([
+    (0, common_1.Get)('stats/month/:year/:month'),
+    (0, common_1.UseInterceptors)(new response_interceptor_1.ResponseInterceptor("Get Blog Success")),
+    __param(0, (0, common_1.Param)('year')),
+    __param(1, (0, common_1.Param)('month')),
+    __param(2, (0, common_1.Query)('page')),
+    __param(3, (0, common_1.Query)('itemsPerPage')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, Number, String, String]),
+    __metadata("design:returntype", Promise)
+], BlogController.prototype, "findBlogByMonth", null);
 __decorate([
     (0, common_1.Patch)(':id'),
     __param(0, (0, common_1.Param)('id')),

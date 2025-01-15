@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateBlogDto } from './dto/create-blog.dto';
 import { UpdateBlogDto } from './dto/update-blog.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { BlogPageParams } from './types';
+import { BlogByMonthPageParams, BlogPageParams } from './types';
 
 @Injectable()
 export class BlogService {
@@ -199,17 +199,79 @@ export class BlogService {
   async getBlogStats() {
     const resultQuery = await this.prisma.$queryRawUnsafe(`
       SELECT
-        TO_CHAR(b."createdAt",'MonthYYYY') AS time,
+        TO_CHAR(b."createdAt", 'MM-YYYY') AS time,
         COUNT(*) AS "blogNumbers"
       FROM "Blog" b
-      GROUP BY TO_CHAR(b."createdAt", 'MonthYYYY')
-      ORDER BY MIN(b."createdAt");
+      GROUP BY TO_CHAR(b."createdAt", 'MM-YYYY')
+      ORDER BY TO_CHAR(b."createdAt", 'MM-YYYY');
     `) as []
     const statisticMonths = resultQuery.map((row: any) => ({
       time: row.time,
       blogNumbers: Number(row.blogNumbers),
     }));
     return { statisticMonths };
+  }
+
+  async findBlogByMonth({ itemsPerPage, page, year, month }: BlogByMonthPageParams) {
+    try {
+      const skip = (page - 1) * itemsPerPage;
+
+      const startDate = `${year}-${month}-01T00:00:00.000Z`;
+      const endDate = new Date(year, month, 0).toISOString();
+
+      const [blogs, total] = await this.prisma.$transaction([
+        this.prisma.blog.findMany({
+          where: {
+            createdAt: {
+              gte: new Date(startDate),
+              lt: new Date(endDate),
+            },
+          },
+          skip,
+          take: itemsPerPage,
+          orderBy: {
+            createdAt: 'desc'
+          },
+          select: {
+            id: true,
+            title: true,
+            description: true,
+            thumbnail: true,
+            categories: {
+              select: {
+                id: true,
+                name: true
+              }
+            },
+            createdAt: true
+          }
+        }),
+        this.prisma.blog.count({
+          where: {
+            createdAt: {
+              gte: new Date(startDate),
+              lt: new Date(endDate),
+            },
+          },
+        })
+      ])
+
+      const blogsReturn = blogs.map(blog => {
+        return {
+          ...blog, categories: blog.categories.map(c => c.id)
+
+        }
+      })
+
+      return {
+        total,
+        pageNumbers: Math.ceil(total / itemsPerPage),
+        page,
+        listBlogs: blogsReturn,
+      };
+    } catch (error) {
+      throw error;
+    }
   }
 
   update(id: number, updateBlogDto: UpdateBlogDto) {

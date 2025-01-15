@@ -1,6 +1,6 @@
-import React from "react";
-import CategoryPageClientSide from "./CategoryPageClientSide";
 import { Metadata } from "next";
+import React from "react";
+import BlogByMonthClientSide from "./BlogByMonthClientSide";
 
 export const metadata: Metadata = {
   title: "Mục lục - Loc Nguyen Writer",
@@ -16,10 +16,9 @@ export default async function Page({
   params: Promise<{ slug: string }>;
 }) {
   const slug = (await params).slug;
-
   return (
     <>
-      <CategoryPageClientSide slug={slug} />
+      <BlogByMonthClientSide slug={slug} />
     </>
   );
 }

@@ -61,6 +61,19 @@ export declare class BlogController {
             blogNumbers: number;
         }[];
     }>;
+    findBlogByMonth(year: number, month: number, page: string, itemsPerPage: string): Promise<{
+        total: number;
+        pageNumbers: number;
+        page: number;
+        listBlogs: {
+            categories: number[];
+            id: string;
+            title: string;
+            description: string;
+            thumbnail: string;
+            createdAt: Date;
+        }[];
+    }>;
     update(id: string, updateBlogDto: UpdateBlogDto): string;
     remove(id: string): string;
 }

@@ -22,13 +22,17 @@ const getBlogStats = () => {
     return api.get(`/blog/stats/month`)
 }
 
+const getBlogsByMonth = (year: string, month: string) => {
+    return api.get(`/blog/stats/month/${year}/${month}`)
+}
 
 const BlogService = {
     createBlog,
     getAllBlogs,
     getCurrentBlog,
     getAllBlogsByCategory,
-    getBlogStats
+    getBlogStats,
+    getBlogsByMonth
 }
 
 export default BlogService
