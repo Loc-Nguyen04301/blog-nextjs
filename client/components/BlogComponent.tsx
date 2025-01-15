@@ -43,12 +43,7 @@ const BlogComponent: FC<BlogComponentProps> = ({
           {createdAt} By Lộc Nguyễn
         </p>
         {thumbnail && (
-          <Image
-            src={thumnailBlog || thumbnail}
-            alt="thumnai-blog"
-            fill
-            className="!static"
-          />
+          <Image src={thumbnail} alt="thumnai-blog" fill className="!static" />
         )}
         <div className="mt-3 border-b border-[#dd9933]"></div>
       </div>

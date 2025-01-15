@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
-import { IBlog, IBlogDetail } from '@/types/blog';
+import { IBlog, IBlogDetail, IStatisticMonth } from '@/types/blog';
 import BlogService from '@/services/BlogService';
 import { useAlertStore } from './alert-store';
 
@@ -15,6 +15,9 @@ interface BlogState {
 
     searchText: string;
     setSearchText: (text: string) => void;
+
+    statisticMonths: IStatisticMonth[];
+    fetchStatisticMonths: () => void;
 }
 
 export const useBlogStore = create<BlogState>()(
@@ -25,6 +28,7 @@ export const useBlogStore = create<BlogState>()(
         pageNumbers: null,
         currentBlog: null,
         searchText: "",
+        statisticMonths: null,
 
         fetchBlogs: async (page, keyword) => {
             useAlertStore.getState().setLoading(true)
@@ -55,6 +59,16 @@ export const useBlogStore = create<BlogState>()(
             }
             finally {
                 useAlertStore.getState().setLoading(false)
+            }
+        },
+        fetchStatisticMonths: async () => {
+            try {
+                const response = await BlogService.getBlogStats()
+                set({
+                    statisticMonths: response.data.data.statisticMonths
+                })
+            } catch (error: any) {
+                useAlertStore.getState().addError(error.response.data.message);
             }
         },
         setSearchText: (text) => {

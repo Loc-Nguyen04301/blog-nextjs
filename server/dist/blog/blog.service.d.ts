@@ -60,6 +60,12 @@ export declare class BlogService {
             createdAt: Date;
         }[];
     }>;
+    getBlogStats(): Promise<{
+        statisticMonths: {
+            time: any;
+            blogNumbers: number;
+        }[];
+    }>;
     update(id: number, updateBlogDto: UpdateBlogDto): string;
     remove(id: number): string;
 }

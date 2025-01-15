@@ -4,8 +4,10 @@ import { lato } from "@/fonts";
 import Link from "next/link";
 import { Box, TextField } from "@mui/material";
 import { useCategoryStore } from "@/zustand/stores/category-store";
+import { useBlogStore } from "@/zustand/stores/blog-store";
 const MenuPageClientSide = () => {
   const { listCategories } = useCategoryStore((state) => state);
+  const { statisticMonths } = useBlogStore((state) => state);
 
   return (
     <div>
@@ -53,32 +55,34 @@ const MenuPageClientSide = () => {
       </Box>
       <h1 className="uppercase pt-10 text-2xl tracking-wide">Theo Đề Tài</h1>
       <ul className={`${lato.variable} font-sans mt-5`}>
-        {listCategories?.map((c) => (
-          <li className="mb-4" key={c.id}>
-            <Link
-              href={"abc"}
-              className="text-primaryColorBold hover:text-black"
-            >
-              {c.name}
-            </Link>{" "}
-            ({c.numberBlogs})
-          </li>
-        ))}
+        {listCategories &&
+          listCategories.map((c) => (
+            <li className="mb-4" key={c.id}>
+              <Link
+                href={"abc"}
+                className="text-primaryColorBold hover:text-black"
+              >
+                {c.name}
+              </Link>{" "}
+              ({c.numberBlogs})
+            </li>
+          ))}
       </ul>
 
       <h1 className="uppercase pt-10 text-2xl tracking-wide">Theo thời gian</h1>
       <ul className={`${lato.variable} font-sans mt-5`}>
-        {Array.from({ length: 10 }, (_, indx) => (
-          <li className="mb-4" key={indx}>
-            <Link
-              href={"abc"}
-              className="text-primaryColorBold hover:text-black"
-            >
-              March 2024
-            </Link>{" "}
-            (29)
-          </li>
-        ))}
+        {statisticMonths &&
+          statisticMonths.map((item) => (
+            <li className="mb-4" key={item.time}>
+              <Link
+                href={"abc"}
+                className="text-primaryColorBold hover:text-black"
+              >
+                {item.time}
+              </Link>{" "}
+              ({item.blogNumbers})
+            </li>
+          ))}
       </ul>
     </div>
   );

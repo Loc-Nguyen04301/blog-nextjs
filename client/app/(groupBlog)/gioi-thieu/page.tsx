@@ -53,19 +53,10 @@ const AboutMePage = () => {
           />
         </div>
         <p className="pt-5">
-          Xin chào, tôi là{" "}
-          <em className="font-semibold">Lộc Nguyễn (Nguyễn Gia Lộc) </em> – tác
-          giả của blog <em>Loc Nguyen Writer.</em>
+          Xin chào, tôi là <em className="font-semibold">Lộc</em> – tác giả của
+          blog <em>Loc Nguyen Writer.</em>
         </p>
-        <p className="mt-8">
-          Sinh ra và lớn lên ở Hà Nội, Việt Nam nhưng lập nghiệp và định cư tại
-          Mỹ, tôi cảm giác mình vừa thuộc về nhiều nơi, và vừa không thuộc về
-          một đâu cả. Tôi là Tiến sĩ Giáo dục, chuyên về chính sách, lãnh đạo,
-          và giáo dục so sánh. Các nghiên cứu của tôi xoay quanh vấn đề bình
-          đẳng xã hội và cơ hội học tập cho thanh thiếu niên có hoàn cảnh khó
-          khăn. Hiện tôi giảng dạy và nghiên cứu tại University of Arizona với
-          vị trí Assistant Professor (Phó giáo sư dự khuyết).{" "}
-        </p>
+        <p className="mt-8"></p>
         <p className="mt-8">
           Trong quá trình sống, học tập, và nghiên cứu, tôi thấy những điều mình
           học được từ cuộc sống có giá trị rất lớn, thậm chí lớn hơn những điều
@@ -75,8 +66,8 @@ const AboutMePage = () => {
           viết, và chia sẻ với mọi người.
         </p>
         <p className="mt-8">
-          Bạn có thể liên hệ với tôi qua email: connect@thepresentwriter.com
-          hoặc các mạng xã hội Instagram và Facebook.
+          Bạn có thể liên hệ với tôi qua email hay các nền tảng mạng xã hội
+          Instagram và Facebook.
         </p>
       </div>
       <div className="mt-10">

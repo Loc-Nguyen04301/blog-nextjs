@@ -6,12 +6,15 @@ import Image from "next/image";
 import Footer from "../../components/Footer";
 import AccordionMenu from "../../components/AccordionMenu";
 import { useCategoryStore } from "@/zustand/stores/category-store";
+import { useBlogStore } from "@/zustand/stores/blog-store";
 
 const BlogLayout = ({ children }: { children: React.ReactNode }) => {
   const { fetchCategories } = useCategoryStore((state) => state);
+  const { fetchStatisticMonths } = useBlogStore((state) => state);
 
   useEffect(() => {
     fetchCategories();
+    fetchStatisticMonths();
   }, []);
 
   return (
@@ -53,11 +56,6 @@ const BlogLayout = ({ children }: { children: React.ReactNode }) => {
                       className="hover:text-primaryColor"
                     >
                       Tạo Blog
-                    </Link>
-                  </li>
-                  <li className="p-4 py-7">
-                    <Link href={"/blog"} className="hover:text-primaryColor">
-                      Youtube
                     </Link>
                   </li>
                   <li className="p-4 py-7">

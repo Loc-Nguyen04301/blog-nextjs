@@ -58,6 +58,12 @@ export class BlogController {
     return this.blogService.findOne(id);
   }
 
+  @Get('stats/month')
+  @UseInterceptors(new ResponseInterceptor("Get Blog Success"))
+  async getBlogStats() {
+    return this.blogService.getBlogStats();
+  }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateBlogDto: UpdateBlogDto) {
     return this.blogService.update(+id, updateBlogDto);

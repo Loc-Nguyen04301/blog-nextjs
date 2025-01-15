@@ -188,6 +188,21 @@ let BlogService = class BlogService {
             throw error;
         }
     }
+    async getBlogStats() {
+        const resultQuery = await this.prisma.$queryRawUnsafe(`
+      SELECT
+        TO_CHAR(b."createdAt",'MonthYYYY') AS time,
+        COUNT(*) AS "blogNumbers"
+      FROM "Blog" b
+      GROUP BY TO_CHAR(b."createdAt", 'MonthYYYY')
+      ORDER BY MIN(b."createdAt");
+    `);
+        const statisticMonths = resultQuery.map((row) => ({
+            time: row.time,
+            blogNumbers: Number(row.blogNumbers),
+        }));
+        return { statisticMonths };
+    }
     update(id, updateBlogDto) {
         return `This action updates a #${id} blog`;
     }

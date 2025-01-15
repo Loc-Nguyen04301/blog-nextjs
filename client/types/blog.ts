@@ -25,3 +25,8 @@ export interface BlogPageParams {
     itemsPerPage?: number;
     keyword?: string
 }
+
+export interface IStatisticMonth {
+    time: string;
+    blogNumbers: number
+}

@@ -42,6 +42,9 @@ let BlogController = class BlogController {
     findOne(id) {
         return this.blogService.findOne(id);
     }
+    async getBlogStats() {
+        return this.blogService.getBlogStats();
+    }
     update(id, updateBlogDto) {
         return this.blogService.update(+id, updateBlogDto);
     }
@@ -86,6 +89,13 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], BlogController.prototype, "findOne", null);
+__decorate([
+    (0, common_1.Get)('stats/month'),
+    (0, common_1.UseInterceptors)(new response_interceptor_1.ResponseInterceptor("Get Blog Success")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], BlogController.prototype, "getBlogStats", null);
 __decorate([
     (0, common_1.Patch)(':id'),
     __param(0, (0, common_1.Param)('id')),

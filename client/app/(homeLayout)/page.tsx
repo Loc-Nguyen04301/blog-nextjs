@@ -58,13 +58,12 @@ const MainPage = () => {
                 Hello các bạn, mình là Nguyễn Gia Lộc, một lập trình viên !
               </p>
               <p className="my-4">
-                Cảm ơn bạn đã ghé thăm blog Loc Nguyen Writter. Nơi đây là góc
-                nhỏ để tôi – Lộc Nguyễn – chia sẻ những ý kiến, quan điểm cá
-                nhân về cuộc sống. Mỗi bài viết không chỉ là lời kể, những suy
-                nghĩ của tôi, mà còn là những mảnh ghép của cuộc sống, những
-                khoảnh khắc ý nghĩa.
+                Cảm ơn bạn đã ghé thăm blog Loc Nguyen Writter. Trang blog này
+                được chính tôi tạo ra với mục đích chia sẻ những câu chuyện,
+                quan điểm cá nhân, cách nhìn nhận về sự vật, hiện tượng đang
+                chuyển động, xảy ra xung quanh cuộc sống chúng ta.
               </p>
-              <p className="mt-4">Cảm ơn bạn đã ghé thăm</p>
+              <p className="mt-4">Cảm ơn bạn đọc đã ghé thăm.</p>
               <p className="mt-1 font-semibold">Lộc Nguyễn</p>
             </div>
           </div>

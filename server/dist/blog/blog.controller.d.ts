@@ -55,6 +55,12 @@ export declare class BlogController {
             createdAt: Date;
         };
     }>;
+    getBlogStats(): Promise<{
+        statisticMonths: {
+            time: any;
+            blogNumbers: number;
+        }[];
+    }>;
     update(id: string, updateBlogDto: UpdateBlogDto): string;
     remove(id: string): string;
 }

@@ -196,6 +196,22 @@ export class BlogService {
     }
   }
 
+  async getBlogStats() {
+    const resultQuery = await this.prisma.$queryRawUnsafe(`
+      SELECT
+        TO_CHAR(b."createdAt",'MonthYYYY') AS time,
+        COUNT(*) AS "blogNumbers"
+      FROM "Blog" b
+      GROUP BY TO_CHAR(b."createdAt", 'MonthYYYY')
+      ORDER BY MIN(b."createdAt");
+    `) as []
+    const statisticMonths = resultQuery.map((row: any) => ({
+      time: row.time,
+      blogNumbers: Number(row.blogNumbers),
+    }));
+    return { statisticMonths };
+  }
+
   update(id: number, updateBlogDto: UpdateBlogDto) {
     return `This action updates a #${id} blog`;
   }
