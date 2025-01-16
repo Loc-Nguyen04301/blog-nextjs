@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
-import { IBlog, IBlogDetail, IStatisticMonth } from '@/types/blog';
+import { BlogByMonthPageParams, IBlog, IBlogDetail, IStatisticMonth, BlogPageParams } from '@/types/blog';
 import BlogService from '@/services/BlogService';
 import { useAlertStore } from './alert-store';
 
@@ -10,7 +10,8 @@ interface BlogState {
     page: number;
     pageNumbers: number;
     currentBlog: IBlogDetail;
-    fetchBlogs: (page?: number, search?: string) => Promise<void>
+    fetchBlogs: (params?: BlogPageParams) => Promise<void>
+    fetchBlogsByMonth: (year: string, month: string, params?: BlogByMonthPageParams) => Promise<void>
     fetchDetailBlog: (id: string) => Promise<void>
 
     searchText: string;
@@ -30,10 +31,27 @@ export const useBlogStore = create<BlogState>()(
         searchText: "",
         statisticMonths: null,
 
-        fetchBlogs: async (page, keyword) => {
+        fetchBlogs: async (params) => {
             useAlertStore.getState().setLoading(true)
             try {
-                const response = await BlogService.getAllBlogs({ page, keyword })
+                const response = await BlogService.getAllBlogs(params)
+                set({
+                    listBlogs: response.data.data.listBlogs,
+                    total: response.data.data.total,
+                    page: response.data.data.page,
+                    pageNumbers: response.data.data.pageNumbers,
+                })
+            } catch (error: any) {
+                useAlertStore.getState().addError(error.response.data.message);
+            }
+            finally {
+                useAlertStore.getState().setLoading(false)
+            }
+        },
+        fetchBlogsByMonth: async (year, month, params) => {
+            useAlertStore.getState().setLoading(true)
+            try {
+                const response = await BlogService.getBlogsByMonth(year, month, params)
                 set({
                     listBlogs: response.data.data.listBlogs,
                     total: response.data.data.total,

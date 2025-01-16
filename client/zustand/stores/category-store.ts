@@ -7,7 +7,7 @@ import BlogService from "@/services/BlogService";
 import { IBlog } from "@/types/blog";
 
 interface CategoryState {
-    listCategories: ICategory[];
+    listCategories: ICategory[] | null;
     selectedCategory: string;
     fetchCategories: () => Promise<void>
     setSelectedCategory: (value: string) => void
@@ -17,7 +17,6 @@ interface CategoryState {
     page: number,
     pageNumbers: number,
     fetchBlogsByCategory: (categoryId: number, page?: number) => Promise<void>
-
 }
 
 export const useCategoryStore = create<CategoryState>()(

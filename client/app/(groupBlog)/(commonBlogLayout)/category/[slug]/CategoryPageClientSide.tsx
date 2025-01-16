@@ -6,6 +6,7 @@ import { Pagination } from "@mui/material";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
+import { lato } from "@/fonts";
 
 interface CategoryPageClientSide {
   slug: string;
@@ -19,13 +20,21 @@ const CategoryPageClientSide = ({
     fetchBlogsByCategory,
     listBlogsByCategory,
     pageNumbers,
+    listCategories,
   } = useCategoryStore((state) => state);
   const { setSearchText } = useBlogStore((state) => state);
 
-  const searchParams = useSearchParams();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const selectedCategory = listCategories?.find(
+    (c) => c.id === Number(categoryId)
+  );
 
   const pageParam = Number(searchParams.get("page") || "1");
+
+  const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+    router.push(`/category/${categoryId}?&page=${value}`);
+  };
 
   useEffect(() => {
     setSelectedCategory(categoryId);
@@ -35,10 +44,6 @@ const CategoryPageClientSide = ({
   useEffect(() => {
     fetchBlogsByCategory(Number(categoryId), pageParam);
   }, [categoryId, pageParam]);
-
-  const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
-    router.push(`/category/${categoryId}?&page=${value}`);
-  };
 
   return (
     <>
@@ -54,6 +59,16 @@ const CategoryPageClientSide = ({
             />
           </div>
         ))}
+      {pageNumbers === 0 && (
+        <>
+          <div className="uppercase text-lg tracking-wide">
+            Search Results for: {selectedCategory?.name}
+          </div>
+          <h1 className={`${lato.variable} font-sans mt-20 text-center`}>
+            Sorry, no content matched your criteria.
+          </h1>
+        </>
+      )}
       {pageNumbers > 0 && (
         <Pagination
           count={pageNumbers}

@@ -26,6 +26,11 @@ export interface BlogPageParams {
     keyword?: string
 }
 
+export interface BlogByMonthPageParams {
+    page?: number;
+    itemsPerPage?: number;
+}
+
 export interface IStatisticMonth {
     time: string;
     blogNumbers: number

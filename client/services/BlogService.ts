@@ -1,16 +1,16 @@
 import api from "./axios"
-import { BlogPageParams, CreateBlogData } from "@/types/blog"
+import { BlogByMonthPageParams, BlogPageParams, CreateBlogData } from "@/types/blog"
 
 const createBlog = (data: CreateBlogData) => {
     const dataDto = { ...data, categories: data.categories.map(c => Number(c)) }
     return api.post('/blog', dataDto)
 }
 
-const getAllBlogs = (params: BlogPageParams) => {
+const getAllBlogs = (params?: BlogPageParams) => {
     return api.get("/blog", { params })
 }
 
-const getAllBlogsByCategory = (categoryId: number, params: BlogPageParams) => {
+const getAllBlogsByCategory = (categoryId: number, params?: BlogPageParams) => {
     return api.get(`/blog/category/${categoryId}`, { params })
 }
 
@@ -22,8 +22,8 @@ const getBlogStats = () => {
     return api.get(`/blog/stats/month`)
 }
 
-const getBlogsByMonth = (year: string, month: string) => {
-    return api.get(`/blog/stats/month/${year}/${month}`)
+const getBlogsByMonth = (year: string, month: string, params?: BlogByMonthPageParams) => {
+    return api.get(`/blog/stats/month/${year}/${month}`, { params })
 }
 
 const BlogService = {
