@@ -30,6 +30,7 @@ export const useCategoryStore = create<CategoryState>()(
         pageNumbers: null,
 
         fetchCategories: async () => {
+            useAlertStore.getState().setLoading(true)
             try {
                 const response = await CategoryService.getAllCategories()
                 set({
@@ -38,9 +39,13 @@ export const useCategoryStore = create<CategoryState>()(
             } catch (error: any) {
                 useAlertStore.getState().addError(error.response.data.message);
             }
+            finally {
+                useAlertStore.getState().setLoading(false)
+            }
         },
 
         fetchBlogsByCategory: async (categoryId, page) => {
+            useAlertStore.getState().setLoading(true)
             try {
                 const response = await BlogService.getAllBlogsByCategory(categoryId, { page: page })
                 set({
@@ -51,6 +56,9 @@ export const useCategoryStore = create<CategoryState>()(
                 })
             } catch (error: any) {
                 useAlertStore.getState().addError(error.response.data.message);
+            }
+            finally {
+                useAlertStore.getState().setLoading(false)
             }
         },
         setSelectedCategory: (value) => {

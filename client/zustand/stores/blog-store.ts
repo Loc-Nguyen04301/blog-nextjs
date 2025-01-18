@@ -80,6 +80,7 @@ export const useBlogStore = create<BlogState>()(
             }
         },
         fetchStatisticMonths: async () => {
+            useAlertStore.getState().setLoading(true)
             try {
                 const response = await BlogService.getBlogStats()
                 set({
@@ -87,6 +88,9 @@ export const useBlogStore = create<BlogState>()(
                 })
             } catch (error: any) {
                 useAlertStore.getState().addError(error.response.data.message);
+            }
+            finally {
+                useAlertStore.getState().setLoading(false)
             }
         },
         setSearchText: (text) => {
