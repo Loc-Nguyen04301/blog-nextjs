@@ -16,6 +16,7 @@ import ErrorMessage from "@/components/ErrorMessage";
 import BlogComponent from "@/components/BlogComponent";
 import BlogService from "@/services/BlogService";
 import { useAlertStore } from "@/zustand/stores/alert-store";
+import { checkImage, imageUpload } from "@/utils/uploadImage";
 
 const validationSchema = Yup.object({
   title: Yup.string()
@@ -40,7 +41,7 @@ const CreateBlogPage = () => {
     content: "",
   } as CreateBlogData;
 
-  const { setLoading } = useAlertStore((state) => state);
+  const { setLoading, addError, setSuccess } = useAlertStore((state) => state);
 
   const titleRef = useRef<HTMLInputElement>(null);
   const thumbnailRef = useRef<HTMLInputElement>(null);
@@ -87,8 +88,6 @@ const CreateBlogPage = () => {
       contentRef?.current?.focus();
     }
   };
-
-  const { addError, setSuccess } = useAlertStore((state) => state);
 
   return (
     <Formik
@@ -155,11 +154,26 @@ const CreateBlogPage = () => {
                       type="file"
                       id="thumbnail"
                       name="thumbnail"
-                      onChange={(e) => {
+                      onChange={async (e) => {
                         const file = (e?.target as HTMLInputElement).files?.[0];
                         if (file) {
-                          const previewImage = URL.createObjectURL(file);
-                          setFieldValue("thumbnail", previewImage);
+                          const error = checkImage(file);
+                          if (error) {
+                            return addError(error);
+                          }
+
+                          setLoading(true);
+                          imageUpload(file)
+                            .then((res) => {
+                              setFieldValue("thumbnail", res.url);
+                            })
+                            .catch((err) => {
+                              console.log("Error when upload image", { err });
+                              addError(err);
+                            })
+                            .finally(() => {
+                              setLoading(false);
+                            });
                         } else {
                           setFieldValue("thumbnail", "");
                         }
