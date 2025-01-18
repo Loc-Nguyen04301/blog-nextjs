@@ -94,7 +94,7 @@ const CreateBlogPage = () => {
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
-      onSubmit={async (values, { setSubmitting, resetForm, setFieldValue }) => {
+      onSubmit={async (values, { setSubmitting, resetForm }) => {
         setLoading(true);
         try {
           setSubmitting(true);

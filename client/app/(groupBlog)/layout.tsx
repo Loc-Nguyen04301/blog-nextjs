@@ -72,7 +72,7 @@ const BlogLayout = ({ children }: { children: React.ReactNode }) => {
               </div>
             </div>
           </header>
-          <div className="pt-10 acordion md:hidden">
+          <div className="pt-16 acordion md:hidden">
             <AccordionMenu />
           </div>
         </div>
