@@ -6,7 +6,6 @@ import { lato } from "../fonts";
 import { formatDate } from "../utils/formatDate";
 import type { UrlObject } from "url";
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
-import thumnailBlog from "@/assets/images/thumnailBlog.jpg";
 import { useCategoryStore } from "@/zustand/stores/category-store";
 
 interface BlogComponentProps {
@@ -30,61 +29,74 @@ const BlogComponent: FC<BlogComponentProps> = ({
   const createdAt = formatDate(new Date());
 
   return (
-    <div className={`mb-16`}>
-      <div className="text-center">
-        <h1 className="uppercase text-2xl mb-2">
-          <Link className="break-words" href={linkTo || "#"}>
-            {title}
-          </Link>
-        </h1>
-        <p
-          className={`uppercase text-xs text-subTitleColor mb-2 font-medium tracking-wider ${lato.variable} font-sans`}
-        >
-          {createdAt} By Lộc Nguyễn
-        </p>
-        {thumbnail && (
-          <Image src={thumbnail} alt="thumnai-blog" fill className="!static" />
-        )}
-        <div className="mt-3 border-b border-[#dd9933]"></div>
-      </div>
-      {description && (
-        <div className={`mt-3 leading-7 ${lato.variable} font-sans text-wrap`}>
-          <p className="break-words">
-            {description}
-            <Link
-              href={linkTo || "#"}
-              className="hover:text-primaryColor font-semibold ml-1"
-            >
-              [Read more ...]
+    <div className="mb-16 border-b border-[#000]">
+      <div className={`mb-16`}>
+        <div className="text-center">
+          <h1 className="uppercase text-2xl mb-2">
+            <Link className="break-words" href={linkTo || "#"}>
+              {title}
             </Link>
+          </h1>
+          <p
+            className={`uppercase text-xs text-subTitleColor mb-2 font-medium tracking-wider ${lato.variable} font-sans`}
+          >
+            {createdAt} By Lộc Nguyễn
           </p>
+          {thumbnail && (
+            <Link className="break-words" href={linkTo || "#"}>
+              <div>
+                <Image
+                  src={thumbnail}
+                  alt="thumnai-blog"
+                  fill
+                  className="!static max-w-[400px] mx-auto"
+                />
+              </div>
+            </Link>
+          )}
+          <div className="mt-2 border-b border-[#dd9933]"></div>
         </div>
-      )}
-      {content && (
-        <div
-          className="mt-3 break-words"
-          dangerouslySetInnerHTML={{
-            __html: content,
-          }}
-        />
-      )}
-      {categories && categoryOptions && (
-        <p className={`mt-5 text-subTitleColor`}>
-          <span className="mr-1">Mục lục:</span>
-          {categories.map((categoryId) => {
-            const option = categoryOptions.find(
-              (opt) => Number(opt.id) === Number(categoryId)
-            );
-            return (
-              option && (
-                <Link href={`/category/${option.id}`} key={option.id}>
-                  {option.name},{" "}
-                </Link>
-              )
-            );
-          })}
-        </p>
-      )}
+        {description && (
+          <div
+            className={`mt-3 leading-7 ${lato.variable} font-sans text-wrap`}
+          >
+            <p className="break-words">
+              {description}
+              <Link
+                href={linkTo || "#"}
+                className="hover:text-primaryColor font-semibold ml-1"
+              >
+                [Read more ...]
+              </Link>
+            </p>
+          </div>
+        )}
+        {content && (
+          <div
+            className="mt-3 break-words"
+            dangerouslySetInnerHTML={{
+              __html: content,
+            }}
+          />
+        )}
+        {categories && categoryOptions && (
+          <p className={`mt-5 text-subTitleColor`}>
+            <span className="mr-1">Mục lục:</span>
+            {categories.map((categoryId) => {
+              const option = categoryOptions.find(
+                (opt) => Number(opt.id) === Number(categoryId)
+              );
+              return (
+                option && (
+                  <Link href={`/category/${option.id}`} key={option.id}>
+                    {option.name},{" "}
+                  </Link>
+                )
+              );
+            })}
+          </p>
+        )}
+      </div>
     </div>
   );
 };

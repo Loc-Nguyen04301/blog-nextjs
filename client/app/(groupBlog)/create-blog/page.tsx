@@ -130,9 +130,9 @@ const CreateBlogPage = () => {
         };
         return (
           <Form onSubmit={handleFormSubmit} className="flex flex-col gap-5">
-            <div className="grid grid-cols-11 gap-5">
-              <div className="col-span-7 max-md:col-span-12 col-start-1">
-                <h1 className="font-medium text-lg mb-2">Create Blog</h1>
+            <h1 className="font-medium text-lg">Create Blog</h1>
+            <div className="grid grid-cols-12 gap-5">
+              <div className="col-span-6 max-md:col-span-12">
                 <div className="flex flex-col gap-5">
                   <FormControl fullWidth ref={titleRef}>
                     <TextField
@@ -236,22 +236,24 @@ const CreateBlogPage = () => {
                       <ErrorMessage textContent={errors.categories as string} />
                     )}
                   </FormControl>
-
-                  <FormControl
-                    fullWidth
-                    error={Boolean(errors.content)}
-                    ref={contentRef}
-                  >
-                    <TextEditor
-                      className={errors.content && "border border-red-600"}
-                    />
-                    {errors.content && (
-                      <ErrorMessage textContent={errors.content} />
-                    )}
-                  </FormControl>
                 </div>
               </div>
-              <div className="col-span-7 max-md:col-span-12 col-start-1">
+              <div className="col-span-6 max-md:col-span-12">
+                <FormControl
+                  fullWidth
+                  error={Boolean(errors.content)}
+                  ref={contentRef}
+                >
+                  <TextEditor
+                    className={errors.content && "border border-red-600"}
+                  />
+                  {errors.content && (
+                    <ErrorMessage textContent={errors.content} />
+                  )}
+                </FormControl>
+              </div>
+
+              <div className="col-span-7 max-md:col-span-12 col-start-4">
                 <h1 className="font-medium text-lg mb-2">Preview Blog</h1>
                 <BlogComponent
                   linkTo={"#"}

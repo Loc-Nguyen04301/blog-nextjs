@@ -31,15 +31,14 @@ const BlogByMonthClientSide = ({ slug }: BlogByMonthClientSideProps) => {
   return (
     <>
       {listBlogs?.map((blog) => (
-        <div className="mb-16 border-b border-[#000]" key={blog.id}>
-          <BlogComponent
-            linkTo={`/blog/${blog.id}`}
-            title={blog.title}
-            thumbnail={String(blog.thumbnail)}
-            description={blog.description}
-            categories={blog.categories}
-          />
-        </div>
+        <BlogComponent
+          linkTo={`/blog/${blog.id}`}
+          title={blog.title}
+          thumbnail={String(blog.thumbnail)}
+          description={blog.description}
+          categories={blog.categories}
+          key={blog.id}
+        />
       ))}
       {pageNumbers === 0 && (
         <>
