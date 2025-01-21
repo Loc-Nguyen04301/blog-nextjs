@@ -14,6 +14,7 @@ const config: Config = {
         primaryColor: "var(--primary-color)",
         primaryColorBold: "var(--primary-color-bold)",
         subTitleColor: "var(--sub-title-color)",
+        mediaMainColor: "var(--media-main-color)"
       },
     },
     screens: {

@@ -6,6 +6,7 @@ import theme from "./theme";
 import ScrollToTop from "../utils/ScrollToTop";
 import AlertComponent from "@/components/AlertComponent";
 import LoadingComponent from "@/components/LoadingComponent";
+import { AudioPlayerProvider } from "@/context/audio-player-context";
 
 export const metadata: Metadata = {
   title: "Loc Nguyen Writer",
@@ -37,13 +38,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <AlertComponent />
-        <LoadingComponent />
-        <ScrollToTop />
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          {children}
-        </ThemeProvider>
+        <AudioPlayerProvider>
+          <AlertComponent />
+          <LoadingComponent />
+          <ScrollToTop />
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            {children}
+          </ThemeProvider>
+        </AudioPlayerProvider>
       </body>
     </html>
   );

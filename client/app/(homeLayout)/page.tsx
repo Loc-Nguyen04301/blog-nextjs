@@ -1,16 +1,16 @@
 import avatarImage from "@/assets/images/avatarMyself.jpg";
 import Image from "next/image";
 import React from "react";
-import AudioPlayer from "@/components/AudioPlayer";
+import AudioPlayer from "@/components/AudioPlayer/AudioPlayer";
 import ContactSocialMedia from "@/components/ContactSocialMedia";
 
 const MainPage = () => {
   return (
     <>
-      <section>
+      <section className="mt-10">
         <AudioPlayer />
       </section>
-      <div className="justify-items-end pr-5">
+      <div className="flex justify-center mt-10">
         <ContactSocialMedia />
       </div>
       <section className="flex-auto">
