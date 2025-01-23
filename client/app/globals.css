@@ -23,9 +23,21 @@ body {
   background: var(--background);
 }
 
-input[type=range] {
+.timer-duration {
   -webkit-appearance: none;
   cursor: pointer;
+  position: relative;
+  width: 100%;
+  height: 2px;
+  --range-progress: 0;
+}
+
+.timer-duration::before {
+  content: "";
+  position: absolute;
+  width: var(--range-progress);
+  height: 2px;
+  background-color: var(--media-main-color);
 }
 
 input[type=range]::-webkit-slider-thumb {
