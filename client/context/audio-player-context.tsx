@@ -9,6 +9,7 @@ import {
   SetStateAction,
   RefObject,
   useRef,
+  useEffect,
 } from "react";
 import { Track } from "@/types/track";
 
@@ -19,6 +20,7 @@ interface AudioPlayerContextType {
   setTimeProgress: Dispatch<SetStateAction<number>>;
   duration: number;
   setDuration: Dispatch<SetStateAction<number>>;
+  trackIndex: number;
   setTrackIndex: Dispatch<SetStateAction<number>>;
   isPlaying: boolean;
   setIsPlaying: Dispatch<SetStateAction<boolean>>;
@@ -43,6 +45,12 @@ export const AudioPlayerProvider = ({ children }: { children: ReactNode }) => {
   const audioRef = useRef<HTMLAudioElement>(null);
   const progressBarRef = useRef<HTMLInputElement>(null);
 
+  useEffect(() => {
+    if (trackIndex === -1) return setTrackIndex(trackMusics.length - 1);
+    if (trackIndex === trackMusics.length) return setTrackIndex(0);
+    return setCurrentTrack(trackMusics[trackIndex]);
+  }, [trackIndex]);
+
   const contextValue: AudioPlayerContextType = {
     currentTrack,
     setCurrentTrack,
@@ -50,6 +58,7 @@ export const AudioPlayerProvider = ({ children }: { children: ReactNode }) => {
     setTimeProgress,
     duration,
     setDuration,
+    trackIndex,
     setTrackIndex,
     isPlaying,
     setIsPlaying,

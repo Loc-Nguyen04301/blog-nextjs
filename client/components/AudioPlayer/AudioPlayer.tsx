@@ -1,5 +1,11 @@
 "use client";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  ChangeEvent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import SkipPreviousRoundedIcon from "@mui/icons-material/SkipPreviousRounded";
 import SkipNextRoundedIcon from "@mui/icons-material/SkipNextRounded";
 import PauseRoundedIcon from "@mui/icons-material/PauseRounded";
@@ -28,8 +34,9 @@ const formatTime = (time: number | undefined): string => {
   return "00:00";
 };
 
+const INITIALVOLUME = 60;
+
 const AudioPlayer = () => {
-  const [isShowListMusic, setShowListMusic] = useState(true);
   const {
     currentTrack,
     audioRef,
@@ -41,14 +48,19 @@ const AudioPlayer = () => {
     setDuration,
     setIsPlaying,
     setTimeProgress,
+    trackIndex,
     setTrackIndex,
   } = useAudioPlayerContext();
 
+  const [isShowListMusic, setShowListMusic] = useState(true);
   const [isShuffle, setIsShuffle] = useState<boolean>(false);
   const [isRepeat, setIsRepeat] = useState<boolean>(false);
+  const [volume, setVolume] = useState<number>(INITIALVOLUME);
+  const [muteVolume, setMuteVolume] = useState(false);
   const playAnimationRef = useRef<number | null>(null);
 
   const onLoadedMetadata = () => {
+    console.log("onLoadedMetadata");
     const audioDuration = audioRef.current?.duration;
     if (audioDuration !== undefined) {
       // lấy thời gian của audio tính bằng seconds
@@ -61,6 +73,7 @@ const AudioPlayer = () => {
   };
 
   const handleProgressChange = () => {
+    console.log("handleProgressChange");
     if (audioRef.current && progressBarRef.current) {
       // lấy giá trị khi change thanh progress = thời gian audio chạy được
       const newTime = Number(progressBarRef.current.value);
@@ -75,12 +88,13 @@ const AudioPlayer = () => {
   };
 
   const updateProgress = useCallback(() => {
+    console.log("updateProgress");
     if (audioRef.current && progressBarRef.current && duration) {
       // set thời gian đã chạy được của audio thông qua timeProgress
       const currentTime = audioRef.current?.currentTime;
+      progressBarRef.current.value = currentTime.toString();
       setTimeProgress(currentTime);
 
-      progressBarRef.current.value = currentTime.toString();
       progressBarRef.current.style.setProperty(
         "--range-progress",
         `${(currentTime / duration) * 100}%`
@@ -89,6 +103,7 @@ const AudioPlayer = () => {
   }, [duration, setTimeProgress, audioRef, progressBarRef]);
 
   const startAnimation = useCallback(() => {
+    console.log("startAnimation");
     if (audioRef.current && progressBarRef.current && duration) {
       const animate = () => {
         updateProgress();
@@ -97,6 +112,40 @@ const AudioPlayer = () => {
       playAnimationRef.current = requestAnimationFrame(animate);
     }
   }, [updateProgress, duration, audioRef, progressBarRef]);
+
+  const handleNextTrack = () => {
+    setTrackIndex((prev) => prev + 1);
+  };
+
+  const handlePreviousTrack = () => {
+    setTrackIndex((prev) => prev - 1);
+  };
+
+  const handleChangeMuteVolume = () => {
+    setMuteVolume((prev) => !prev);
+    // if (audioRef.current) {
+    //   if (muteVolume) {
+    //     audioRef.current.volume = 0;
+    //   } else {
+    //     audioRef.current.volume = volume / 100;
+    //   }
+    // }
+  };
+
+  const handleVolumeChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setVolume(Number(e.target.value));
+
+    // progressBarRef.current.style.setProperty(
+    //   "--range-progress",
+    //   e.target.value
+    // );
+  };
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.load();
+    }
+  }, [currentTrack.src]);
 
   useEffect(() => {
     if (isPlaying) {
@@ -116,19 +165,26 @@ const AudioPlayer = () => {
         cancelAnimationFrame(playAnimationRef.current);
       }
     };
-  }, [isPlaying]);
+  }, [isPlaying, startAnimation, updateProgress, audioRef]);
 
-  console.log({ duration, timeProgress });
+  useEffect(() => {
+    volume === 0 ? setMuteVolume(true) : setMuteVolume(false);
+  }, [volume]);
+
+  useEffect(() => {
+    muteVolume ? setVolume(0) : setVolume(INITIALVOLUME);
+  }, [muteVolume]);
 
   useEffect(() => {
     if (audioRef.current) {
-      audioRef.current.load();
+      audioRef.current.volume = volume / 100;
+      audioRef.current.muted = muteVolume;
     }
-  }, []);
+  }, [volume, audioRef, muteVolume]);
 
   return (
     <div className="max-w-[600px] text-center mx-auto">
-      <div className="min-h-8 bg-[#2e2d2d] flex flex-col gap-3 justify-between items-center text-white p-4">
+      <div className="min-h-8 bg-[#2e2d2d] flex flex-col gap-3 justify-between items-center text-white p-6">
         <TrackInfo />
         <audio
           src={currentTrack.src}
@@ -136,8 +192,8 @@ const AudioPlayer = () => {
           onLoadedMetadata={onLoadedMetadata}
         />
         <div className="w-full flex flex-col items-center gap-1 flex-1">
-          <div className="flex gap-2">
-            <IconButton>
+          <div className="flex gap-2 items-center">
+            <IconButton onClick={handlePreviousTrack}>
               <SkipPreviousRoundedIcon className="text-white" />
             </IconButton>
             <IconButton>
@@ -155,7 +211,8 @@ const AudioPlayer = () => {
             <IconButton className="p-0">
               <FastRewindRoundedIcon className="text-white rotate-180 " />
             </IconButton>
-            <IconButton onClick={() => setTrackIndex((prev) => prev + 1)}>
+
+            <IconButton onClick={handleNextTrack}>
               <SkipNextRoundedIcon className="text-white" />
             </IconButton>
             <IconButton onClick={() => setIsShuffle((prev) => !prev)}>
@@ -169,26 +226,35 @@ const AudioPlayer = () => {
               />
             </IconButton>
           </div>
-          <div className="flex items-center justify-center w-full gap-5">
-            <span>{formatTime(timeProgress)}</span>
+          <div className="flex items-center justify-center w-full gap-4">
+            <div>{formatTime(timeProgress)}</div>
             <input
-              className={`min-w-[80%] bg-gray-300 timer-duration`}
+              className={`bg-gray-300 timer-duration`}
               type="range"
-              defaultValue={0}
               ref={progressBarRef}
               onChange={handleProgressChange}
             />
-            <span>{formatTime(duration)}</span>
+            <div>{formatTime(duration)}</div>
           </div>
         </div>
+
         <div className="flex items-center gap-2 text-gray-400">
-          <IconButton className="p-0">
-            <VolumeUpRoundedIcon className="text-white" />
+          <IconButton className="p-0" onClick={handleChangeMuteVolume}>
+            {muteVolume ? (
+              <VolumeOffRoundedIcon className="text-white" />
+            ) : !muteVolume && volume >= 40 ? (
+              <VolumeUpRoundedIcon className="text-white" />
+            ) : (
+              <VolumeDownRoundedIcon className="text-white" />
+            )}
           </IconButton>
           <input
-            className="min-w-[80%] bg-gray-300 border-2 cursor-pointer h-[2px] rounded-sm"
+            className={`bg-gray-300 volume before:absolute before:content-[''] before:w-[${volume}%] before:h-[3px] before:bg-mediaMainColor`}
             type="range"
-            defaultValue={0}
+            min={0}
+            max={100}
+            value={volume}
+            onChange={handleVolumeChange}
           />
           <IconButton
             className="p-0"
@@ -211,6 +277,7 @@ const AudioPlayer = () => {
             <li
               className="px-3 py-2 text-left hover:bg-primaryColorBold text-sm"
               key={index}
+              onClick={() => setTrackIndex(index)}
             >
               <div className="w-fit cursor-pointer">
                 <span className="w-[19px] inline-block">{index + 1}.</span>
