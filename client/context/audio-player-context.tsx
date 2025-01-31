@@ -27,6 +27,7 @@ interface AudioPlayerContextType {
 
   audioRef: RefObject<HTMLAudioElement>;
   progressBarRef: RefObject<HTMLInputElement>;
+  volumeBarRef: RefObject<HTMLInputElement>;
 }
 
 const AudioPlayerContext = createContext<AudioPlayerContextType | undefined>(
@@ -44,6 +45,7 @@ export const AudioPlayerProvider = ({ children }: { children: ReactNode }) => {
 
   const audioRef = useRef<HTMLAudioElement>(null);
   const progressBarRef = useRef<HTMLInputElement>(null);
+  const volumeBarRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (trackIndex === -1) return setTrackIndex(trackMusics.length - 1);
@@ -64,6 +66,7 @@ export const AudioPlayerProvider = ({ children }: { children: ReactNode }) => {
     setIsPlaying,
     audioRef,
     progressBarRef,
+    volumeBarRef,
   };
 
   return (

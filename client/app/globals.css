@@ -29,24 +29,39 @@ body {
   position: relative;
   width: 100%;
   height: 3px;
+  --range-progress-height: 3px;
   --range-progress: 0;
+  --slider-thumb-size: 0;
+  background-color: #d1d5db;
+  border-radius: 9999px;
 }
 
 .timer-duration:hover {
   height: 5px;
-
+  --range-progress-height: 5px;
+  --slider-thumb-size: 12px;
 }
 
 .timer-duration::before {
   content: "";
   position: absolute;
   width: var(--range-progress);
-  height: 3px;
+  height: var(--range-progress-height);
   background-color: var(--media-main-color);
+  border-radius: 1000px;
 }
 
-.timer-duration::before {
-  height: 5px;
+input[type=range].timer-duration::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  background: var(--media-main-color);
+  height: var(--slider-thumb-size);
+  width: var(--slider-thumb-size);
+  border-radius: 100%;
+  transition: transform 100ms ease;
+}
+
+input[type="range"].timer-duration::-webkit-slider-thumb:hover {
+  transform: scale(1.3);
 }
 
 .volume {
@@ -55,34 +70,42 @@ body {
   position: relative;
   width: 100%;
   height: 3px;
+  --range-progress-height: 3px;
+  --range-volume: 0;
+  --slider-thumb-size: 0;
+  background-color: #d1d5db;
+  border-radius: 9999px;
 }
 
-/* .volume::before {
+.volume:hover {
+  height: 5px;
+  --range-progress-height: 5px;
+  --slider-thumb-size: 12px;
+}
+
+.volume::before {
   content: "";
   position: absolute;
-  height: 3px;
+  width: var(--range-volume);
+  height: var(--range-progress-height);
   background-color: var(--media-main-color);
-} */
+  border-radius: 1000px;
+}
 
-input[type=range]::-webkit-slider-thumb {
+input[type=range].volume::-webkit-slider-thumb {
   -webkit-appearance: none;
   background: var(--media-main-color);
-  height: 12px;
-  width: 12px;
+  height: var(--slider-thumb-size);
+  width: var(--slider-thumb-size);
   border-radius: 100%;
-  margin-top: -5px;
   transition: transform 100ms ease;
 }
 
-input[type="range"]::-webkit-slider-thumb:hover {
+input[type="range"].volume::-webkit-slider-thumb:hover {
   transform: scale(1.3);
 }
 
-input[type=range]::-webkit-slider-runnable-track {
-  height: 1px;
-  background: #ddd;
-}
-
+/* customize css scrollbar in list player */
 .player-list::-webkit-scrollbar {
   width: 0.4em;
 }

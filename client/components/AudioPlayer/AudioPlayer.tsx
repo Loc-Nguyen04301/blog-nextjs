@@ -17,7 +17,7 @@ import VolumeUpRoundedIcon from "@mui/icons-material/VolumeUpRounded";
 import VolumeOffRoundedIcon from "@mui/icons-material/VolumeOffRounded";
 import VolumeDownRoundedIcon from "@mui/icons-material/VolumeDownRounded";
 import QueueMusicRoundedIcon from "@mui/icons-material/QueueMusicRounded";
-import { IconButton, Button } from "@mui/material";
+import { IconButton } from "@mui/material";
 import { trackMusics } from "@/assets/music/track";
 import { useAudioPlayerContext } from "@/context/audio-player-context";
 import TrackInfo from "./components/TrackInfo";
@@ -34,7 +34,7 @@ const formatTime = (time: number | undefined): string => {
   return "00:00";
 };
 
-const INITIALVOLUME = 60;
+const INITIALVOLUME = 100;
 
 const AudioPlayer = () => {
   const {
@@ -44,11 +44,10 @@ const AudioPlayer = () => {
     timeProgress,
     isPlaying,
     progressBarRef,
-    setCurrentTrack,
+    volumeBarRef,
     setDuration,
     setIsPlaying,
     setTimeProgress,
-    trackIndex,
     setTrackIndex,
   } = useAudioPlayerContext();
 
@@ -123,21 +122,16 @@ const AudioPlayer = () => {
 
   const handleChangeMuteVolume = () => {
     setMuteVolume((prev) => !prev);
-    // if (audioRef.current) {
-    //   if (muteVolume) {
-    //     audioRef.current.volume = 0;
-    //   } else {
-    //     audioRef.current.volume = volume / 100;
-    //   }
-    // }
+
+    // volumeBarRef.current?.style.setProperty("--range-volume", "0");
   };
 
   const handleVolumeChange = (e: ChangeEvent<HTMLInputElement>) => {
     setVolume(Number(e.target.value));
 
-    // progressBarRef.current.style.setProperty(
-    //   "--range-progress",
-    //   e.target.value
+    // volumeBarRef.current?.style.setProperty(
+    //   "--range-volume",
+    //   `${e.target.value}%`
     // );
   };
 
@@ -169,6 +163,10 @@ const AudioPlayer = () => {
 
   useEffect(() => {
     volume === 0 ? setMuteVolume(true) : setMuteVolume(false);
+  }, [volume]);
+
+  useEffect(() => {
+    volumeBarRef.current?.style.setProperty("--range-volume", `${volume}%`);
   }, [volume]);
 
   useEffect(() => {
@@ -226,15 +224,17 @@ const AudioPlayer = () => {
               />
             </IconButton>
           </div>
-          <div className="flex items-center justify-center w-full gap-4">
-            <div>{formatTime(timeProgress)}</div>
+          <div className="flex items-center w-full">
+            <span className="mr-5 min-w-[45px]">
+              {formatTime(timeProgress)}
+            </span>
             <input
-              className={`bg-gray-300 timer-duration`}
+              className="timer-duration"
               type="range"
-              ref={progressBarRef}
               onChange={handleProgressChange}
+              ref={progressBarRef}
             />
-            <div>{formatTime(duration)}</div>
+            <span className="ml-5 min-w-[45px]">{formatTime(duration)}</span>
           </div>
         </div>
 
@@ -249,12 +249,13 @@ const AudioPlayer = () => {
             )}
           </IconButton>
           <input
-            className={`bg-gray-300 volume before:absolute before:content-[''] before:w-[${volume}%] before:h-[3px] before:bg-mediaMainColor`}
+            className="volume"
             type="range"
             min={0}
             max={100}
             value={volume}
             onChange={handleVolumeChange}
+            ref={volumeBarRef}
           />
           <IconButton
             className="p-0"
