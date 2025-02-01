@@ -37,6 +37,7 @@ const AudioPlayer = () => {
     isPlaying,
     progressBarRef,
     volumeBarRef,
+    trackIndex,
     setDuration,
     setIsPlaying,
     setTimeProgress,
@@ -47,10 +48,11 @@ const AudioPlayer = () => {
   const [isRepeat, setIsRepeat] = useState<boolean>(false);
   const [volume, setVolume] = useState<number>(INITIALVOLUME);
   const [muteVolume, setMuteVolume] = useState(false);
+  const prevTrackIndexRef = useRef<number | null>(null);
+
   const playAnimationRef = useRef<number | null>(null);
 
   const onLoadedMetadata = () => {
-    console.log("onLoadedMetadata");
     const audioDuration = audioRef.current?.duration;
     if (audioDuration !== undefined) {
       // lấy thời gian của audio tính bằng seconds
@@ -63,7 +65,6 @@ const AudioPlayer = () => {
   };
 
   const handleProgressChange = () => {
-    console.log("handleProgressChange");
     if (audioRef.current && progressBarRef.current) {
       // lấy giá trị khi change thanh progress = thời gian audio chạy được
       const newTime = Number(progressBarRef.current.value);
@@ -78,7 +79,6 @@ const AudioPlayer = () => {
   };
 
   const updateProgress = useCallback(() => {
-    console.log("updateProgress");
     if (audioRef.current && progressBarRef.current && duration) {
       // set thời gian đã chạy được của audio thông qua timeProgress
       const currentTime = audioRef.current?.currentTime;
@@ -93,7 +93,6 @@ const AudioPlayer = () => {
   }, [duration, setTimeProgress, audioRef, progressBarRef]);
 
   const startAnimation = useCallback(() => {
-    console.log("startAnimation");
     if (audioRef.current && progressBarRef.current && duration) {
       const animate = () => {
         updateProgress();
@@ -199,6 +198,17 @@ const AudioPlayer = () => {
       }
     };
   }, [isRepeat, audioRef]);
+
+  useEffect(() => {
+    console.log(prevTrackIndexRef.current, trackIndex);
+    if (
+      typeof prevTrackIndexRef.current === "number" &&
+      typeof trackIndex === "number" &&
+      prevTrackIndexRef.current !== trackIndex
+    )
+      setIsPlaying(true);
+    prevTrackIndexRef.current = trackIndex;
+  }, [trackIndex]);
 
   return (
     <div className="max-w-[600px] text-center mx-auto">
