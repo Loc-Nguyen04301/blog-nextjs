@@ -6,11 +6,6 @@ import React, {
   useRef,
   useState,
 } from "react";
-import SkipPreviousRoundedIcon from "@mui/icons-material/SkipPreviousRounded";
-import SkipNextRoundedIcon from "@mui/icons-material/SkipNextRounded";
-import PauseRoundedIcon from "@mui/icons-material/PauseRounded";
-import PlayArrowRoundedIcon from "@mui/icons-material/PlayArrowRounded";
-import RepeatRoundedIcon from "@mui/icons-material/RepeatRounded";
 import VolumeUpRoundedIcon from "@mui/icons-material/VolumeUpRounded";
 import VolumeOffRoundedIcon from "@mui/icons-material/VolumeOffRounded";
 import VolumeDownRoundedIcon from "@mui/icons-material/VolumeDownRounded";
@@ -20,11 +15,10 @@ import TrackInfo from "./components/TrackInfo";
 import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
 import PlaylistRemoveIcon from "@mui/icons-material/PlaylistRemove";
 
-import Replay10Icon from "@mui/icons-material/Replay10";
-import Forward10Icon from "@mui/icons-material/Forward10";
 import PlayList from "./components/PlayList";
 import { useAlertStore } from "@/zustand/stores/alert-store";
-import { formatTimeMusic } from "@/utils/formatTimeMusic";
+import ControlTrack from "./components/ControlTrack";
+import ProgressBar from "./components/ProgressBar";
 
 const INITIALVOLUME = 60;
 
@@ -33,7 +27,6 @@ const AudioPlayer = () => {
     currentTrack,
     audioRef,
     duration,
-    timeProgress,
     isPlaying,
     progressBarRef,
     volumeBarRef,
@@ -49,7 +42,6 @@ const AudioPlayer = () => {
   const [volume, setVolume] = useState<number>(INITIALVOLUME);
   const [muteVolume, setMuteVolume] = useState(false);
   const prevTrackIndexRef = useRef<number | null>(null);
-
   const playAnimationRef = useRef<number | null>(null);
 
   const onLoadedMetadata = () => {
@@ -132,6 +124,14 @@ const AudioPlayer = () => {
     }
   };
 
+  const handlePlayToggle = () => {
+    setIsPlaying((prev) => !prev);
+  };
+
+  const handleRepeatToggle = () => {
+    setIsRepeat((prev) => !prev);
+  };
+
   useEffect(() => {
     setLoading(true);
     if (audioRef.current) {
@@ -179,6 +179,7 @@ const AudioPlayer = () => {
     }
   }, [volume, audioRef, muteVolume]);
 
+  // automatically playing when song have finished playing
   useEffect(() => {
     const currentAudioRef = audioRef.current;
 
@@ -199,14 +200,16 @@ const AudioPlayer = () => {
     };
   }, [isRepeat, audioRef]);
 
+  // automatically playing when change song
   useEffect(() => {
-    console.log(prevTrackIndexRef.current, trackIndex);
     if (
       typeof prevTrackIndexRef.current === "number" &&
       typeof trackIndex === "number" &&
       prevTrackIndexRef.current !== trackIndex
-    )
+    ) {
       setIsPlaying(true);
+    }
+
     prevTrackIndexRef.current = trackIndex;
   }, [trackIndex]);
 
@@ -220,50 +223,17 @@ const AudioPlayer = () => {
           onLoadedMetadata={onLoadedMetadata}
         />
         <div className="w-full flex flex-col items-center gap-1 flex-1">
-          <div className="flex gap-2 items-center">
-            <IconButton onClick={handlePreviousTrack}>
-              <SkipPreviousRoundedIcon className="text-white" />
-            </IconButton>
-            <IconButton onClick={handleReplayTen}>
-              <Replay10Icon className="text-white" />
-            </IconButton>
-
-            <IconButton onClick={() => setIsPlaying((prev) => !prev)}>
-              {isPlaying ? (
-                <PauseRoundedIcon className="text-white" />
-              ) : (
-                <PlayArrowRoundedIcon className="text-white" />
-              )}
-            </IconButton>
-
-            <IconButton onClick={handleForwardTen}>
-              <Forward10Icon className="text-white" />
-            </IconButton>
-
-            <IconButton onClick={handleNextTrack}>
-              <SkipNextRoundedIcon className="text-white" />
-            </IconButton>
-
-            <IconButton onClick={() => setIsRepeat((prev) => !prev)}>
-              <RepeatRoundedIcon
-                className={isRepeat ? "text-mediaMainColor" : "text-white"}
-              />
-            </IconButton>
-          </div>
-          <div className="flex items-center w-full">
-            <span className="mr-5 min-w-[45px]">
-              {formatTimeMusic(timeProgress)}
-            </span>
-            <input
-              className="timer-duration"
-              type="range"
-              onChange={handleProgressChange}
-              ref={progressBarRef}
-            />
-            <span className="ml-5 min-w-[45px]">
-              {formatTimeMusic(duration)}
-            </span>
-          </div>
+          <ControlTrack
+            isRepeat={isRepeat}
+            isPlaying={isPlaying}
+            handleNextTrack={handleNextTrack}
+            handlePreviousTrack={handlePreviousTrack}
+            handlePlayToggle={handlePlayToggle}
+            handleRepeatToggle={handleRepeatToggle}
+            handleForwardTen={handleForwardTen}
+            handleReplayTen={handleReplayTen}
+          />
+          <ProgressBar handleProgressChange={handleProgressChange} />
         </div>
 
         <div className="flex items-center gap-2 text-gray-400">
