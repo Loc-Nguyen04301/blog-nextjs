@@ -10,31 +10,23 @@ import SkipPreviousRoundedIcon from "@mui/icons-material/SkipPreviousRounded";
 import SkipNextRoundedIcon from "@mui/icons-material/SkipNextRounded";
 import PauseRoundedIcon from "@mui/icons-material/PauseRounded";
 import PlayArrowRoundedIcon from "@mui/icons-material/PlayArrowRounded";
-import FastRewindRoundedIcon from "@mui/icons-material/FastRewindRounded";
 import RepeatRoundedIcon from "@mui/icons-material/RepeatRounded";
-import ShuffleRoundedIcon from "@mui/icons-material/ShuffleRounded";
 import VolumeUpRoundedIcon from "@mui/icons-material/VolumeUpRounded";
 import VolumeOffRoundedIcon from "@mui/icons-material/VolumeOffRounded";
 import VolumeDownRoundedIcon from "@mui/icons-material/VolumeDownRounded";
-import QueueMusicRoundedIcon from "@mui/icons-material/QueueMusicRounded";
 import { IconButton } from "@mui/material";
-import { trackMusics } from "@/assets/music/track";
 import { useAudioPlayerContext } from "@/context/audio-player-context";
 import TrackInfo from "./components/TrackInfo";
+import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
+import PlaylistRemoveIcon from "@mui/icons-material/PlaylistRemove";
 
-const formatTime = (time: number | undefined): string => {
-  if (typeof time === "number" && !isNaN(time)) {
-    const minutes = Math.floor(time / 60);
-    const seconds = Math.floor(time % 60);
-    // Convert to string and pad with leading zeros if necessary
-    const formatMinutes = minutes.toString().padStart(2, "0");
-    const formatSeconds = seconds.toString().padStart(2, "0");
-    return `${formatMinutes}:${formatSeconds}`;
-  }
-  return "00:00";
-};
+import Replay10Icon from "@mui/icons-material/Replay10";
+import Forward10Icon from "@mui/icons-material/Forward10";
+import PlayList from "./components/PlayList";
+import { useAlertStore } from "@/zustand/stores/alert-store";
+import { formatTimeMusic } from "@/utils/formatTimeMusic";
 
-const INITIALVOLUME = 100;
+const INITIALVOLUME = 60;
 
 const AudioPlayer = () => {
   const {
@@ -50,9 +42,8 @@ const AudioPlayer = () => {
     setTimeProgress,
     setTrackIndex,
   } = useAudioPlayerContext();
-
+  const { setLoading } = useAlertStore();
   const [isShowListMusic, setShowListMusic] = useState(true);
-  const [isShuffle, setIsShuffle] = useState<boolean>(false);
   const [isRepeat, setIsRepeat] = useState<boolean>(false);
   const [volume, setVolume] = useState<number>(INITIALVOLUME);
   const [muteVolume, setMuteVolume] = useState(false);
@@ -122,22 +113,31 @@ const AudioPlayer = () => {
 
   const handleChangeMuteVolume = () => {
     setMuteVolume((prev) => !prev);
-
-    // volumeBarRef.current?.style.setProperty("--range-volume", "0");
   };
 
   const handleVolumeChange = (e: ChangeEvent<HTMLInputElement>) => {
     setVolume(Number(e.target.value));
+  };
 
-    // volumeBarRef.current?.style.setProperty(
-    //   "--range-volume",
-    //   `${e.target.value}%`
-    // );
+  const handleReplayTen = () => {
+    if (audioRef.current) {
+      audioRef.current.currentTime -= 10;
+      updateProgress();
+    }
+  };
+
+  const handleForwardTen = () => {
+    if (audioRef.current) {
+      audioRef.current.currentTime += 10;
+      updateProgress();
+    }
   };
 
   useEffect(() => {
+    setLoading(true);
     if (audioRef.current) {
       audioRef.current.load();
+      setLoading(false);
     }
   }, [currentTrack.src]);
 
@@ -180,9 +180,29 @@ const AudioPlayer = () => {
     }
   }, [volume, audioRef, muteVolume]);
 
+  useEffect(() => {
+    const currentAudioRef = audioRef.current;
+
+    if (currentAudioRef) {
+      currentAudioRef.onended = () => {
+        if (isRepeat) {
+          currentAudioRef.play();
+        } else {
+          handleNextTrack();
+        }
+      };
+    }
+
+    return () => {
+      if (currentAudioRef) {
+        currentAudioRef.onended = null;
+      }
+    };
+  }, [isRepeat, audioRef]);
+
   return (
     <div className="max-w-[600px] text-center mx-auto">
-      <div className="min-h-8 bg-[#2e2d2d] flex flex-col gap-3 justify-between items-center text-white p-6">
+      <div className="min-h-8 bg-[#2e2d2d] flex flex-col gap-3 justify-between items-center text-white p-3 pt-6 rounded-t-md">
         <TrackInfo />
         <audio
           src={currentTrack.src}
@@ -194,8 +214,8 @@ const AudioPlayer = () => {
             <IconButton onClick={handlePreviousTrack}>
               <SkipPreviousRoundedIcon className="text-white" />
             </IconButton>
-            <IconButton>
-              <FastRewindRoundedIcon className="text-white" />
+            <IconButton onClick={handleReplayTen}>
+              <Replay10Icon className="text-white" />
             </IconButton>
 
             <IconButton onClick={() => setIsPlaying((prev) => !prev)}>
@@ -206,18 +226,14 @@ const AudioPlayer = () => {
               )}
             </IconButton>
 
-            <IconButton className="p-0">
-              <FastRewindRoundedIcon className="text-white rotate-180 " />
+            <IconButton onClick={handleForwardTen}>
+              <Forward10Icon className="text-white" />
             </IconButton>
 
             <IconButton onClick={handleNextTrack}>
               <SkipNextRoundedIcon className="text-white" />
             </IconButton>
-            <IconButton onClick={() => setIsShuffle((prev) => !prev)}>
-              <ShuffleRoundedIcon
-                className={isShuffle ? "text-mediaMainColor" : "text-white"}
-              />
-            </IconButton>
+
             <IconButton onClick={() => setIsRepeat((prev) => !prev)}>
               <RepeatRoundedIcon
                 className={isRepeat ? "text-mediaMainColor" : "text-white"}
@@ -226,7 +242,7 @@ const AudioPlayer = () => {
           </div>
           <div className="flex items-center w-full">
             <span className="mr-5 min-w-[45px]">
-              {formatTime(timeProgress)}
+              {formatTimeMusic(timeProgress)}
             </span>
             <input
               className="timer-duration"
@@ -234,7 +250,9 @@ const AudioPlayer = () => {
               onChange={handleProgressChange}
               ref={progressBarRef}
             />
-            <span className="ml-5 min-w-[45px]">{formatTime(duration)}</span>
+            <span className="ml-5 min-w-[45px]">
+              {formatTimeMusic(duration)}
+            </span>
           </div>
         </div>
 
@@ -261,36 +279,15 @@ const AudioPlayer = () => {
             className="p-0"
             onClick={() => setShowListMusic((prev) => !prev)}
           >
-            <QueueMusicRoundedIcon
-              className={isShowListMusic ? "text-mediaMainColor" : "text-white"}
-            />
+            {isShowListMusic ? (
+              <PlaylistAddCheckIcon className="text-white" />
+            ) : (
+              <PlaylistRemoveIcon className="text-white" />
+            )}
           </IconButton>
         </div>
       </div>
-      <div
-        className={`transition-max-height duration-300 ease-in-out overflow-hidden ${
-          isShowListMusic ? "max-h-72" : "max-h-0"
-        }`}
-      >
-        {/* <PlayList /> */}
-        <ul className="player-list bg-[#4c4848] text-white max-h-[280px] overflow-y-auto">
-          {trackMusics.map((track, index) => (
-            <li
-              className="px-3 py-2 text-left hover:bg-primaryColorBold text-sm"
-              key={index}
-              onClick={() => setTrackIndex(index)}
-            >
-              <div className="w-fit cursor-pointer">
-                <span className="w-[19px] inline-block">{index + 1}.</span>
-                <span>{track.title}</span>
-                <span className="px-2">-</span>
-                <span>{track.author}</span>
-                <audio src={track.src} />
-              </div>
-            </li>
-          ))}
-        </ul>
-      </div>
+      <PlayList isShowListMusic={isShowListMusic} />
     </div>
   );
 };

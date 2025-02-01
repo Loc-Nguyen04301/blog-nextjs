@@ -15,9 +15,10 @@ const TrackInfo = () => {
           className="rounded h-full w-full object-cover"
         />
       </div>
-      <div>
-        <p className="font-bold">{currentTrack.title}</p>
-        <p className="text-sm text-gray-400 text-left">{currentTrack.author}</p>
+      <div className="flex flex-col gap-1">
+        <p className="font-bold text-lg">{currentTrack.title}</p>
+        <p className="text-xs text-left font-medium">{currentTrack.author}</p>
+        <p className="text-xs text-left font-medium">Nhạc trẻ - Việt Nam</p>
       </div>
     </div>
   );
