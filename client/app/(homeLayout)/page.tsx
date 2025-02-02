@@ -8,12 +8,9 @@ import ContactSocialMedia from "@/components/ContactSocialMedia";
 const MainPage = () => {
   return (
     <>
-      <section className="mt-10">
-        <AudioPlayer />
-      </section>
-      <div className="flex justify-center mt-10">
+      <section className="flex justify-end mt-10 mr-2">
         <ContactSocialMedia />
-      </div>
+      </section>
       <section className="flex-auto">
         <div className="py-10 px-3 gap-8 container mx-auto flex max-md:flex-col">
           <div className="p-5 w-[30%] max-md:w-full">
@@ -42,6 +39,10 @@ const MainPage = () => {
             </div>
           </div>
         </div>
+      </section>
+      <section className="my-10 container mx-auto border rounded-md max-w-[800px] py-5 px-16">
+        <h1 className="font-bold text-center mb-2 text-xl">Nhạc nền</h1>
+        <AudioPlayer />
       </section>
     </>
   );

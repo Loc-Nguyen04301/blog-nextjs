@@ -12,11 +12,11 @@ const PlayList = ({ isShowListMusic }: PlayListProps) => {
 
   return (
     <div
-      className={`transition-max-height duration-300 ease-in-out overflow-hidden rounded-b-md ${
-        isShowListMusic ? "max-h-72" : "max-h-0"
+      className={`duration-500 ease-in-out overflow-hidden rounded-b-md  overflow-y-auto ${
+        isShowListMusic ? "max-h-[400px]" : "max-h-0"
       }`}
     >
-      <ul className="player-list bg-[#4c4848] text-white max-h-[280px] overflow-y-auto">
+      <ul className="player-list bg-[#4c4848] text-white">
         {trackMusics.map((track, index) => (
           <li
             className={clsx(

@@ -29,11 +29,11 @@ const MenuProps = {
   },
 };
 const Layout = ({ children }: { children: React.ReactNode }) => {
+  const router = useRouter();
+
   const { listCategories, selectedCategory, setSelectedCategory } =
     useCategoryStore((state) => state);
   const { searchText, setSearchText } = useBlogStore((state) => state);
-
-  const router = useRouter();
 
   const handleChangeSelect = (
     event: SelectChangeEvent<typeof selectedCategory>
@@ -181,7 +181,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           </div>
 
           {/* Ủng hộ */}
-          <div className="border border-[#000] relative">
+          {/* <div className="border border-[#000] relative">
             <div className="absolute w-full px-10 top-[-28px]">
               <h1 className="p-5 bg-black text-[#fff] text-center text-xs uppercase tracking-wide top-[">
                 Ủng hộ
@@ -195,7 +195,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                 banner quảng cáo.
               </p>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
