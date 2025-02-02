@@ -12,7 +12,7 @@ interface TextEditorProps {
   className?: string;
 }
 
-const TextEditor: FC<TextEditorProps> = ({ editorRef, className }) => {
+const TextEditor: FC<TextEditorProps> = ({ className }) => {
   const { values, setFieldValue } = useFormikContext<CreateBlogFormValues>();
   const quillRef = useRef<ReactQuill>(null);
 
@@ -77,7 +77,7 @@ const TextEditor: FC<TextEditorProps> = ({ editorRef, className }) => {
   useEffect(() => {
     const quill = quillRef.current;
 
-    let toolbar = quill?.getEditor().getModule("toolbar");
+    const toolbar = quill?.getEditor().getModule("toolbar");
     toolbar.addHandler("image", handleImageUpload);
   }, []);
 

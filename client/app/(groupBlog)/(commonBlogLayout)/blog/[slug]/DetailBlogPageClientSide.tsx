@@ -1,19 +1,7 @@
 "use client";
 import React, { useEffect } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { lato } from "@/fonts";
-import fbIcon from "@/assets/images/fbIcon.png";
-import instagramIcon from "@/assets/images/instagramIcon.png";
-import wifiIcon from "@/assets/images/wifiIcon.png";
-import emailIcon from "@/assets/images/emailIcon.png";
-import blogImage from "@/assets/images/blogImage.jpg";
-import defaultImage from "@/assets/images/defaultImage.png";
-import { Formik } from "formik";
-import { TextField } from "@mui/material";
 import BlogComponent from "@/components/BlogComponent";
 import { useBlogStore } from "@/zustand/stores/blog-store";
-import { useCategoryStore } from "@/zustand/stores/category-store";
 
 interface DetailBlogPageClientSide {
   slug: string;

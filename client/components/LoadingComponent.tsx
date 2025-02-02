@@ -1,6 +1,6 @@
 "use client";
 import { useAlertStore } from "@/zustand/stores/alert-store";
-import { Backdrop, CircularProgress, useTheme } from "@mui/material";
+import { Backdrop, CircularProgress } from "@mui/material";
 import React from "react";
 
 const LoadingComponent = () => {
