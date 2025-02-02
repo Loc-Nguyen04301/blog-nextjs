@@ -1,6 +1,10 @@
 import React from "react";
-import CategoryPageClientSide from "./CategoryPageClientSide";
 import { Metadata } from "next";
+import dynamic from "next/dynamic";
+
+const CategoryPageWithNoSSR = dynamic(() => import("./CategoryPage"), {
+  ssr: false,
+});
 
 export const metadata: Metadata = {
   title: "Mục lục - Loc Nguyen Writer",
@@ -17,9 +21,5 @@ export default async function Page({
 }) {
   const slug = (await params).slug;
 
-  return (
-    <>
-      <CategoryPageClientSide slug={slug} />
-    </>
-  );
+  return <CategoryPageWithNoSSR slug={slug} />;
 }

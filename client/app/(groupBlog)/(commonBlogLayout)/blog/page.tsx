@@ -1,5 +1,8 @@
 import { Metadata } from "next";
-import BlogPageClientSide from "./BlogPageClientSide";
+
+import dynamic from "next/dynamic";
+
+const BlogPageWithNoSSR = dynamic(() => import("./BlogPage"), { ssr: false });
 
 export const metadata: Metadata = {
   title: "Blog - Loc Nguyen Writer",
@@ -10,9 +13,5 @@ export const metadata: Metadata = {
 };
 
 export default async function Page() {
-  return (
-    <>
-      <BlogPageClientSide />
-    </>
-  );
+  return <BlogPageWithNoSSR />;
 }

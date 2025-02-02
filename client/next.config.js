@@ -1,4 +1,5 @@
 /** @type {import('next').NextConfig} */
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const ESLintPlugin = require("eslint-webpack-plugin");
 
 const nextConfig = {
