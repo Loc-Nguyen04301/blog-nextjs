@@ -213,6 +213,13 @@ const AudioPlayer = () => {
     prevTrackIndexRef.current = trackIndex;
   }, [trackIndex]);
 
+  // reset current track when component unmounted
+  useEffect(() => {
+    return () => {
+      setTrackIndex(0);
+    };
+  }, []);
+
   return (
     <div className="max-w-[600px] text-center mx-auto">
       <div className="min-h-8 bg-[#2e2d2d] flex flex-col gap-3 justify-between items-center text-white p-3 pt-6 rounded-t-md">
