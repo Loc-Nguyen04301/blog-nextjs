@@ -2,7 +2,6 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 
 import { NestExpressApplication } from '@nestjs/platform-express';
-import { HttpExceptionFilter } from './common/exception-filters/http-exception.filter';
 
 declare const module: any;
 

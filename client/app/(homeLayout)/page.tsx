@@ -29,10 +29,9 @@ const MainPage = () => {
                 Hello các bạn, mình là Nguyễn Gia Lộc, một lập trình viên !
               </p>
               <p className="my-4">
-                Cảm ơn bạn đã ghé thăm blog Loc Nguyen Writter. Trang blog này
-                được chính tôi tạo ra với mục đích chia sẻ những câu chuyện,
-                quan điểm cá nhân, cách nhìn nhận về sự vật, hiện tượng đang
-                chuyển động, xảy ra xung quanh cuộc sống chúng ta.
+                Trang blog này được tôi tạo ra với mục đích chia sẻ những câu
+                chuyện, quan điểm cá nhân, cách nhìn nhận về một sự vật, hiện
+                tượng đang diễn ra xung quanh cuộc sống.
               </p>
               <p className="mt-4">Cảm ơn bạn đọc đã ghé thăm.</p>
               <p className="mt-1 font-semibold">Lộc Nguyễn</p>
@@ -41,7 +40,9 @@ const MainPage = () => {
         </div>
       </section>
       <section className="my-10 container mx-auto border rounded-md max-w-[800px] py-5 px-16">
-        <h1 className="font-bold text-center mb-2 text-xl">Nhạc nền</h1>
+        <h1 className="font-semibold text-center mb-2 text-xl font-[Arial]">
+          Nhạc nền
+        </h1>
         <AudioPlayer />
       </section>
     </>
