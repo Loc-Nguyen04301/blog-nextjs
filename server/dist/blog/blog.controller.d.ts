@@ -10,11 +10,11 @@ export declare class BlogController {
             name: string;
         }[];
     } & {
-        id: string;
         title: string;
         content: string;
         description: string;
         thumbnail: string;
+        id: string;
         createdAt: Date;
         updatedAt: Date;
     }>;
@@ -24,10 +24,10 @@ export declare class BlogController {
         page: number;
         listBlogs: {
             categories: number[];
-            id: string;
             title: string;
             description: string;
             thumbnail: string;
+            id: string;
             createdAt: Date;
         }[];
     }>;
@@ -37,21 +37,21 @@ export declare class BlogController {
         page: number;
         listBlogsByCategory: {
             categories: number[];
-            id: string;
             title: string;
             description: string;
             thumbnail: string;
+            id: string;
             createdAt: Date;
         }[];
     }>;
     findOne(id: string): Promise<{
         blogReturn: {
             categories: number[];
-            id: string;
             title: string;
             content: string;
             description: string;
             thumbnail: string;
+            id: string;
             createdAt: Date;
         };
     }>;
@@ -67,10 +67,10 @@ export declare class BlogController {
         page: number;
         listBlogs: {
             categories: number[];
-            id: string;
             title: string;
             description: string;
             thumbnail: string;
+            id: string;
             createdAt: Date;
         }[];
     }>;

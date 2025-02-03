@@ -11,12 +11,12 @@ export declare class BlogService {
             name: string;
         }[];
     } & {
-        id: string;
-        createdAt: Date;
         title: string;
         content: string;
         description: string;
         thumbnail: string;
+        id: string;
+        createdAt: Date;
         updatedAt: Date;
     }>;
     findAll({ itemsPerPage, keyword, page }: BlogPageParams): Promise<{
@@ -25,22 +25,22 @@ export declare class BlogService {
         page: number;
         listBlogs: {
             categories: number[];
-            id: string;
-            createdAt: Date;
             title: string;
             description: string;
             thumbnail: string;
+            id: string;
+            createdAt: Date;
         }[];
     }>;
     findOne(id: string): Promise<{
         blogReturn: {
             categories: number[];
-            id: string;
-            createdAt: Date;
             title: string;
             content: string;
             description: string;
             thumbnail: string;
+            id: string;
+            createdAt: Date;
         };
     }>;
     findByCategory({ categoryId, page, itemsPerPage }: {
@@ -53,11 +53,11 @@ export declare class BlogService {
         page: number;
         listBlogsByCategory: {
             categories: number[];
-            id: string;
-            createdAt: Date;
             title: string;
             description: string;
             thumbnail: string;
+            id: string;
+            createdAt: Date;
         }[];
     }>;
     getBlogStats(): Promise<{
@@ -72,11 +72,11 @@ export declare class BlogService {
         page: number;
         listBlogs: {
             categories: number[];
-            id: string;
-            createdAt: Date;
             title: string;
             description: string;
             thumbnail: string;
+            id: string;
+            createdAt: Date;
         }[];
     }>;
     update(id: number, updateBlogDto: UpdateBlogDto): string;
