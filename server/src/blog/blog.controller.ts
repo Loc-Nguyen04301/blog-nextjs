@@ -31,6 +31,7 @@ export class BlogController {
     @Query('itemsPerPage') itemsPerPage: string,
     @Query('keyword') keyword: string,
   ) {
+    console.log("call api blog")
     return this.blogService.findAll({
       keyword: keyword || "",
       page: Number(page) || 1,
