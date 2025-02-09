@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 const AboutMePage = () => {
   return (
     <div className="font-['Arial']">
-      <div className="mt-10">
+      <div>
         <h1 className="text-3xl font-semibold uppercase">ABOUT ME</h1>
         <div className="my-5">
           <Image

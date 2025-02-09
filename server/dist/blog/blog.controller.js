@@ -26,7 +26,6 @@ let BlogController = class BlogController {
         return this.blogService.create(createBlogDto);
     }
     findAll(page, itemsPerPage, keyword) {
-        console.log("call api blog");
         return this.blogService.findAll({
             keyword: keyword || "",
             page: Number(page) || 1,

@@ -1,21 +1,37 @@
 "use client";
 import Link from "next/link";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import logoBlog from "@/assets/images/logoBlog.png";
 import Image from "next/image";
 import Footer from "../../components/Footer";
 import AccordionMenu from "../../components/AccordionMenu";
 import { useCategoryStore } from "@/zustand/stores/category-store";
 import { useBlogStore } from "@/zustand/stores/blog-store";
+import LinkItem from "@/components/LinkItem/LinkItem";
+import { usePathname } from "next/navigation";
 
 const BlogLayout = ({ children }: { children: React.ReactNode }) => {
+  const pathname = usePathname();
+
+  const [isOpen, setIsOpen] = useState(false);
+
   const { fetchCategories } = useCategoryStore((state) => state);
   const { fetchStatisticMonths } = useBlogStore((state) => state);
+
+  const handleToggle = () => {
+    setIsOpen((prev) => !prev);
+  };
 
   useEffect(() => {
     fetchCategories();
     fetchStatisticMonths();
-  }, []);
+  }, [fetchCategories, fetchStatisticMonths]);
+
+  useEffect(() => {
+    return () => {
+      setIsOpen(false);
+    };
+  }, [pathname]);
 
   return (
     <div className="bg-[#f4f4f4] h-full py-10 min-h-screen">
@@ -25,44 +41,14 @@ const BlogLayout = ({ children }: { children: React.ReactNode }) => {
             <div className="border-t border-b border-[#000] relative max-md:border-white">
               <div className="flex justify-between max-md:hidden">
                 <ul className="flex w-[40%] justify-start flex-wrap tracking-wide">
-                  <li className="p-4 py-7">
-                    <Link href={"/blog"} className="hover:text-primaryColor">
-                      Blog
-                    </Link>
-                  </li>
-                  <li className="p-4 py-7">
-                    <Link
-                      href={"/create-blog"}
-                      className="hover:text-primaryColor"
-                    >
-                      Tạo Blog
-                    </Link>
-                  </li>
+                  <LinkItem href={"/blog"} label="Blog" />
+                  <LinkItem href={"/menu"} label="Mục lục" />
+                  <LinkItem href={"/gioi-thieu"} label="Giới thiệu" />
+                  {/* <LinkItem href={"/create-blog"} label="Tạo Blog" /> */}
                 </ul>
-                <ul className="flex w-[40%] justify-end flex-wrap">
-                  <li className="p-4 py-7">
-                    <Link href={"/menu"} className="hover:text-primaryColor">
-                      Mục lục
-                    </Link>
-                  </li>
-                  <li className="p-4 py-7">
-                    <Link
-                      href={"/gioi-thieu"}
-                      className="hover:text-primaryColor"
-                    >
-                      Giới thiệu
-                    </Link>
-                  </li>
-                  <li className="p-4 py-7">
-                    <Link href={"/sign-in"} className="hover:text-primaryColor">
-                      Đăng nhập
-                    </Link>
-                  </li>
-                  <li className="p-4 py-7">
-                    <Link href={"/sign-up"} className="hover:text-primaryColor">
-                      Đăng ký
-                    </Link>
-                  </li>
+                <ul className="flex w-[40%] justify-end flex-wrap tracking-wide">
+                  <LinkItem href={"/sign-in"} label="Đăng nhập" />
+                  <LinkItem href={"/sign-up"} label="Đăng ký" />
                 </ul>
               </div>
               <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
@@ -73,10 +59,10 @@ const BlogLayout = ({ children }: { children: React.ReactNode }) => {
             </div>
           </header>
           <div className="pt-16 acordion md:hidden">
-            <AccordionMenu />
+            <AccordionMenu isOpen={isOpen} handleToggle={handleToggle} />
           </div>
         </div>
-        <div className="px-16 pb-10">{children}</div>
+        <div className="px-16 pb-10 max-md:px-6">{children}</div>
       </div>
       <Footer />
     </div>

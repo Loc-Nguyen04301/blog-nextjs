@@ -26,7 +26,7 @@ const DrawerMenu = ({ openDrawer, toggleDrawer }: DrawerMenu) => {
     if (openDrawer && isUpSM) {
       toggleDrawer(false)();
     }
-  }, [openDrawer, isUpSM]);
+  }, [openDrawer, isUpSM, toggleDrawer]);
 
   const handleClose = () => {
     toggleDrawer(false);

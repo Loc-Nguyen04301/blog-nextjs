@@ -16,7 +16,7 @@ const MainAndAuthLayout = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     fetchCategories();
-  }, []);
+  }, [fetchCategories]);
 
   return (
     <div className="min-h-screen flex flex-col">
