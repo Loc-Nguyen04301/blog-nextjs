@@ -6,8 +6,10 @@ import BlogComponent from "@/components/BlogComponent";
 import { useRouter } from "next/navigation";
 import { useBlogStore } from "@/zustand/stores/blog-store";
 import { lato } from "@/fonts";
+import { useCategoryStore } from "@/zustand/stores/category-store";
 
 const BlogPageClientSide = () => {
+  const { setSelectedCategory } = useCategoryStore((state) => state);
   const { fetchBlogs, listBlogs, pageNumbers } = useBlogStore((state) => state);
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -22,7 +24,11 @@ const BlogPageClientSide = () => {
 
   useEffect(() => {
     fetchBlogs({ page: pageParam, keyword: keywordParam });
-  }, [pageParam, keywordParam]);
+  }, [pageParam, keywordParam, fetchBlogs]);
+
+  useEffect(() => {
+    if (keywordParam) setSelectedCategory("");
+  }, [keywordParam, setSelectedCategory]);
 
   return (
     <>

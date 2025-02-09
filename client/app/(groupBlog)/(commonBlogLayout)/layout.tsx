@@ -12,11 +12,11 @@ import {
   TextField,
 } from "@mui/material";
 import Link from "next/link";
-import { useEffect } from "react";
 import { useCategoryStore } from "@/zustand/stores/category-store";
 import { useRouter } from "next/navigation";
 import { useBlogStore } from "@/zustand/stores/blog-store";
 import ContactSocialMedia from "@/components/ContactSocialMedia";
+import { ChangeEvent } from "react";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -31,8 +31,9 @@ const MenuProps = {
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
 
-  const { listCategories, selectedCategory, setSelectedCategory } =
-    useCategoryStore((state) => state);
+  const { listCategories, selectedCategory } = useCategoryStore(
+    (state) => state
+  );
   const { searchText, setSearchText } = useBlogStore((state) => state);
 
   const handleChangeSelect = (
@@ -41,12 +42,11 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     const {
       target: { value },
     } = event;
-    setSelectedCategory(value);
+    router.push(`/category/${value}`);
   };
 
-  useEffect(() => {
-    if (selectedCategory) router.push(`/category/${selectedCategory}`);
-  }, [selectedCategory]);
+  const handleChangeSearch = (e: ChangeEvent<HTMLInputElement>) =>
+    setSearchText(e.target.value);
 
   return (
     <div className="grid grid-cols-11">
@@ -97,11 +97,10 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                     },
                   }}
                   value={searchText}
-                  onChange={(e) => setSearchText(e.target.value)}
+                  onChange={handleChangeSearch}
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {
                       e.preventDefault();
-                      setSelectedCategory("");
                       const searchTextTrim = searchText.trim();
                       router.push(
                         `/blog?search=${encodeURIComponent(searchTextTrim)}`
@@ -179,23 +178,6 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
               <ContactSocialMedia />
             </div>
           </div>
-
-          {/* Ủng hộ */}
-          {/* <div className="border border-[#000] relative">
-            <div className="absolute w-full px-10 top-[-28px]">
-              <h1 className="p-5 bg-black text-[#fff] text-center text-xs uppercase tracking-wide top-[">
-                Ủng hộ
-              </h1>
-            </div>
-            <div className="p-10 pb-7 mt-3">
-              <p
-                className={`${lato.variable} font-sans text-[15px] text-center`}
-              >
-                Ủng hộ để blog tiếp tục hoạt động bền vững, miễn phí và không
-                banner quảng cáo.
-              </p>
-            </div>
-          </div> */}
         </div>
       </div>
     </div>

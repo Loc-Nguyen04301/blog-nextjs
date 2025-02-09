@@ -6,9 +6,15 @@ import { Box, TextField } from "@mui/material";
 import { useCategoryStore } from "@/zustand/stores/category-store";
 import { useBlogStore } from "@/zustand/stores/blog-store";
 import { convertToMonthYear } from "@/utils/formatDate";
+import { useRouter } from "next/navigation";
+
 const MenuPageClientSide = () => {
+  const router = useRouter();
+
   const { listCategories } = useCategoryStore((state) => state);
-  const { statisticMonths } = useBlogStore((state) => state);
+  const { statisticMonths, searchText, setSearchText } = useBlogStore(
+    (state) => state
+  );
 
   return (
     <div>
@@ -51,6 +57,14 @@ const MenuPageClientSide = () => {
             "& .MuiInputBase-input": {
               fontSize: "14px",
             },
+          }}
+          onChange={(e) => setSearchText(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              const searchTextTrim = searchText.trim();
+              router.push(`/blog?search=${encodeURIComponent(searchTextTrim)}`);
+            }
           }}
         />
       </Box>

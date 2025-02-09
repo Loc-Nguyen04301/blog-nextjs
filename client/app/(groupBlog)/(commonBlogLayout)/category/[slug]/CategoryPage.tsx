@@ -8,13 +8,13 @@ import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { lato } from "@/fonts";
 
-interface CategoryPageClientSide {
+interface CategoryPageClientSideProps {
   slug: string;
 }
 
 const CategoryPageClientSide = ({
   slug: categoryId,
-}: CategoryPageClientSide) => {
+}: CategoryPageClientSideProps) => {
   const {
     setSelectedCategory,
     fetchBlogsByCategory,
@@ -38,12 +38,15 @@ const CategoryPageClientSide = ({
 
   useEffect(() => {
     setSelectedCategory(categoryId);
+  }, [categoryId, setSelectedCategory]);
+
+  useEffect(() => {
     setSearchText("");
-  }, [categoryId]);
+  }, [setSearchText]);
 
   useEffect(() => {
     fetchBlogsByCategory(Number(categoryId), pageParam);
-  }, [categoryId, pageParam]);
+  }, [categoryId, fetchBlogsByCategory, pageParam]);
 
   return (
     <>

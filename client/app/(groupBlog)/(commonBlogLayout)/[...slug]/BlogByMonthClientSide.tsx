@@ -26,7 +26,7 @@ const BlogByMonthClientSide = ({ slug }: BlogByMonthClientSideProps) => {
 
   useEffect(() => {
     fetchBlogsByMonth(slug[0], slug[1], { page: pageParam });
-  }, [pageParam, slug, pageParam]);
+  }, [pageParam, slug, fetchBlogsByMonth]);
 
   return (
     <>
