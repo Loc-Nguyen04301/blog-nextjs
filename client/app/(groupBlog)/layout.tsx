@@ -41,14 +41,33 @@ const BlogLayout = ({ children }: { children: React.ReactNode }) => {
             <div className="border-t border-b border-[#000] relative max-md:border-white">
               <div className="flex justify-between max-md:hidden">
                 <ul className="flex w-[40%] justify-start flex-wrap tracking-wide">
-                  <LinkItem href={"/blog"} label="Blog" />
-                  <LinkItem href={"/menu"} label="Mục lục" />
-                  <LinkItem href={"/gioi-thieu"} label="Giới thiệu" />
-                  {/* <LinkItem href={"/create-blog"} label="Tạo Blog" /> */}
+                  <LinkItem
+                    href={"/blog"}
+                    label="Blog"
+                    className="hover:text-primaryColor"
+                  />
+                  <LinkItem
+                    href={"/menu"}
+                    label="Mục lục"
+                    className="hover:text-primaryColor"
+                  />
+                  <LinkItem
+                    href={"/gioi-thieu"}
+                    label="Giới thiệu"
+                    className="hover:text-primaryColor"
+                  />
                 </ul>
                 <ul className="flex w-[40%] justify-end flex-wrap tracking-wide">
-                  <LinkItem href={"/sign-in"} label="Đăng nhập" />
-                  <LinkItem href={"/sign-up"} label="Đăng ký" />
+                  <LinkItem
+                    href={"/sign-in"}
+                    label="Đăng nhập"
+                    className="hover:text-primaryColor"
+                  />
+                  <LinkItem
+                    href={"/sign-up"}
+                    label="Đăng ký"
+                    className="hover:text-primaryColor"
+                  />
                 </ul>
               </div>
               <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">

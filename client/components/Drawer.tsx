@@ -9,7 +9,7 @@ import {
   useTheme,
   useMediaQuery,
 } from "@mui/material";
-import React, { useEffect } from "react";
+import React, { memo, useEffect } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import Link from "next/link";
 
@@ -28,20 +28,29 @@ const DrawerMenu = ({ openDrawer, toggleDrawer }: DrawerMenu) => {
     }
   }, [openDrawer, isUpSM, toggleDrawer]);
 
-  const handleClose = () => {
-    toggleDrawer(false);
+  const handleClose = (
+    _: object,
+    reason: "backdropClick" | "escapeKeyDown"
+  ) => {
+    if (reason === "backdropClick") {
+      toggleDrawer(false)();
+    }
   };
 
   return (
-    <Drawer anchor="left" open={openDrawer} onClose={handleClose}>
+    <Drawer
+      anchor="left"
+      open={openDrawer}
+      onClose={(event, reason) => handleClose(event, reason)}
+    >
       <Box
         sx={{
           p: 2,
           height: 1,
         }}
       >
-        <IconButton sx={{ mb: 2 }}>
-          <CloseIcon onClick={toggleDrawer(false)} />
+        <IconButton sx={{ mb: 2 }} onClick={toggleDrawer(false)}>
+          <CloseIcon />
         </IconButton>
 
         <Divider sx={{ mb: 2 }} />
@@ -81,4 +90,4 @@ const DrawerMenu = ({ openDrawer, toggleDrawer }: DrawerMenu) => {
   );
 };
 
-export default DrawerMenu;
+export default memo(DrawerMenu);

@@ -9,10 +9,11 @@ import { lato } from "@/fonts";
 import { useCategoryStore } from "@/zustand/stores/category-store";
 
 const BlogPageClientSide = () => {
-  const { setSelectedCategory } = useCategoryStore((state) => state);
-  const { fetchBlogs, listBlogs, pageNumbers } = useBlogStore((state) => state);
   const searchParams = useSearchParams();
   const router = useRouter();
+
+  const { setSelectedCategory } = useCategoryStore((state) => state);
+  const { fetchBlogs, listBlogs, pageNumbers } = useBlogStore((state) => state);
 
   const pageParam = Number(searchParams.get("page") || "1");
   const keywordParam = searchParams.get("search") || undefined;

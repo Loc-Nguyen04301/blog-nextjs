@@ -20,13 +20,6 @@ export const metadata: Metadata = {
     title: "Loc Nguyen Writer",
     description: "Loc Nguyen Writer",
     siteName: "Loc Nguyen Writer",
-    images: {
-      url: "https://i1.wp.com/thepresentwriter.com/wp-content/uploads/2020/08/The-Present-Writer-jpeg-3.png?fit=1602%2C1602&ssl=1",
-      width: 1602,
-      height: 1602,
-      type: "image/png",
-      alt: "Ablot Loc Nguyen",
-    },
   },
 };
 

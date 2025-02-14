@@ -24,39 +24,42 @@ const MainAndAuthLayout = ({ children }: { children: React.ReactNode }) => {
         <div className="flex justify-between items-center h-[100px] px-6 border-b">
           <Link
             className="uppercase text-[26px] hover:scale-110 duration-300 max-[400px]:text-[22px]"
-            href="/#"
+            href="/"
           >
             Loc Nguyen Writer
           </Link>
-          <Box className="flex gap-3 justify-end max-sm:hidden">
+          <ul className="flex gap-3 justify-end max-sm:hidden">
             <Link
-              className="px-2 font-medium text-[15px] uppercase hover:text-primaryColor cursor-pointer"
+              className="px-2 font-medium text-[14px] uppercase hover:text-primaryColor cursor-pointer"
               href="/blog"
             >
               blog
             </Link>
-            <div className="px-2 font-medium text-[15px] uppercase hover:text-primaryColor cursor-pointer">
-              youtube
-            </div>
             <Link
-              className="px-2 font-medium text-[15px] uppercase hover:text-primaryColor cursor-pointer"
+              className="px-2 font-medium text-[14px] uppercase hover:text-primaryColor cursor-pointer"
+              href="/blog"
+            >
+              video
+            </Link>
+            <Link
+              className="px-2 font-medium text-[14px] uppercase hover:text-primaryColor cursor-pointer"
               href="/gioi-thieu"
             >
               giới thiệu
             </Link>
             <Link
-              className="px-2 font-medium text-[15px] uppercase hover:text-primaryColor cursor-pointer"
+              className="px-2 font-medium text-[14px] uppercase hover:text-primaryColor cursor-pointer"
               href="/sign-in"
             >
               đăng nhập
             </Link>
             <Link
-              className="px-2 font-medium text-[15px] uppercase hover:text-primaryColor cursor-pointer"
+              className="px-2 font-medium text-[14px] uppercase hover:text-primaryColor cursor-pointer"
               href="/sign-up"
             >
               đăng ký
             </Link>
-          </Box>
+          </ul>
           <IconButton
             edge="start"
             color="inherit"
