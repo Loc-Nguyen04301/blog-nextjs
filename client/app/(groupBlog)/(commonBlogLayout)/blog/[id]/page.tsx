@@ -1,5 +1,7 @@
+import BlogService from "@/services/BlogService";
 import DetailBlogPageClientSide from "./DetailBlogPageClientSide";
-import type { Metadata } from "next";
+import { Metadata } from "next";
+import { IBlogDetail } from "@/types/blog";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -7,13 +9,29 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const id = (await params).id;
-  const response = await fetch(`http://localhost:8000/api/v1/blog/${id}`).then(
-    (res) => res.json()
-  );
-  const blog = response.data.blogReturn;
+  const response: any = await BlogService.getCurrentBlog(id);
+  const blog = response.data.data.blogReturn as IBlogDetail;
 
   return {
     title: blog.title,
+    description: blog.description,
+    keywords: blog.categories.join(", "),
+    openGraph: {
+      title: blog.title,
+      description: blog.description,
+      url: process.env.NEXT_PUBLIC_URL,
+      siteName: `${process.env.NEXT_PUBLIC_URL}/blog/${id}`,
+      images: [blog.thumbnail],
+      type: "article",
+      publishedTime: blog.createdAt,
+      authors: ["Loc Nguyen", "Nguyen Gia Loc"],
+    },
+    twitter: {
+      card: "app",
+      title: blog.title,
+      description: blog.description,
+      images: [blog.thumbnail],
+    },
   };
 }
 

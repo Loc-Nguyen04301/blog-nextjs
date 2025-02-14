@@ -1,3 +1,4 @@
+"use client";
 import { trackMusics } from "@/assets/music/track";
 import { useAudioPlayerContext } from "@/context/audio-player-context";
 import clsx from "clsx";
@@ -19,12 +20,12 @@ const PlayList = ({ isShowListMusic }: PlayListProps) => {
       <ul className="player-list bg-[#4c4848] text-white">
         {trackMusics.map((track, index) => (
           <li
+            key={index}
             className={clsx(
               "px-3 py-2 text-left hover:bg-primaryColorBold text-sm",
               index === trackIndex &&
                 "bg-mediaMainColor hover:bg-mediaMainColor"
             )}
-            key={index}
             onClick={() => setTrackIndex(index)}
           >
             <div className="w-fit cursor-pointer">

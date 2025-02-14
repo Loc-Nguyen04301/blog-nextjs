@@ -1,6 +1,6 @@
 {
-    "name": "Loc NguyenBlog Next.js Application",
-    "short_name": "Next.js App",
-    "description": "An application built with Next.js",
-    "start_url": "/"
-  }
+  "name": "Loc Nguyen Blog Next.js Application",
+  "short_name": "Loc Nguyen Blog",
+  "description": "An application built with Next.js",
+  "start_url": "/"
+}

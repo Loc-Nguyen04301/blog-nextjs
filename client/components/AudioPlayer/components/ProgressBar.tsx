@@ -1,3 +1,4 @@
+"use client";
 import { useAudioPlayerContext } from "@/context/audio-player-context";
 import { formatTimeMusic } from "@/utils/formatTimeMusic";
 import React from "react";

@@ -94,9 +94,9 @@ const AudioPlayer = () => {
     }
   }, [updateProgress, duration, audioRef, progressBarRef]);
 
-  const handleNextTrack = () => {
+  const handleNextTrack = useCallback(() => {
     setTrackIndex((prev) => prev + 1);
-  };
+  }, [setTrackIndex]);
 
   const handlePreviousTrack = () => {
     setTrackIndex((prev) => prev - 1);
@@ -138,7 +138,7 @@ const AudioPlayer = () => {
       audioRef.current.load();
       setLoading(false);
     }
-  }, [currentTrack.src]);
+  }, [audioRef, currentTrack.src, setLoading]);
 
   useEffect(() => {
     if (isPlaying) {
@@ -166,7 +166,7 @@ const AudioPlayer = () => {
 
   useEffect(() => {
     volumeBarRef.current?.style.setProperty("--range-volume", `${volume}%`);
-  }, [volume]);
+  }, [volume, volumeBarRef]);
 
   useEffect(() => {
     muteVolume ? setVolume(0) : setVolume(INITIALVOLUME);
@@ -198,7 +198,7 @@ const AudioPlayer = () => {
         currentAudioRef.onended = null;
       }
     };
-  }, [isRepeat, audioRef]);
+  }, [isRepeat, audioRef, handleNextTrack]);
 
   // automatically playing when change song
   useEffect(() => {
@@ -211,14 +211,14 @@ const AudioPlayer = () => {
     }
 
     prevTrackIndexRef.current = trackIndex;
-  }, [trackIndex]);
+  }, [setIsPlaying, trackIndex]);
 
   // reset current track when component unmounted
   useEffect(() => {
     return () => {
       setTrackIndex(0);
     };
-  }, []);
+  }, [setTrackIndex]);
 
   return (
     <div className="max-w-[600px] text-center mx-auto">

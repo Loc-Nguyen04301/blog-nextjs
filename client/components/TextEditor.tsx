@@ -1,6 +1,6 @@
 "use client";
 import { useFormikContext } from "formik";
-import React, { FC, LegacyRef, useEffect, useRef } from "react";
+import React, { FC, LegacyRef, useCallback, useEffect, useRef } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { CreateBlogFormValues } from "../types/blog";
@@ -42,7 +42,7 @@ const TextEditor: FC<TextEditorProps> = ({ className }) => {
     setFieldValue("content", value);
   };
 
-  const handleImageUpload = () => {
+  const handleImageUpload = useCallback(() => {
     const input = document.createElement("input");
     input.type = "file";
     input.accept = "image/*";
@@ -72,14 +72,14 @@ const TextEditor: FC<TextEditorProps> = ({ className }) => {
     };
 
     input.click();
-  };
+  }, [addError, setLoading]);
 
   useEffect(() => {
     const quill = quillRef.current;
 
     const toolbar = quill?.getEditor().getModule("toolbar");
     toolbar.addHandler("image", handleImageUpload);
-  }, []);
+  }, [handleImageUpload]);
 
   return (
     <ReactQuill

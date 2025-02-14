@@ -4,6 +4,7 @@ const ESLintPlugin = require("eslint-webpack-plugin");
 
 const nextConfig = {
   webpack: (config, { dev }) => {
+    config.cache = false;
     config.module.rules.push({
       test: /\.mp3$/,
       use: {

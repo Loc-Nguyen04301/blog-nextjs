@@ -1,3 +1,4 @@
+"use client";
 import { IconButton } from "@mui/material";
 import React from "react";
 import SkipPreviousRoundedIcon from "@mui/icons-material/SkipPreviousRounded";
