@@ -35,12 +35,12 @@ const BlogPageClientSide = () => {
     <>
       {listBlogs?.map((blog) => (
         <BlogComponent
+          key={blog.id}
           linkTo={`/blog/${blog.id}`}
           title={blog.title}
           thumbnail={String(blog.thumbnail)}
           description={blog.description}
           categories={blog.categories}
-          key={blog.id}
         />
       ))}
       {pageNumbers === 0 && (

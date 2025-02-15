@@ -15,6 +15,7 @@ interface BlogComponentProps {
   categories?: string[];
   description?: string;
   content?: string;
+  isDetail?: boolean;
 }
 
 const BlogComponent: FC<BlogComponentProps> = ({
@@ -24,6 +25,7 @@ const BlogComponent: FC<BlogComponentProps> = ({
   description,
   linkTo,
   categories,
+  isDetail,
 }) => {
   const categoryOptions = useCategoryStore((state) => state.listCategories);
   const createdAt = formatDate(new Date());
@@ -54,12 +56,10 @@ const BlogComponent: FC<BlogComponentProps> = ({
               </div>
             </Link>
           )}
-          <div className="mt-2 border-b border-[#dd9933]"></div>
+          {!isDetail && <div className="mt-8 border-b border-[#dd9933]" />}
         </div>
         {description && (
-          <div
-            className={`mt-3 leading-7 ${lato.variable} font-sans text-wrap`}
-          >
+          <div className={`leading-7 ${lato.variable} font-sans text-wrap`}>
             <p className="break-words">
               {description}
               <Link

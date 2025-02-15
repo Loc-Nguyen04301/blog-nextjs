@@ -1,14 +1,13 @@
 import { Metadata } from "next";
-import BlogPageWrapper from "./BlogPageWrapper";
+import dynamic from "next/dynamic";
 
 export const metadata: Metadata = {
   title: "Blog - Loc Nguyen Writer",
   description: "Blog - Loc Nguyen Writer",
-  icons: {
-    icon: "favicon.ico",
-  },
 };
 
+const BlogPageWithNoSSR = dynamic(() => import("./BlogPage"), { ssr: false });
+
 export default async function Page() {
-  return <BlogPageWrapper />;
+  return <BlogPageWithNoSSR />;
 }

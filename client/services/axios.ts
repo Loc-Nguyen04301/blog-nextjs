@@ -5,7 +5,7 @@ const normalizeURL = (url: string | undefined): string => {
     return url.replace(/\/+$/, '');  // Remove trailing slashes
 };
 
-const baseURL = normalizeURL(process.env.NEXT_PUBLIC_API_URL)
+export const baseURL = normalizeURL(process.env.NEXT_PUBLIC_API_URL)
 
 const axiosInstance: AxiosInstance = axios.create({
     baseURL,

@@ -25,6 +25,7 @@ const DetailBlogPageClientSide = ({ id }: DetailBlogPageClientSide) => {
           thumbnail={String(currentBlog.thumbnail)}
           content={currentBlog.content}
           categories={currentBlog.categories}
+          isDetail
         />
       )}
 
