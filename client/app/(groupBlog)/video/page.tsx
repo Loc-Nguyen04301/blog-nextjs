@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default async function Page() {
   return (
-    <div className="grid grid-cols-3 ">
+    <div className="grid grid-cols-3 max-md:grid-cols-2">
       {Array.from({ length: 20 }, (_, idx) => (
         <Link
           key={idx}

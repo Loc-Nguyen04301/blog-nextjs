@@ -33,7 +33,6 @@ const PlayList = ({ isShowListMusic }: PlayListProps) => {
               <span>{track.title}</span>
               <span className="px-2">-</span>
               <span>{track.author}</span>
-              <audio src={track.src} />
             </div>
           </li>
         ))}

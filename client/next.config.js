@@ -6,7 +6,7 @@ const nextConfig = {
   webpack: (config, { dev }) => {
     config.cache = false;
     config.module.rules.push({
-      test: /\.mp3$/,
+      test: /\.(mp4|mp3|mov|avi)$/,
       use: {
         loader: "file-loader",
         options: {
