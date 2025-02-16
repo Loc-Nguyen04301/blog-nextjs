@@ -25,7 +25,7 @@ const config: Config = {
     },
     fontFamily: {
       sans: ['var(--font-lato)'],
-      mono: ['var(--font-roboto-mono)'],
+      arial: ['Arial', 'sans-serif'],
     }
   },
   plugins: [],

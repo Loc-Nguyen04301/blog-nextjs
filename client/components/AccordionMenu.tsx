@@ -43,8 +43,13 @@ const AccordionMenu = ({ handleToggle, isOpen }: AccordionMenuProps) => {
         <MenuIcon />
       </AccordionSummary>
       <AccordionDetails>
-        <Link className="hover:text-primaryColor" href={"/"}>
-          Home
+        <Link className="hover:text-primaryColor" href={"/blog"}>
+          Blog
+        </Link>
+      </AccordionDetails>
+      <AccordionDetails>
+        <Link className="hover:text-primaryColor" href={"/video"}>
+          Video
         </Link>
       </AccordionDetails>
       <AccordionDetails>

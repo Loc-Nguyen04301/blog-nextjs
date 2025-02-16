@@ -63,8 +63,8 @@ const DrawerMenu = ({ openDrawer, toggleDrawer }: DrawerMenu) => {
           </ListItemButton>
 
           <ListItemButton>
-            <Link href={"#"}>
-              <ListItemText primary="Youtube" />
+            <Link href={"/video"}>
+              <ListItemText primary="Video" />
             </Link>
           </ListItemButton>
 

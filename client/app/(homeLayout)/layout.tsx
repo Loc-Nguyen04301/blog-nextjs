@@ -37,7 +37,7 @@ const MainAndAuthLayout = ({ children }: { children: React.ReactNode }) => {
             </Link>
             <Link
               className="px-2 font-medium text-[14px] uppercase hover:text-primaryColor cursor-pointer"
-              href="/blog"
+              href="/video"
             >
               video
             </Link>

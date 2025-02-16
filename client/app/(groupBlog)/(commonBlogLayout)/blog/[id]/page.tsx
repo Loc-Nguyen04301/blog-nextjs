@@ -4,11 +4,11 @@ import { IBlogDetail } from "@/types/blog";
 import BlogService from "@/services/BlogService";
 
 type Props = {
-  params: Promise<{ id: string }>;
+  params: { id: string };
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const id = (await params).id;
+  const id = params.id;
   const response = await BlogService.getCurrentBlog(id);
 
   const blog: IBlogDetail = response.data.data.blogReturn;
@@ -35,6 +35,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function Page({ params }: Props) {
-  const id = (await params).id;
+  const id = params.id;
   return <DetailBlogPageClientSide id={id} />;
 }

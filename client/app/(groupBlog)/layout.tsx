@@ -47,17 +47,22 @@ const BlogLayout = ({ children }: { children: React.ReactNode }) => {
                     className="hover:text-primaryColor"
                   />
                   <LinkItem
+                    href={"/video"}
+                    label="Video"
+                    className="hover:text-primaryColor"
+                  />
+                  <LinkItem
                     href={"/menu"}
                     label="Mục lục"
                     className="hover:text-primaryColor"
                   />
+                </ul>
+                <ul className="flex w-[40%] justify-end flex-wrap tracking-wide">
                   <LinkItem
                     href={"/gioi-thieu"}
                     label="Giới thiệu"
                     className="hover:text-primaryColor"
                   />
-                </ul>
-                <ul className="flex w-[40%] justify-end flex-wrap tracking-wide">
                   <LinkItem
                     href={"/sign-in"}
                     label="Đăng nhập"

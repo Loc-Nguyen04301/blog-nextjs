@@ -34,7 +34,7 @@ const BlogComponent: FC<BlogComponentProps> = ({
     <div className="mb-16 border-b border-[#000]">
       <div className={`mb-16`}>
         <div className="text-center">
-          <h1 className="uppercase text-2xl mb-2">
+          <h1 className="uppercase text-2xl mb-2 font-medium">
             <Link className="break-words" href={linkTo || "#"}>
               {title}
             </Link>
@@ -60,27 +60,25 @@ const BlogComponent: FC<BlogComponentProps> = ({
         </div>
         {description && (
           <div className={`leading-7 ${lato.variable} font-sans text-wrap`}>
-            <p className="break-words">
-              {description}
-              <Link
-                href={linkTo || "#"}
-                className="hover:text-primaryColor font-semibold ml-1"
-              >
-                [Read more ...]
-              </Link>
-            </p>
+            <p className="break-words inline">{description}</p>
+            <Link
+              href={linkTo || "#"}
+              className="hover:text-primaryColor font-semibold ml-1"
+            >
+              [Read more ...]
+            </Link>
           </div>
         )}
         {content && (
           <div
-            className="mt-3 break-words"
+            className="mt-3 break-words text-sm font-arial text-[#4f4f4f]"
             dangerouslySetInnerHTML={{
               __html: content,
             }}
           />
         )}
         {categories && categoryOptions && (
-          <p className={`mt-5 text-subTitleColor`}>
+          <p className="mt-5 text-subTitleColor text-sm">
             <span className="mr-1">Mục lục:</span>
             {categories.map((categoryId) => {
               const option = categoryOptions.find(
