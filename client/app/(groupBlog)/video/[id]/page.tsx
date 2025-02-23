@@ -1,8 +1,10 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import mp4SrcFile from "@/public/video/mua_roi_lang_tham.mp4";
 import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
 import ShareRoundedIcon from "@mui/icons-material/ShareRounded";
+import { Button, IconButton, Popover } from "@mui/material";
+import FacebookColorIcon from "@/assets/icons/FacebookColorIcon";
 
 type Props = {
   params: { id: string };
@@ -10,6 +12,35 @@ type Props = {
 
 export default function Page({ params }: Props) {
   const id = params.id;
+
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+  const [copied, setCopied] = useState(false);
+
+  const handleOpenSharePopover = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClosePopover = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const idPopover = open ? "simple-absjgdahsld" : undefined;
+
+  const handleCopyUrl = async () => {
+    await navigator.clipboard.writeText(window.location.href);
+    handleClosePopover();
+
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {}
+  };
+
   return (
     <div className="flex gap-6">
       <div className="w-3/5">
@@ -25,12 +56,15 @@ export default function Page({ params }: Props) {
           </h1>
           <div className="mb-2 flex justify-between text-xs tracking-wide">
             <span>2023/09/01</span>
-            <div className="flex gap-3">
+            <div className="flex items-center gap-3">
               <div className="flex items-center">
                 <VisibilityRoundedIcon className="text-[#8E8E90] mr-1 text-xl" />
+
                 <span>123 views</span>
               </div>
-              <ShareRoundedIcon className="text-[#8E8E90] mr-1 hover:cursor-pointer text-xl" />
+              <IconButton onClick={handleOpenSharePopover}>
+                <ShareRoundedIcon className="text-[#8E8E90] mr-1 hover:cursor-pointer text-xl" />
+              </IconButton>
             </div>
           </div>
           <p className="text-sm">
@@ -40,7 +74,47 @@ export default function Page({ params }: Props) {
           </p>
         </div>
       </div>
-      <div className="w-2/5">CommentComment</div>
+      <Popover
+        id={idPopover}
+        open={open}
+        anchorEl={anchorEl}
+        onClose={handleClosePopover}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "left",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+        sx={{
+          "& .MuiBackdrop-root": {
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+          },
+        }}
+      >
+        <div className="p-6">
+          <div className="flex justify-center gap-5">
+            <div className="flex flex-col gap-2 items-center">
+              <FacebookColorIcon style={{ fontSize: "40px" }} />
+              <span className="text-[#0f0f0f] text-xs">Facebook</span>
+            </div>
+          </div>
+
+          <div className="p-2 rounded-lg border border-solid border-[rgba(0,0,0,0.12)] mt-4">
+            <span>{window.location.href}</span>
+            <Button
+              className="ml-10"
+              variant="contained"
+              onClick={handleCopyUrl}
+            >
+              Copy
+            </Button>
+          </div>
+        </div>
+      </Popover>
+      {copied && <span className="ml-2 text-green-500">Copied!</span>}
+      <div className="w-2/5">Comment</div>
     </div>
   );
 }
