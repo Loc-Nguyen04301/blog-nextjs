@@ -10,12 +10,12 @@ export declare class BlogController {
             name: string;
         }[];
     } & {
+        id: string;
+        createdAt: Date;
         title: string;
         content: string;
         description: string;
         thumbnail: string;
-        id: string;
-        createdAt: Date;
         updatedAt: Date;
     }>;
     findAll(page: string, itemsPerPage: string, keyword: string): Promise<{
@@ -24,11 +24,11 @@ export declare class BlogController {
         page: number;
         listBlogs: {
             categories: number[];
+            id: string;
+            createdAt: Date;
             title: string;
             description: string;
             thumbnail: string;
-            id: string;
-            createdAt: Date;
         }[];
     }>;
     findByCategory(categoryId: string, itemsPerPage: string, page: string): Promise<{
@@ -37,22 +37,22 @@ export declare class BlogController {
         page: number;
         listBlogsByCategory: {
             categories: number[];
+            id: string;
+            createdAt: Date;
             title: string;
             description: string;
             thumbnail: string;
-            id: string;
-            createdAt: Date;
         }[];
     }>;
     findOne(id: string): Promise<{
         blogReturn: {
             categories: number[];
+            id: string;
+            createdAt: Date;
             title: string;
             content: string;
             description: string;
             thumbnail: string;
-            id: string;
-            createdAt: Date;
         };
     }>;
     getBlogStats(): Promise<{
@@ -67,11 +67,11 @@ export declare class BlogController {
         page: number;
         listBlogs: {
             categories: number[];
+            id: string;
+            createdAt: Date;
             title: string;
             description: string;
             thumbnail: string;
-            id: string;
-            createdAt: Date;
         }[];
     }>;
     update(id: string, updateBlogDto: UpdateBlogDto): string;

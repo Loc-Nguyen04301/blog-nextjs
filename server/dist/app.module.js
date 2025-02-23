@@ -13,12 +13,13 @@ const prisma_module_1 = require("./prisma/prisma.module");
 const category_module_1 = require("./category/category.module");
 const core_1 = require("@nestjs/core");
 const http_exception_filter_1 = require("./common/exception-filters/http-exception.filter");
+const video_module_1 = require("./video/video.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [prisma_module_1.PrismaModule, blog_module_1.BlogModule, category_module_1.CategoryModule],
+        imports: [prisma_module_1.PrismaModule, blog_module_1.BlogModule, category_module_1.CategoryModule, video_module_1.VideoModule],
         providers: [
             {
                 provide: core_1.APP_FILTER,
