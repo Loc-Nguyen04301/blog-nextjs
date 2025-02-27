@@ -3,8 +3,21 @@ import React, { useState } from "react";
 import mp4SrcFile from "@/public/video/mua_roi_lang_tham.mp4";
 import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
 import ShareRoundedIcon from "@mui/icons-material/ShareRounded";
-import { Button, IconButton, Popover } from "@mui/material";
-import FacebookColorIcon from "@/assets/icons/FacebookColorIcon";
+import { Alert, Button, IconButton, Popover, Snackbar } from "@mui/material";
+// import FacebookColorIcon from "@/assets/icons/FacebookColorIcon";
+import {
+  EmailShareButton,
+  FacebookShareButton,
+  TwitterShareButton,
+  TelegramShareButton,
+  LinkedinShareButton,
+} from "react-share";
+
+import EmailIcon from "@mui/icons-material/Email";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import TwitterIcon from "@mui/icons-material/Twitter";
+import TelegramIcon from "@mui/icons-material/Telegram";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
 
 type Props = {
   params: { id: string };
@@ -12,6 +25,26 @@ type Props = {
 
 export default function Page({ params }: Props) {
   const id = params.id;
+  const currentUrl = window.location.href;
+  const socialIcons = [
+    { component: EmailShareButton, icon: <EmailIcon />, label: "Email" },
+    {
+      component: FacebookShareButton,
+      icon: <FacebookIcon />,
+      label: "Facebook",
+    },
+    { component: TwitterShareButton, icon: <TwitterIcon />, label: "X" },
+    {
+      component: TelegramShareButton,
+      icon: <TelegramIcon />,
+      label: "Telegram",
+    },
+    {
+      component: LinkedinShareButton,
+      icon: <LinkedInIcon />,
+      label: "LinkedIn",
+    },
+  ];
 
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const [copied, setCopied] = useState(false);
@@ -27,18 +60,12 @@ export default function Page({ params }: Props) {
   };
 
   const open = Boolean(anchorEl);
-  const idPopover = open ? "simple-absjgdahsld" : undefined;
 
   const handleCopyUrl = async () => {
-    await navigator.clipboard.writeText(window.location.href);
     handleClosePopover();
-
-    try {
-      await navigator.clipboard.writeText(window.location.href);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (error) {}
+    await navigator.clipboard.writeText(currentUrl);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
   return (
@@ -75,7 +102,7 @@ export default function Page({ params }: Props) {
         </div>
       </div>
       <Popover
-        id={idPopover}
+        id={"idPopover"}
         open={open}
         anchorEl={anchorEl}
         onClose={handleClosePopover}
@@ -93,27 +120,48 @@ export default function Page({ params }: Props) {
           },
         }}
       >
-        <div className="p-6">
+        <div className="p-4">
           <div className="flex justify-center gap-5">
-            <div className="flex flex-col gap-2 items-center">
-              <FacebookColorIcon style={{ fontSize: "40px" }} />
-              <span className="text-[#0f0f0f] text-xs">Facebook</span>
-            </div>
+            <ul className="flex gap-4">
+              {socialIcons.map((item, idx) => {
+                const ShareButtonComponent = item.component;
+                return (
+                  <li key={idx} className="flex flex-col gap-2 items-center">
+                    <ShareButtonComponent url={currentUrl}>
+                      {item.icon}
+                    </ShareButtonComponent>
+                    <span className="text-[#0f0f0f] text-xs">{item.label}</span>
+                  </li>
+                );
+              })}
+            </ul>
           </div>
-
-          <div className="p-2 rounded-lg border border-solid border-[rgba(0,0,0,0.12)] mt-4">
-            <span>{window.location.href}</span>
-            <Button
-              className="ml-10"
-              variant="contained"
-              onClick={handleCopyUrl}
-            >
-              Copy
-            </Button>
+          <div className="p-2 rounded-lg border border-solid border-[rgba(0,0,0,0.12)] mt-2">
+            <div className="flex justify-between items-center">
+              <span className="text-xs mr-4">{currentUrl}</span>
+              <Button
+                className="ml-10 text-xs !text-white"
+                variant="contained"
+                onClick={handleCopyUrl}
+                size="small"
+              >
+                Copy
+              </Button>
+            </div>
           </div>
         </div>
       </Popover>
-      {copied && <span className="ml-2 text-green-500">Copied!</span>}
+      {copied && (
+        <Snackbar
+          open={copied}
+          key={id}
+          anchorOrigin={{ horizontal: "center", vertical: "top" }}
+        >
+          <Alert severity="success" variant="filled" sx={{ width: "100%" }}>
+            Copied!
+          </Alert>
+        </Snackbar>
+      )}
       <div className="w-2/5">Comment</div>
     </div>
   );
