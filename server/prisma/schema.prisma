@@ -25,3 +25,21 @@ model Blog {
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
 }
+
+model Video {
+  id          String     @id @default(uuid())
+  title       String     @unique
+  description String
+  videoUrl    String
+  videoTags   VideoTag[] @relation("VideoTags")
+  viewers     Int
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model VideoTag {
+  id        Int      @id @default(autoincrement())
+  tagName   String   @unique
+  videos    Video[]  @relation("VideoTags")
+  createdAt DateTime @default(now())
+}

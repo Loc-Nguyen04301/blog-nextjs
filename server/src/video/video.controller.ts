@@ -1,8 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile, Query } from '@nestjs/common';
 import { VideoService } from './video.service';
 import { CreateVideoDto } from './dto/create-video.dto';
 import { UpdateVideoDto } from './dto/update-video.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { ResponseInterceptor } from 'src/common/interceptors/response.interceptor';
 
 @Controller('api/v1/video')
 export class VideoController {
@@ -22,8 +23,15 @@ export class VideoController {
   }
 
   @Get()
-  findAll() {
-    return this.videoService.findAll();
+  @UseInterceptors(new ResponseInterceptor("Get Video Success"))
+  findAll(
+    @Query('page') page: string,
+    @Query('itemsPerPage') itemsPerPage: string,
+  ) {
+    return this.videoService.findAll({
+      page: Number(page) || 1,
+      itemsPerPage: Number(itemsPerPage) || 3,
+    });
   }
 
   @Get(':id')

@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateVideoDto } from './dto/create-video.dto';
 import { UpdateVideoDto } from './dto/update-video.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { VideoPageParams } from 'src/blog/types';
 
 @Injectable()
 export class VideoService {
@@ -28,8 +29,45 @@ export class VideoService {
     return 'This action adds a new video';
   }
 
-  findAll() {
-    return `This action returns all video`;
+  async findAll({ itemsPerPage, page }: VideoPageParams) {
+    try {
+      const skip = (page - 1) * itemsPerPage;
+
+      const [videos, total] = await this.prisma.$transaction([
+        this.prisma.video.findMany({
+          where: {},
+          skip,
+          take: itemsPerPage,
+          orderBy: {
+            createdAt: 'desc'
+          },
+          select: {
+            id: true,
+            title: true,
+            description: true,
+            videoUrl: true,
+            viewers: true,
+            videoTags: {
+              select: {
+                id: true,
+                tagName: true
+              }
+            },
+            createdAt: true
+          }
+        }),
+        this.prisma.video.count()
+      ])
+
+      return {
+        total,
+        pageNumbers: Math.ceil(total / itemsPerPage),
+        page,
+        videos
+      };
+    } catch (error) {
+      throw error;
+    }
   }
 
   findOne(id: number) {

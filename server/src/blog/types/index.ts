@@ -10,3 +10,8 @@ export interface BlogByMonthPageParams {
     year: number,
     month: number
 }
+
+export interface VideoPageParams {
+    page?: number;
+    itemsPerPage?: number;
+}
