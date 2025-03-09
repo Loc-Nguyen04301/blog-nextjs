@@ -1,20 +1,22 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { useAlertStore } from "@/zustand/stores/alert-store";
-import blogImage from "@/assets/images/blogImage.jpg";
 import InfiniteScroll from "react-infinite-scroll-component";
 import VideoService from "@/services/VideoService";
 import { IVideoDetail } from "@/types/video";
 import { CircularProgress } from "@mui/material";
+import { format } from "date-fns";
+import clsx from "clsx";
 
 const VideoListPage = () => {
   const Page_SIZE = 6;
+
   const [videos, setVideos] = useState<IVideoDetail[]>([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [hoveredVideoId, setHoveredVideoId] = useState<string | null>(null);
 
   const { setLoading: setLoadingApp, addError } = useAlertStore(
     (state) => state
@@ -33,18 +35,17 @@ const VideoListPage = () => {
         itemsPerPage: Page_SIZE,
       });
 
+      if (response.data.data.videos.length < Page_SIZE) {
+        setHasMore(false);
+      }
+
       setLoadingApp(false);
       setLoading(false);
       setVideos((prev) => {
         const newListVideo = [...prev, ...response.data.data.videos];
         return newListVideo;
       });
-
-      if (response.data.data.videos.length < Page_SIZE) {
-        setHasMore(false);
-      } else {
-        setPage((prevPage) => prevPage + 1);
-      }
+      setPage((prevPage) => prevPage + 1);
     } catch (error: any) {
       addError(error);
     }
@@ -57,6 +58,19 @@ const VideoListPage = () => {
     return () => clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    if (hoveredVideoId) {
+      const videoElement = document.getElementById(
+        hoveredVideoId
+      ) as HTMLVideoElement;
+      if (videoElement) {
+        videoElement
+          .play()
+          .catch((error) => console.log("Autoplay blocked:", error));
+      }
+    }
+  }, [hoveredVideoId]);
+
   if (videos)
     return (
       <>
@@ -65,29 +79,55 @@ const VideoListPage = () => {
           next={fetchMoreData}
           hasMore={hasMore}
           loader={<></>}
-          scrollThreshold={"200px"}
+          scrollThreshold={"1000px"}
         >
           <div className="grid grid-cols-3 max-md:grid-cols-2">
             {videos?.map((video) => (
               <Link
                 key={video.id}
-                className="m-3 cursor-pointer hover:opacity-65"
+                className="m-3 cursor-pointer duration-300"
                 href={`/video/${video.id}`}
+                onMouseEnter={() => setHoveredVideoId(video.id)}
+                onMouseLeave={() => {
+                  setHoveredVideoId(null);
+                  const videoElement = document.getElementById(
+                    video.id
+                  ) as HTMLVideoElement;
+                  if (videoElement) videoElement.pause();
+                }}
               >
                 <div className="flex flex-col gap-2">
-                  <Image
-                    src={blogImage}
-                    alt="blogImage"
-                    className="w-full rounded"
-                  />
-                  <div className="text-sm font-medium line-clamp-2">
+                  <div className="relative">
+                    <video
+                      id={video.id}
+                      autoPlay={hoveredVideoId === video.id}
+                      muted
+                      loop
+                    >
+                      <source src={video.videoUrl} type="video/mp4" />
+                    </video>
+                    <div className="absolute right-1 bottom-[4%] bg-[#00000080] text-white text-[8px] px-1 rounded-[4px] tracking-wide">
+                      {video.duration}
+                    </div>
+                  </div>
+                  <div
+                    className={clsx(
+                      "text-sm px-1 font-medium line-clamp-2",
+                      hoveredVideoId === video.id && "opacity-65"
+                    )}
+                  >
                     {video.title}
                   </div>
-                  <div className="flex justify-between px-1 text-xs tracking-wide">
-                    <span>{video.createdAt as string}</span>
-                    <div>
-                      <span>{video.viewers} views</span>
-                    </div>
+                  <div
+                    className={clsx(
+                      "flex justify-between px-1 text-xs tracking-wide text-[10px]",
+                      hoveredVideoId === video.id && "opacity-65"
+                    )}
+                  >
+                    <span>
+                      {format(new Date(video.createdAt), "yyyy/MM/dd")}
+                    </span>
+                    <span>{video.viewers} views</span>
                   </div>
                 </div>
               </Link>

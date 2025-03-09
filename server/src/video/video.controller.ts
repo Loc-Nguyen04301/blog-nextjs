@@ -36,7 +36,7 @@ export class VideoController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.videoService.findOne(+id);
+    return this.videoService.findOne(id);
   }
 
   @Patch(':id')

@@ -10,6 +10,10 @@ const getAllVideos = (params: VideoPageParams) => {
     return api.get("/video", { params })
 }
 
+const getVideosById = (id: string) => {
+    return api.get(`/video/${id}`)
+}
+
 // const getAllBlogsByCategory = (categoryId: number, params?: BlogPageParams) => {
 //     return api.get(`/blog/category/${categoryId}`, { params })
 // }
@@ -28,6 +32,7 @@ const getAllVideos = (params: VideoPageParams) => {
 
 const VideoService = {
     getAllVideos,
+    getVideosById
 }
 
 export default VideoService

@@ -32,6 +32,7 @@ model Video {
   description String
   videoUrl    String
   videoTags   VideoTag[] @relation("VideoTags")
+  duration    String
   viewers     Int
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt

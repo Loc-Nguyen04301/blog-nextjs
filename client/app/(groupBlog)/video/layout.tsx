@@ -11,7 +11,7 @@ export default async function Layout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="grid grid-cols-12 min-h-[100vh]">
+    <div className="grid grid-cols-12 min-h-[50vh]">
       <div className="col-span-12 max-md:col-span-12">{children}</div>
     </div>
   );

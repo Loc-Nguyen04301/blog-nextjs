@@ -4,6 +4,7 @@ export type IVideoDetail = {
     description: string;
     videoUrl: string;
     videoTags: string[];
+    duration: string;
     viewers: number;
     createdAt: string | Date;
     updatedAt: string | Date;

@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import mp4SrcFile from "@/public/video/mua_roi_lang_tham.mp4";
 import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
 import ShareRoundedIcon from "@mui/icons-material/ShareRounded";
 import { Alert, Button, IconButton, Popover, Snackbar } from "@mui/material";
@@ -73,9 +72,12 @@ const DetailVideoPageClientSide = ({ id }: DetailVideoPageClientSideProps) => {
   return (
     <div className="flex gap-6">
       <div className="w-3/5">
-        <video controls className="w-full">
+        <video controls className="w-full" preload="metadata">
           {/* urlVideo */}
-          <source src={mp4SrcFile} type="video/mp4" />
+          <source
+            src={`https://res.cloudinary.com/dr98sm712/video/upload/v1741493753/Khi_ng%C6%B0%E1%BB%9Di_tr%E1%BA%BB_ch%E1%BB%8Dn_c%C3%B4ng_vi%E1%BB%87c_lao_%C4%91%E1%BB%99ng_ph%E1%BB%95_th%C3%B4ng___VTV24_t9br33.mp4#t=0.1`}
+            type="video/mp4"
+          />
           Your browser does not support HTML video.{id}
         </video>
 

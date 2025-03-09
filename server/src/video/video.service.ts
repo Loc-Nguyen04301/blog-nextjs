@@ -53,6 +53,7 @@ export class VideoService {
                 tagName: true
               }
             },
+            duration: true,
             createdAt: true
           }
         }),
@@ -70,8 +71,15 @@ export class VideoService {
     }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} video`;
+  async findOne(id: string) {
+    try {
+      const video = await this.prisma.video.findUnique({ where: { id } })
+      return {
+        video
+      };
+    } catch (error) {
+      throw error;
+    }
   }
 
   update(id: number, updateVideoDto: UpdateVideoDto) {
