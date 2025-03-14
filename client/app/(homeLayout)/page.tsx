@@ -1,4 +1,3 @@
-"use client";
 import avatarImage from "@/assets/images/avatarMyself.jpg";
 import Image from "next/image";
 import React from "react";

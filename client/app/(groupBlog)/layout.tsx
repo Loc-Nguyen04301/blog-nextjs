@@ -1,38 +1,11 @@
-"use client";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
-import logoBlog from "@/assets/images/logoBlog.png";
 import Image from "next/image";
 import Footer from "../../components/Footer";
-import AccordionMenu from "../../components/AccordionMenu";
-import { useCategoryStore } from "@/zustand/stores/category-store";
-import { useBlogStore } from "@/zustand/stores/blog-store";
+import AccordionMenuClient from "./AccordionMenuClient";
+import logoBlog from "@/assets/images/logoBlog.png";
 import LinkItem from "@/components/LinkItem/LinkItem";
-import { usePathname } from "next/navigation";
 
-const BlogLayout = ({ children }: { children: React.ReactNode }) => {
-  const pathname = usePathname();
-
-  const [isOpen, setIsOpen] = useState(false);
-
-  const { fetchCategories } = useCategoryStore((state) => state);
-  const { fetchStatisticMonths } = useBlogStore((state) => state);
-
-  const handleToggle = () => {
-    setIsOpen((prev) => !prev);
-  };
-
-  useEffect(() => {
-    fetchCategories();
-    fetchStatisticMonths();
-  }, [fetchCategories, fetchStatisticMonths]);
-
-  useEffect(() => {
-    return () => {
-      setIsOpen(false);
-    };
-  }, [pathname]);
-
+const BlogLayout = async ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="bg-[#f4f4f4] h-full py-10 min-h-screen">
       <div className="container mx-auto bg-white shadow-[0_0_5px_#ddd] max-lg:mx-0 max-lg:!max-w-full">
@@ -82,8 +55,8 @@ const BlogLayout = ({ children }: { children: React.ReactNode }) => {
               </div>
             </div>
           </header>
-          <div className="pt-16 acordion md:hidden">
-            <AccordionMenu isOpen={isOpen} handleToggle={handleToggle} />
+          <div className="pt-16 md:hidden">
+            <AccordionMenuClient />
           </div>
         </div>
         <div className="px-16 pb-10 max-md:px-6">{children}</div>
