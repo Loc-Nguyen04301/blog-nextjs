@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import Footer from "../../components/Footer";
-import AccordionMenuClient from "./AccordionMenuClient";
+import AccordionMenu from "./AccordionMenu";
 import logoBlog from "@/assets/images/logoBlog.png";
 import LinkItem from "@/components/LinkItem/LinkItem";
 
@@ -56,7 +56,7 @@ const BlogLayout = async ({ children }: { children: React.ReactNode }) => {
             </div>
           </header>
           <div className="pt-16 md:hidden">
-            <AccordionMenuClient />
+            <AccordionMenu />
           </div>
         </div>
         <div className="px-16 pb-10 max-md:px-6">{children}</div>

@@ -20,14 +20,7 @@ import { ChangeEvent } from "react";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 400,
-    },
-  },
-};
+
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
 
@@ -45,14 +38,16 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     router.push(`/category/${value}`);
   };
 
-  const handleChangeSearch = (e: ChangeEvent<HTMLInputElement>) =>
+  const handleChangeSearch = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchText(e.target.value);
+  };
 
   return (
     <div className="grid grid-cols-11">
       <div className="col-span-7 max-md:col-span-12">{children}</div>
       <div className="col-span-4 max-md:col-span-12 ml-16 max-md:ml-0 max-md:mt-20">
         <div className="flex flex-col gap-16">
+          {/* Giới thiệu */}
           <div className="border border-[#000] p-8 pb-7">
             <Image src={avatarMySelf} alt="avatarMySelf" />
             <div className={`mt-5 ${lato.variable} font-sans text-[15px]`}>
@@ -125,7 +120,14 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                   value={selectedCategory}
                   onChange={handleChangeSelect}
                   input={<OutlinedInput />}
-                  MenuProps={MenuProps}
+                  MenuProps={{
+                    PaperProps: {
+                      style: {
+                        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+                        width: 400,
+                      },
+                    },
+                  }}
                   inputProps={{ "aria-label": "Without label" }}
                 >
                   <MenuItem className={`${lato.variable} font-sans`} value={""}>
