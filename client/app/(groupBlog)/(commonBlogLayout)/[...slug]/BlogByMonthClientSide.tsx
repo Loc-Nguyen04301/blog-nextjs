@@ -43,14 +43,14 @@ const BlogByMonthClientSide = ({ slug }: BlogByMonthClientSideProps) => {
       {pageNumbers === 0 && (
         <>
           <div className="uppercase text-lg tracking-wide">
-            Search Results for: {"abc"}
+            {`Search Results for: ${slug[0]}/${slug[1]}`}
           </div>
           <h1 className={`${lato.variable} font-sans mt-20 text-center`}>
             Sorry, no content matched your criteria.
           </h1>
         </>
       )}
-      {pageNumbers > 0 && (
+      {pageNumbers > 1 && (
         <Pagination
           count={pageNumbers}
           showFirstButton

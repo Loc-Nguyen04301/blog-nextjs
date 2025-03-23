@@ -55,15 +55,16 @@ const MainAndAuthLayout = ({ children }: { children: React.ReactNode }) => {
                 đăng ký
               </Link>
             </ul>
-            <IconButton
-              edge="start"
-              color="inherit"
-              aria-label="drawer"
-              onClick={toggleDrawer(true)}
-              className="sm:hidden"
-            >
-              <MenuIcon />
-            </IconButton>
+            <div className="sm:hidden">
+              <IconButton
+                edge="start"
+                color="inherit"
+                aria-label="drawer"
+                onClick={toggleDrawer(true)}
+              >
+                <MenuIcon />
+              </IconButton>
+            </div>
           </div>
         </header>
         {children}

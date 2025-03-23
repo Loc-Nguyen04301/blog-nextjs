@@ -8,7 +8,7 @@ import emailIcon from "@/assets/images/emailIcon.png";
 
 const ContactSocialMedia = () => {
   return (
-    <div className="flex gap-2 ">
+    <div className="flex gap-3 justify-center">
       <Link target="_blank" href="/">
         <Image src={wifiIcon} alt="wifi-icon" width={40} />
       </Link>

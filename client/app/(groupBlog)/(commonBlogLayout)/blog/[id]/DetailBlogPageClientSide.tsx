@@ -2,6 +2,11 @@
 import React, { useEffect } from "react";
 import BlogComponent from "@/components/BlogComponent";
 import { useBlogStore } from "@/zustand/stores/blog-store";
+import Link from "next/link";
+import Image from "next/image";
+import ContactSocialMedia from "@/components/ContactSocialMedia";
+import { lato } from "@/fonts";
+import blogImage from "@/assets/images/backgroundBlog.png";
 
 interface DetailBlogPageClientSide {
   id: string;
@@ -16,9 +21,9 @@ const DetailBlogPageClientSide = ({ id }: DetailBlogPageClientSide) => {
     }
   }, [fetchDetailBlog, id]);
 
-  return (
-    <>
-      {currentBlog && (
+  if (currentBlog)
+    return (
+      <>
         <BlogComponent
           linkTo={`/blog/${currentBlog.id}`}
           title={currentBlog.title}
@@ -27,42 +32,25 @@ const DetailBlogPageClientSide = ({ id }: DetailBlogPageClientSide) => {
           categories={currentBlog.categories}
           isDetail
         />
-      )}
 
-      {/* <div className="list-blog">
-        <div className="flex gap-2 mt-20 mb-5 ml-3">
-          <Link target="_blank" href="/">
-            <Image src={wifiIcon} alt="fb-icon" width={40} />
-          </Link>
-          <Link target="_blank" href="mailto:nguyengialoc7@gmail.com">
-            <Image src={emailIcon} alt="fb-icon" width={40} />
-          </Link>
-          <Link
-            target="_blank"
-            href="https://www.facebook.com/profile.php?id=100009072109785"
-          >
-            <Image src={fbIcon} alt="fb-icon" width={40} />
-          </Link>
-          <Link target="_blank" href="https://www.instagram.com/loc_nguyen_43/">
-            <Image src={instagramIcon} alt="fb-icon" width={40} />
-          </Link>
+        <div className="list-blog">
+          <ContactSocialMedia />
+          <div className="flex gap-6">
+            {Array.from({ length: 3 }, (_, idx) => (
+              <div className={`${lato.variable} font-sans`} key={idx}>
+                <Link href={"/#"} className="opacity-70 hover:opacity-100">
+                  <Image src={blogImage} alt="123" />
+                  <p className="text-sm text-black hover:text-primaryColorBold">
+                    1 năm viết blog – Những chuyện chưa kể
+                  </p>
+                  <p className="text-sm text-subTitleColor">July 26, 2017</p>
+                </Link>
+              </div>
+            ))}
+          </div>
         </div>
-        <div className="flex gap-6">
-          {Array.from({ length: 3 }, (_, idx) => (
-            <div className={`${lato.variable} font-sans`} key={idx}>
-              <Link href={"/#"} className="opacity-70 hover:opacity-100">
-                <Image src={blogImage} alt="123" />
-                <p className="text-sm text-black hover:text-primaryColorBold">
-                  1 năm viết blog – Những chuyện chưa kể
-                </p>
-                <p className="text-sm text-subTitleColor">July 26, 2017</p>
-              </Link>
-            </div>
-          ))}
-        </div>
-      </div>
 
-      <div className="comment mt-20">
+        {/* <div className="comment mt-20">
         <h1 className="uppercase text-xl">Comments</h1>
 
         <div className="mt-5">
@@ -186,8 +174,8 @@ const DetailBlogPageClientSide = ({ id }: DetailBlogPageClientSide) => {
           ))}
         </div>
       </div> */}
-    </>
-  );
+      </>
+    );
 };
 
 export default DetailBlogPageClientSide;

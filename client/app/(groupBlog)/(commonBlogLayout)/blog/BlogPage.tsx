@@ -53,7 +53,7 @@ const BlogPageClientSide = () => {
           </h1>
         </>
       )}
-      {pageNumbers > 0 && (
+      {pageNumbers > 1 && (
         <Pagination
           count={pageNumbers}
           showFirstButton
