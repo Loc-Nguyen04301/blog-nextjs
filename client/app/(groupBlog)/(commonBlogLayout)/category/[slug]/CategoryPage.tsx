@@ -26,9 +26,9 @@ const CategoryPageClientSide = ({
 
   const router = useRouter();
   const searchParams = useSearchParams();
-  const selectedCategory = listCategories?.find(
+  const selectedCategoryName = listCategories?.find(
     (c) => c.id === Number(categoryId)
-  );
+  )?.name;
 
   const pageParam = Number(searchParams.get("page") || "1");
 
@@ -64,7 +64,7 @@ const CategoryPageClientSide = ({
       {pageNumbers === 0 && (
         <>
           <div className="uppercase text-lg tracking-wide">
-            Search Results for: {selectedCategory?.name}
+            Search Results for: {selectedCategoryName}
           </div>
           <h1 className={`${lato.variable} font-sans mt-20 text-center`}>
             Sorry, no content matched your criteria.

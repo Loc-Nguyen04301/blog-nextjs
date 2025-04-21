@@ -12,6 +12,7 @@ interface BlogByMonthClientSideProps {
 }
 
 const BlogByMonthClientSide = ({ slug }: BlogByMonthClientSideProps) => {
+  const [year, month] = slug;
   const { fetchBlogsByMonth, listBlogs, pageNumbers } = useBlogStore(
     (state) => state
   );
@@ -21,12 +22,12 @@ const BlogByMonthClientSide = ({ slug }: BlogByMonthClientSideProps) => {
   const pageParam = Number(searchParams.get("page") || "1");
 
   const handleChange = (_: React.ChangeEvent<unknown>, value: number) => {
-    router.push(`/${slug[0]}/${slug[1]}?page=${value}`);
+    router.push(`/${year}/${month}?page=${value}`);
   };
 
   useEffect(() => {
-    fetchBlogsByMonth(slug[0], slug[1], { page: pageParam });
-  }, [pageParam, slug, fetchBlogsByMonth]);
+    fetchBlogsByMonth(year, month, { page: pageParam });
+  }, [pageParam, month, year, fetchBlogsByMonth]);
 
   return (
     <>
@@ -43,7 +44,7 @@ const BlogByMonthClientSide = ({ slug }: BlogByMonthClientSideProps) => {
       {pageNumbers === 0 && (
         <>
           <div className="uppercase text-lg tracking-wide">
-            {`Search Results for: ${slug[0]}/${slug[1]}`}
+            {`Search Results for: ${year}/${month}`}
           </div>
           <h1 className={`${lato.variable} font-sans mt-20 text-center`}>
             Sorry, no content matched your criteria.
