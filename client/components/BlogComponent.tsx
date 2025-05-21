@@ -7,6 +7,7 @@ import { formatDate } from "../utils/formatDate";
 import type { UrlObject } from "url";
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
 import { useCategoryStore } from "@/zustand/stores/category-store";
+import clsx from "clsx";
 
 interface BlogComponentProps {
   linkTo?: string | UrlObject;
@@ -16,6 +17,7 @@ interface BlogComponentProps {
   description?: string;
   content?: string;
   isDetail?: boolean;
+  className?: string;
 }
 
 const BlogComponent: FC<BlogComponentProps> = ({
@@ -26,13 +28,14 @@ const BlogComponent: FC<BlogComponentProps> = ({
   linkTo,
   categories,
   isDetail,
+  className,
 }) => {
   const categoryOptions = useCategoryStore((state) => state.listCategories);
   const createdAt = formatDate(new Date());
 
   return (
-    <div className="mb-16 border-b border-[#000]">
-      <div className={`mb-16`}>
+    <div className={clsx("mb-16 border-b border-[#000]", className)}>
+      <div className={clsx("mb-16", isDetail && "!mb-0")}>
         <div className="text-center">
           <h1 className="uppercase text-2xl mb-2 font-medium">
             <Link className="break-words" href={linkTo || "#"}>

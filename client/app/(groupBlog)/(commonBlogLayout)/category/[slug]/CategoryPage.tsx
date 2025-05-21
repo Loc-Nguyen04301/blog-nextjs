@@ -45,7 +45,7 @@ const CategoryPageClientSide = ({
   }, [setSearchText]);
 
   useEffect(() => {
-    fetchBlogsByCategory(Number(categoryId), pageParam);
+    fetchBlogsByCategory({ categoryId: Number(categoryId), page: pageParam });
   }, [categoryId, fetchBlogsByCategory, pageParam]);
 
   return (

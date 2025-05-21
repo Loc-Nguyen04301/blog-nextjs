@@ -39,7 +39,7 @@ const LastestBlogList = async () => {
               key={blog.id}
             >
               <Link
-                href={"#"}
+                href={`/blog/${blog.id}`}
                 className="border-b border-primaryColor line-clamp-2"
               >
                 {blog.title}

@@ -16,7 +16,7 @@ interface CategoryState {
     total: number,
     page: number,
     pageNumbers: number,
-    fetchBlogsByCategory: (categoryId: number, page?: number) => Promise<void>
+    fetchBlogsByCategory: ({ categoryId, itemsPerPage, page }: { categoryId: number, page?: number, itemsPerPage?: number }) => Promise<void>
 }
 
 export const useCategoryStore = create<CategoryState>()(
@@ -44,10 +44,10 @@ export const useCategoryStore = create<CategoryState>()(
             }
         },
 
-        fetchBlogsByCategory: async (categoryId, page) => {
+        fetchBlogsByCategory: async ({ categoryId, itemsPerPage, page }: { categoryId: number, page?: number, itemsPerPage?: number }) => {
             useAlertStore.getState().setLoading(true)
             try {
-                const response = await BlogService.getAllBlogsByCategory(categoryId, { page: page })
+                const response = await BlogService.getAllBlogsByCategory(categoryId, { page, itemsPerPage })
                 set({
                     listBlogsByCategory: response.data.data.listBlogsByCategory,
                     total: response.data.data.total,

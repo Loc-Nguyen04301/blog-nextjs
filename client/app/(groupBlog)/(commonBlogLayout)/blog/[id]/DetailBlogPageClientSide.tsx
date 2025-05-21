@@ -6,10 +6,11 @@ import Link from "next/link";
 import Image from "next/image";
 import ContactSocialMedia from "@/components/ContactSocialMedia";
 import { lato } from "@/fonts";
-import blogImage from "@/assets/images/backgroundBlog.png";
-import { TextField } from "@mui/material";
-import { Formik } from "formik";
-import defaultImage from "@/assets/images/defaultImage.png";
+// import { TextField } from "@mui/material";
+// import { Formik } from "formik";
+// import defaultImage from "@/assets/images/defaultImage.png";
+import { useCategoryStore } from "@/zustand/stores/category-store";
+import { formatDate } from "@/utils/formatDate";
 
 interface DetailBlogPageClientSide {
   id: string;
@@ -17,12 +18,26 @@ interface DetailBlogPageClientSide {
 
 const DetailBlogPageClientSide = ({ id }: DetailBlogPageClientSide) => {
   const { currentBlog, fetchDetailBlog } = useBlogStore((state) => state);
+  const { listBlogsByCategory, fetchBlogsByCategory } = useCategoryStore(
+    (state) => state
+  );
+  const firstCategoryOfCurrentBlogId = currentBlog?.categories[0];
 
   useEffect(() => {
     if (id) {
       fetchDetailBlog(id);
     }
   }, [fetchDetailBlog, id]);
+
+  useEffect(() => {
+    if (firstCategoryOfCurrentBlogId) {
+      fetchBlogsByCategory({
+        categoryId: Number(firstCategoryOfCurrentBlogId),
+        itemsPerPage: 3,
+        page: 1,
+      });
+    }
+  }, [fetchBlogsByCategory, firstCategoryOfCurrentBlogId]);
 
   if (currentBlog)
     return (
@@ -34,12 +49,14 @@ const DetailBlogPageClientSide = ({ id }: DetailBlogPageClientSide) => {
           content={currentBlog.content}
           categories={currentBlog.categories}
           isDetail
+          className="!border-b-0 mb-8"
         />
-
         <div className="list-blog">
-          <ContactSocialMedia />
-          <div className="flex gap-6">
-            {Array.from({ length: 3 }, (_, idx) => (
+          <div className="mb-8">
+            <ContactSocialMedia />
+          </div>
+          <div className="flex gap-1">
+            {/* {Array.from({ length: 3 }, (_, idx) => (
               <div className={`${lato.variable} font-sans`} key={idx}>
                 <Link href={"/#"} className="opacity-70 hover:opacity-100">
                   <Image src={blogImage} alt="123" />
@@ -49,11 +66,38 @@ const DetailBlogPageClientSide = ({ id }: DetailBlogPageClientSide) => {
                   <p className="text-sm text-subTitleColor">July 26, 2017</p>
                 </Link>
               </div>
+            ))} */}
+
+            {listBlogsByCategory?.map((blog) => (
+              <div
+                className={`${lato.variable} font-sans flex-1`}
+                key={blog.id}
+              >
+                <Link
+                  href={`/blog/${blog.id}`}
+                  className="opacity-70 hover:opacity-100"
+                >
+                  <div className="relative h-[100px]">
+                    <Image
+                      src={blog.thumbnail}
+                      alt={blog.title}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                  <p className="text-sm text-black hover:text-primaryColorBold">
+                    {blog.title}
+                  </p>
+                  <p className="text-sm text-subTitleColor">
+                    {formatDate(blog.createdAt)}
+                  </p>
+                </Link>
+              </div>
             ))}
           </div>
         </div>
 
-        <div className="comment mt-20">
+        {/* <div className="comment mt-20">
           <h1 className="uppercase text-xl">Comments</h1>
 
           <div className="mt-5">
@@ -176,7 +220,7 @@ const DetailBlogPageClientSide = ({ id }: DetailBlogPageClientSide) => {
               </div>
             ))}
           </div>
-        </div>
+        </div> */}
       </>
     );
 };
