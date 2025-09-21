@@ -8,11 +8,24 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id              String    @id @default(uuid())
+  username        String
+  email           String    @unique
+  password        String
+  refresh_token   String?
+  avatar          String    @default("https://res.cloudinary.com/dr98sm712/image/upload/v1712373133/guest-user_it2nym.png")
+  active          Boolean   @default(false)
+  created_at      DateTime  @default(now())
+  update_at       DateTime? @updatedAt
+  is_social_login Boolean   @default(false)
+}
+
 model Category {
   id        Int      @id @default(autoincrement())
   name      String   @unique
-  blogs     Blog[]   @relation("BlogCategories")
   createdAt DateTime @default(now())
+  blogs     Blog[]   @relation("BlogCategories")
 }
 
 model Blog {
@@ -21,9 +34,9 @@ model Blog {
   content     String
   description String
   thumbnail   String
-  categories  Category[] @relation("BlogCategories")
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
+  categories  Category[] @relation("BlogCategories")
 }
 
 model Video {
@@ -31,16 +44,16 @@ model Video {
   title       String     @unique
   description String
   videoUrl    String
-  videoTags   VideoTag[] @relation("VideoTags")
-  duration    String
   viewers     Int
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
+  duration    String
+  videoTags   VideoTag[] @relation("VideoTags")
 }
 
 model VideoTag {
   id        Int      @id @default(autoincrement())
   tagName   String   @unique
-  videos    Video[]  @relation("VideoTags")
   createdAt DateTime @default(now())
+  videos    Video[]  @relation("VideoTags")
 }
