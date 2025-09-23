@@ -1,12 +1,14 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { CreateBlogDto } from './dto/create-blog.dto';
 import { UpdateBlogDto } from './dto/update-blog.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { BlogByMonthPageParams, BlogPageParams } from './types';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
 
 @Injectable()
 export class BlogService {
-  constructor(private prisma: PrismaService) { }
+  constructor(@Inject(CACHE_MANAGER) private cacheManager: Cache, private prisma: PrismaService) { }
 
   async create(createBlogDto: CreateBlogDto) {
     try {
@@ -53,7 +55,17 @@ export class BlogService {
   }
 
   async findAll({ itemsPerPage, keyword, page }: BlogPageParams) {
+    const cacheKey = `findAll:${keyword}:${page}:${itemsPerPage}`; // unique key per query
+    const cached = await this.cacheManager.get(cacheKey);
+
+    if (cached) {
+      console.log('💾 From cache');
+
+      return cached; // lấy từ cache
+    }
     try {
+      console.log('💡 From DB');
+
       const skip = (page - 1) * itemsPerPage;
 
       const [blogs, total] = await this.prisma.$transaction([
@@ -94,12 +106,16 @@ export class BlogService {
         }
       })
 
-      return {
+      const result = {
         total,
         pageNumbers: Math.ceil(total / itemsPerPage),
         page,
         listBlogs: blogsReturn,
       };
+
+      await this.cacheManager.set(cacheKey, result, 60 * 1000);
+
+      return result;
     } catch (error) {
       throw error;
     }
