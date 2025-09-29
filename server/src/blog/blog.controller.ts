@@ -14,6 +14,10 @@ import { BlogService } from './blog.service';
 import { CreateBlogDto } from './dto/create-blog.dto';
 import { UpdateBlogDto } from './dto/update-blog.dto';
 import { ResponseInterceptor } from 'src/common/interceptors/response.interceptor';
+import { Public } from 'src/common/decorators/public.decorator';
+import { CurrentUser } from 'src/common/decorators/current-user.decorator';
+import { User as UserModel } from '@prisma/client';
+import { UserEntity } from 'src/user/entities/user.entity';
 
 @Controller('api/v1/blog')
 export class BlogController {
@@ -31,7 +35,9 @@ export class BlogController {
     @Query('page') page: string,
     @Query('itemsPerPage') itemsPerPage: string,
     @Query('keyword') keyword: string,
+    @CurrentUser() user: UserEntity
   ) {
+    console.log({ user })
     return this.blogService.findAll({
       keyword: keyword || "",
       page: Number(page) || 1,
