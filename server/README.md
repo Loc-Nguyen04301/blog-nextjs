@@ -4,6 +4,8 @@
 
 Định nghĩa Decorator @Public() => public những endpoint controller ko cần token
 
+Định nghĩa Decorator @CurrentUser => biết được ai đang gửi request tới server 
+
 🔑 Luồng JWT + Refresh Token
 
 1.User login → nhận accessToken (ngắn hạn, ~15 phút) và refreshToken (dài hạn, ~7 ngày).
