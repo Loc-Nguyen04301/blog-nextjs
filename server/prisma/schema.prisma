@@ -56,3 +56,12 @@ model VideoTag {
   createdAt DateTime @default(now())
   videos    Video[]  @relation("VideoTags")
 }
+
+model Log {
+  id        Int      @id @default(autoincrement())
+  level     String
+  context   String?
+  message   String
+  timestamp DateTime @default(now())
+  meta      Json?
+}
