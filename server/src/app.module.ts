@@ -9,6 +9,7 @@ import { HttpExceptionFilter } from './common/exception-filters/http-exception.f
 import { VideoModule } from './video/video.module';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
+import { LogModule } from './log/log.module';
 import * as redisStore from 'cache-manager-ioredis-yet';
 
 @Module({
@@ -22,6 +23,7 @@ import * as redisStore from 'cache-manager-ioredis-yet';
         ttl: 60 * 1000, // 60s
       })
     }),
+    LogModule,
   ],
   providers: [
     {

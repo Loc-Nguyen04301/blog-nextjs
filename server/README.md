@@ -15,3 +15,8 @@
 3.Khi accessToken hết hạn → client gửi refreshToken đến API /auth/refresh.
 
 4.Server check refreshToken trong DB → nếu hợp lệ thì cấp accessToken mới.
+
+
+# RabbitMq
+1. RmqModule là client – dùng để gửi message
+2. connectMicroservice() là consumer – dùng để nhận message
