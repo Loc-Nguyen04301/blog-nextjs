@@ -4,6 +4,7 @@ import { Reflector } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { JwtAuthGuard } from './common/guards/jwt-auth.guard';
 import { ClassSerializerInterceptor } from '@nestjs/common';
+import { Transport } from '@nestjs/microservices';
 
 declare const module: any;
 
@@ -23,6 +24,16 @@ async function bootstrap() {
     credentials: true,
   });
 
+  app.connectMicroservice({
+    transport: Transport.RMQ,
+    options: {
+      urls: ['amqp://localhost:5672'],
+      queue: 'log_queue',
+      queueOptions: { durable: true },
+    },
+  })
+
+  await app.startAllMicroservices()
   await app.listen(port).then(() => {
     console.log('Server listening on port ' + port);
   });
