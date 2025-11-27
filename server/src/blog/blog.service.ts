@@ -5,14 +5,12 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { BlogByMonthPageParams, BlogPageParams } from './types';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
-import { LogService } from 'src/log/log.service';
 
 @Injectable()
 export class BlogService {
   constructor(
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
     private prisma: PrismaService,
-    private readonly logService: LogService,
   ) { }
 
   async create(createBlogDto: CreateBlogDto) {
