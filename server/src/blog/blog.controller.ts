@@ -9,19 +9,17 @@ import {
   UseInterceptors,
   Query,
   Inject,
-} from '@nestjs/common';
-import { BlogService } from './blog.service';
-import { CreateBlogDto } from './dto/create-blog.dto';
-import { UpdateBlogDto } from './dto/update-blog.dto';
-import { ResponseInterceptor } from 'src/common/interceptors/response.interceptor';
-import { Public } from 'src/common/decorators/public.decorator';
-import { CurrentUser } from 'src/common/decorators/current-user.decorator';
-import { User as UserModel } from '@prisma/client';
-import { UserEntity } from 'src/user/entities/user.entity';
+} from "@nestjs/common";
+import { BlogService } from "./blog.service";
+import { CreateBlogDto } from "./dto/create-blog.dto";
+import { UpdateBlogDto } from "./dto/update-blog.dto";
+import { ResponseInterceptor } from "src/common/interceptors/response.interceptor";
+import { CurrentUser } from "src/common/decorators/current-user.decorator";
+import { UserEntity } from "src/user/entities/user.entity";
 
-@Controller('api/v1/blog')
+@Controller("api/v1/blog")
 export class BlogController {
-  constructor(private readonly blogService: BlogService) { }
+  constructor(private readonly blogService: BlogService) {}
 
   @Post()
   @UseInterceptors(new ResponseInterceptor("Create Blog Success"))
@@ -32,12 +30,12 @@ export class BlogController {
   @Get()
   @UseInterceptors(new ResponseInterceptor("Get Blog Success"))
   findAll(
-    @Query('page') page: string,
-    @Query('itemsPerPage') itemsPerPage: string,
-    @Query('keyword') keyword: string,
-    @CurrentUser() user: UserEntity
+    @Query("page") page: string,
+    @Query("itemsPerPage") itemsPerPage: string,
+    @Query("keyword") keyword: string,
+    @CurrentUser() user: UserEntity,
   ) {
-    console.log({ user })
+    console.log({ user });
     return this.blogService.findAll({
       keyword: keyword || "",
       page: Number(page) || 1,
@@ -48,9 +46,9 @@ export class BlogController {
   @Get("category/:categoryId")
   @UseInterceptors(new ResponseInterceptor("Get Blog Success"))
   findByCategory(
-    @Param('categoryId') categoryId: string,
-    @Query('itemsPerPage') itemsPerPage: string,
-    @Query('page') page: string,
+    @Param("categoryId") categoryId: string,
+    @Query("itemsPerPage") itemsPerPage: string,
+    @Query("page") page: string,
   ) {
     return this.blogService.findByCategory({
       categoryId: +categoryId,
@@ -59,41 +57,41 @@ export class BlogController {
     });
   }
 
-  @Get(':id')
+  @Get(":id")
   @UseInterceptors(new ResponseInterceptor("Get Blog Success"))
-  findOne(@Param('id') id: string) {
+  findOne(@Param("id") id: string) {
     return this.blogService.findOne(id);
   }
 
-  @Get('stats/month')
+  @Get("stats/month")
   @UseInterceptors(new ResponseInterceptor("Get Blog Success"))
   async getBlogStats() {
     return this.blogService.getBlogStats();
   }
 
-  @Get('stats/month/:year/:month')
+  @Get("stats/month/:year/:month")
   @UseInterceptors(new ResponseInterceptor("Get Blog Success"))
   async findBlogByMonth(
-    @Param('year') year: number,
-    @Param('month') month: number,
-    @Query('page') page: string,
-    @Query('itemsPerPage') itemsPerPage: string,
+    @Param("year") year: number,
+    @Param("month") month: number,
+    @Query("page") page: string,
+    @Query("itemsPerPage") itemsPerPage: string,
   ) {
     return this.blogService.findBlogByMonth({
       page: Number(page) || 1,
       itemsPerPage: Number(itemsPerPage) || 5,
       year,
-      month
+      month,
     });
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBlogDto: UpdateBlogDto) {
+  @Patch(":id")
+  update(@Param("id") id: string, @Body() updateBlogDto: UpdateBlogDto) {
     return this.blogService.update(+id, updateBlogDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
+  @Delete(":id")
+  remove(@Param("id") id: string) {
     return this.blogService.remove(+id);
   }
 }
