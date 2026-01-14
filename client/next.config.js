@@ -28,7 +28,16 @@ const nextConfig = {
     return config;
   },
   images: {
-    domains: ["i0.wp.com", "i1-thethao.vnecdn.net", "res.cloudinary.com"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**",
+      },
+      {
+        protocol: "http",
+        hostname: "**",
+      },
+    ],
   },
   reactStrictMode: true,
   eslint: { ignoreDuringBuilds: false },

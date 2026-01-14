@@ -15,11 +15,13 @@ import { CreateVideoDto } from "./dto/create-video.dto";
 import { UpdateVideoDto } from "./dto/update-video.dto";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { ResponseInterceptor } from "src/common/interceptors/response.interceptor";
+import { Public } from "src/common/decorators/public.decorator";
 
 @Controller("api/v1/video")
 export class VideoController {
   constructor(private readonly videoService: VideoService) {}
 
+  @Public()
   @Post("upload")
   @UseInterceptors(FileInterceptor("file"))
   async uploadFile(@UploadedFile() file: Express.Multer.File) {
@@ -29,11 +31,13 @@ export class VideoController {
     return this.videoService.uploadFile(fileData);
   }
 
+  @Public()
   @Post()
   create(@Body() createVideoDto: CreateVideoDto) {
     return this.videoService.create(createVideoDto);
   }
 
+  @Public()
   @Get()
   @UseInterceptors(new ResponseInterceptor("Get Video Success"))
   findAll(
@@ -46,16 +50,19 @@ export class VideoController {
     });
   }
 
+  @Public()
   @Get(":id")
   findOne(@Param("id") id: string) {
     return this.videoService.findOne(id);
   }
 
+  @Public()
   @Patch(":id")
   update(@Param("id") id: string, @Body() updateVideoDto: UpdateVideoDto) {
     return this.videoService.update(+id, updateVideoDto);
   }
 
+  @Public()
   @Delete(":id")
   remove(@Param("id") id: string) {
     return this.videoService.remove(+id);

@@ -30,6 +30,7 @@ const BlogComponent: FC<BlogComponentProps> = ({
   isDetail,
   className,
 }) => {
+  console.log({ thumbnail })
   const categoryOptions = useCategoryStore((state) => state.listCategories);
   const createdAt = formatDate(new Date());
 
@@ -47,18 +48,20 @@ const BlogComponent: FC<BlogComponentProps> = ({
           >
             {createdAt} By Lộc Nguyễn
           </p>
-          {thumbnail && (
-            <Link className="break-words" href={linkTo || "#"}>
-              <div>
-                <Image
-                  src={thumbnail}
-                  alt="thumnai-blog"
-                  fill
-                  className="!static max-w-[400px] mx-auto"
-                />
-              </div>
-            </Link>
-          )}
+          {thumbnail &&
+            typeof thumbnail === "string" &&
+            (thumbnail.startsWith("/") || thumbnail.startsWith("http")) && (
+              <Link className="break-words" href={linkTo || "#"}>
+                <div>
+                  <Image
+                    src={thumbnail}
+                    alt="thumnai-blog"
+                    fill
+                    className="!static max-w-[400px] mx-auto"
+                  />
+                </div>
+              </Link>
+            )}
           {!isDetail && <div className="mt-8 border-b border-[#dd9933]" />}
         </div>
         {description && (
