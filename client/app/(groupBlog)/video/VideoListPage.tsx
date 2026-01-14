@@ -80,7 +80,7 @@ const VideoListPage = () => {
 
   useEffect(() => {
     fetchMoreData(currentPage);
-  }, [currentPage]);
+  }, [currentPage, fetchMoreData]);
 
   useEffect(() => {
     if (hoveredVideoId) {

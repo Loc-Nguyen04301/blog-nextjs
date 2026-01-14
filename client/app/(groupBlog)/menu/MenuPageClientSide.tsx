@@ -12,6 +12,7 @@ const MenuPageClientSide = () => {
   const router = useRouter();
 
   const { listCategories } = useCategoryStore((state) => state);
+  console.log({ listCategories });
   const { statisticMonths, searchText, setSearchText } = useBlogStore(
     (state) => state
   );

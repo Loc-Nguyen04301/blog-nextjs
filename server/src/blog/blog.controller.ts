@@ -16,6 +16,7 @@ import { UpdateBlogDto } from "./dto/update-blog.dto";
 import { ResponseInterceptor } from "src/common/interceptors/response.interceptor";
 import { CurrentUser } from "src/common/decorators/current-user.decorator";
 import { UserEntity } from "src/user/entities/user.entity";
+import { Public } from "src/common/decorators/public.decorator";
 
 @Controller("api/v1/blog")
 export class BlogController {
@@ -27,6 +28,7 @@ export class BlogController {
     return this.blogService.create(createBlogDto);
   }
 
+  @Public()
   @Get()
   @UseInterceptors(new ResponseInterceptor("Get Blog Success"))
   findAll(
@@ -43,6 +45,7 @@ export class BlogController {
     });
   }
 
+  @Public()
   @Get("category/:categoryId")
   @UseInterceptors(new ResponseInterceptor("Get Blog Success"))
   findByCategory(
@@ -57,18 +60,21 @@ export class BlogController {
     });
   }
 
+  @Public()
   @Get(":id")
   @UseInterceptors(new ResponseInterceptor("Get Blog Success"))
   findOne(@Param("id") id: string) {
     return this.blogService.findOne(id);
   }
 
+  @Public()
   @Get("stats/month")
   @UseInterceptors(new ResponseInterceptor("Get Blog Success"))
   async getBlogStats() {
     return this.blogService.getBlogStats();
   }
 
+  @Public()
   @Get("stats/month/:year/:month")
   @UseInterceptors(new ResponseInterceptor("Get Blog Success"))
   async findBlogByMonth(
@@ -85,11 +91,13 @@ export class BlogController {
     });
   }
 
+  @Public()
   @Patch(":id")
   update(@Param("id") id: string, @Body() updateBlogDto: UpdateBlogDto) {
     return this.blogService.update(+id, updateBlogDto);
   }
 
+  @Public()
   @Delete(":id")
   remove(@Param("id") id: string) {
     return this.blogService.remove(+id);
