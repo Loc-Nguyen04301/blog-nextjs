@@ -1,5 +1,5 @@
 # Start your image with a node base image
-FROM node:20
+FROM node:22
 
 # The /app directory should act as the main application directory
 WORKDIR /app
@@ -7,11 +7,18 @@ WORKDIR /app
 # Copy the app package and package-lock.json file
 COPY package*.json ./
 
+# Install the application dependencies
+RUN npm install
+
+
+COPY prisma ./prisma
+
+# generate prisma client
+RUN npx prisma generate
+
 # Copy the rest of the app's code
 COPY . .
 
-# Install the application dependencies
-RUN npm install
 # Build the NestJS application
 RUN npm run build
 
