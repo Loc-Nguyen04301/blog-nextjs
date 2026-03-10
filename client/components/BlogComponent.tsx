@@ -30,7 +30,6 @@ const BlogComponent: FC<BlogComponentProps> = ({
   isDetail,
   className,
 }) => {
-  console.log({ thumbnail })
   const categoryOptions = useCategoryStore((state) => state.listCategories);
   const createdAt = formatDate(new Date());
 
@@ -88,7 +87,7 @@ const BlogComponent: FC<BlogComponentProps> = ({
             <span className="mr-1">Mục lục:</span>
             {categories.map((categoryId) => {
               const option = categoryOptions.find(
-                (opt) => Number(opt.id) === Number(categoryId)
+                (opt) => Number(opt.id) === Number(categoryId),
               );
               return (
                 option && (
