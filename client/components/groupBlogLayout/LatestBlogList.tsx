@@ -18,11 +18,17 @@ const getCachedBlogs = unstable_cache(
     return response.data.data.listBlogs;
   },
   ["latest-blogs"],
-  { revalidate: 86400 } // Revalidate every 24 hours (in seconds)
+  { revalidate: 86400 }, // Revalidate every 24 hours (in seconds)
 );
 
-const LastestBlogList = async () => {
-  const listBlogs: IBlogDetail[] = await getCachedBlogs();
+const LatestBlogList = async () => {
+  let listBlogs: IBlogDetail[] = [];
+  try {
+    listBlogs = await getCachedBlogs();
+  } catch (error) {
+    console.error("Failed to fetch latest blogs:", error);
+    // Optionally, return a fallback UI or empty list
+  }
 
   return (
     <div className="border border-[#000] relative">
@@ -52,4 +58,4 @@ const LastestBlogList = async () => {
   );
 };
 
-export default LastestBlogList;
+export default LatestBlogList;

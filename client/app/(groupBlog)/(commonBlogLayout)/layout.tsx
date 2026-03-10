@@ -1,6 +1,6 @@
 import AboutMe from "@/components/groupBlogLayout/AboutMe";
 import ContactMe from "@/components/groupBlogLayout/ContactMe";
-import LastestBlogList from "@/components/groupBlogLayout/LastestBlogList";
+import LatestBlogList from "@/components/groupBlogLayout/LatestBlogList";
 import CategorySelect from "@/components/groupBlogLayout/CategorySelect";
 import SearchBar from "@/components/groupBlogLayout/SearchBar";
 
@@ -13,7 +13,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           <AboutMe />
           <SearchBar />
           <CategorySelect />
-          <LastestBlogList />
+          <LatestBlogList />
           <ContactMe />
         </div>
       </div>
