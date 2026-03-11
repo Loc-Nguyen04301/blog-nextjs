@@ -1,0 +1,39 @@
+version: "3.9"
+
+services:
+
+  client:
+    build: ./client
+    container_name: blog_client
+    ports:
+      - "3000:3000"
+    depends_on:
+      - server
+    restart: always
+
+  server:
+    build: ./server
+    container_name: blog_server
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/blog_db
+    restart: always
+
+  postgres:
+    image: postgres:16
+    container_name: blog_postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: blogdb
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: always
+
+volumes:
+  postgres_data:
