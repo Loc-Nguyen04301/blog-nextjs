@@ -30,7 +30,7 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: blogdb
+      POSTGRES_DB: blog_db
     volumes:
       - postgres_data:/var/lib/postgresql/data
     restart: always
