@@ -1,12 +1,12 @@
 services:
-
   client:
-    build: ./client
+    build: 
+      context: ./client
+      args:
+      NEXT_PUBLIC_API_URL: /api/v1
     container_name: blog_client
     ports:
       - "3000:3000"
-    env_file:
-      - ./client/.env.production
     depends_on:
       - server
     restart: always
