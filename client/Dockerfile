@@ -24,7 +24,6 @@ COPY --from=builder /app/package*.json ./
 RUN npm install --omit=dev
 
 COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/public ./public
 COPY --from=builder /app/next.config.* ./
 
 EXPOSE 3000
