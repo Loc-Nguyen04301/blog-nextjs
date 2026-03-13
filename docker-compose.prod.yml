@@ -3,7 +3,7 @@ services:
     build: 
       context: ./client
       args:
-      NEXT_PUBLIC_API_URL: /api/v1
+        NEXT_PUBLIC_API_URL: /api/v1
     container_name: blog_client
     ports:
       - "3000:3000"
