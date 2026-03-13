@@ -1,14 +1,13 @@
 services:
-  client:
-    build: 
-      context: ./client
-      args:
-        NEXT_PUBLIC_API_URL: http://103.101.163.17:8000/api/v1
-    container_name: blog_client
-    ports:
-      - "3000:3000"
-    depends_on:
-      - server
+  postgres:
+    image: postgres:16
+    container_name: blog_postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: blog_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
     restart: always
 
   server:
@@ -22,15 +21,16 @@ services:
       - postgres
     restart: always
 
-  postgres:
-    image: postgres:16
-    container_name: blog_postgres
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: blog_db
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
+  client:
+    build:
+      context: ./client
+      args:
+        NEXT_PUBLIC_API_URL: http://103.101.163.17:8000/api/v1
+    container_name: blog_client
+    ports:
+      - "3000:3000"
+    depends_on:
+      - server
     restart: always
 
 volumes:
