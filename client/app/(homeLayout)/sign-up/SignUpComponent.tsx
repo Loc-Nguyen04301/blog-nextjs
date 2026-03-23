@@ -22,6 +22,9 @@ import ForgotPassword from "@/components/ForgotPassword";
 import FacebookColorIcon from "@/assets/icons/FacebookColorIcon";
 import { GoogleColorIcon } from "@/assets/icons/GoogleColorIcon";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import AuthService from "@/services/AuthService";
+import { useAlertStore } from "@/zustand/stores/alert-store";
+import { useRouter } from "next/navigation";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -65,6 +68,9 @@ const SignUpContainer = styled(Stack)(({ theme }) => ({
 }));
 
 const SignUpComponent = () => {
+  const { setSuccess, addError } = useAlertStore((state) => state);
+  const router = useRouter();
+
   const [emailError, setEmailError] = React.useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState("");
   const [passwordError, setPasswordError] = React.useState(false);
@@ -83,16 +89,27 @@ const SignUpComponent = () => {
   const handleClickShowPassword = () =>
     setIsShowPassword((preState) => !preState);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    if (emailError || passwordError) {
-      event.preventDefault();
-      return;
-    }
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault(); // ✅ luôn đặt ở đầu
+
+    if (!validateInputs()) return;
+
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+
+    try {
+      const response = await AuthService.register({
+        email: data.get("email"),
+        password: data.get("password"),
+        name: data.get("name"), // ⚠️ fix typo bên dưới
+      });
+
+      setSuccess(response.data.message);
+      // ✅ redirect sang sign-in
+      router.push("/sign-in");
+    } catch (error) {
+      console.log({ error });
+      addError(error.response.data.message);
+    }
   };
 
   const validateInputs = () => {
@@ -218,8 +235,8 @@ const SignUpComponent = () => {
               Confirm Password
             </FormLabel>
             <TextField
-              // error={passwordError}
-              // helperText={passwordErrorMessage}
+              error={passwordError}
+              helperText={passwordErrorMessage}
               id="confirmPassword"
               type={isShowPassword ? "text" : "password"}
               name="confirmPassword"

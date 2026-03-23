@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -13,6 +13,10 @@ import { SitemarkIcon } from "@/assets/icons/SiteMarkIcon";
 import ForgotPassword from "@/components/ForgotPassword";
 import FacebookColorIcon from "@/assets/icons/FacebookColorIcon";
 import { GoogleColorIcon } from "@/assets/icons/GoogleColorIcon";
+import AuthService from "@/services/AuthService";
+import { useAlertStore } from "@/zustand/stores/alert-store";
+import { useRouter } from "next/navigation";
+import { getAccessToken } from "@/utils/authTokens";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -56,6 +60,9 @@ const SignInContainer = styled(Stack)(({ theme }) => ({
 }));
 
 const SignInComponent = () => {
+  const { addError } = useAlertStore((state) => state);
+  const router = useRouter();
+
   const [emailError, setEmailError] = React.useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState("");
   const [passwordError, setPasswordError] = React.useState(false);
@@ -70,16 +77,25 @@ const SignInComponent = () => {
     setOpen(false);
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    if (emailError || passwordError) {
-      event.preventDefault();
-      return;
-    }
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault(); // ✅ luôn đặt ở đầu
+
+    if (!validateInputs()) return;
+
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+
+    try {
+      await AuthService.login({
+        email: data.get("email"),
+        password: data.get("password"),
+      });
+
+      // ✅ redirect sang sign-in
+      router.push("/");
+    } catch (error) {
+      console.log({ error });
+      addError(error.response.data.message);
+    }
   };
 
   const validateInputs = () => {
@@ -108,6 +124,15 @@ const SignInComponent = () => {
 
     return isValid;
   };
+
+  useEffect(() => {
+    const token = getAccessToken();
+
+    if (token) {
+      router.replace("/"); // redirect về home
+    }
+  }, [router]);
+
   return (
     <SignInContainer direction="column" justifyContent="space-between">
       <Card variant="outlined">
