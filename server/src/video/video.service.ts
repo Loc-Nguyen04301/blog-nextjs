@@ -1,22 +1,25 @@
-import { Injectable } from '@nestjs/common';
-import { CreateVideoDto } from './dto/create-video.dto';
-import { UpdateVideoDto } from './dto/update-video.dto';
-import { PrismaService } from 'src/prisma/prisma.service';
-import { VideoPageParams } from 'src/blog/types';
+import { Injectable } from "@nestjs/common";
+import { CreateVideoDto } from "./dto/create-video.dto";
+import { UpdateVideoDto } from "./dto/update-video.dto";
+import { PrismaService } from "src/prisma/prisma.service";
+import { VideoPageParams } from "src/blog/types";
 
 @Injectable()
 export class VideoService {
-  constructor(private prisma: PrismaService) { }
+  constructor(private prisma: PrismaService) {}
 
   async uploadFile(fileData: Blob) {
     try {
       const formData = new FormData();
       formData.append("file", fileData);
       formData.append("upload_preset", "blog_nextjs_upload_image");
-      const res = await fetch("https://api.cloudinary.com/v1_1/dr98sm712/upload", {
-        method: "POST",
-        body: formData,
-      });
+      const res = await fetch(
+        "https://api.cloudinary.com/v1_1/dr98sm712/upload",
+        {
+          method: "POST",
+          body: formData,
+        },
+      );
 
       const data = await res.json();
       return { urlVideo: data.secure_url };
@@ -25,8 +28,8 @@ export class VideoService {
     }
   }
 
-  create(createVideoDto: CreateVideoDto) {
-    return 'This action adds a new video';
+  create(_createVideoDto: CreateVideoDto) {
+    return "This action adds a new video";
   }
 
   async findAll({ itemsPerPage, page }: VideoPageParams) {
@@ -39,7 +42,7 @@ export class VideoService {
           skip,
           take: itemsPerPage,
           orderBy: {
-            createdAt: 'desc'
+            createdAt: "desc",
           },
           select: {
             id: true,
@@ -50,21 +53,21 @@ export class VideoService {
             videoTags: {
               select: {
                 id: true,
-                tagName: true
-              }
+                tagName: true,
+              },
             },
             duration: true,
-            createdAt: true
-          }
+            createdAt: true,
+          },
         }),
-        this.prisma.video.count()
-      ])
+        this.prisma.video.count(),
+      ]);
 
       return {
         total,
         pageNumbers: Math.ceil(total / itemsPerPage),
         page,
-        videos
+        videos,
       };
     } catch (error) {
       throw error;
@@ -73,16 +76,16 @@ export class VideoService {
 
   async findOne(id: string) {
     try {
-      const video = await this.prisma.video.findUnique({ where: { id } })
+      const video = await this.prisma.video.findUnique({ where: { id } });
       return {
-        video
+        video,
       };
     } catch (error) {
       throw error;
     }
   }
 
-  update(id: number, updateVideoDto: UpdateVideoDto) {
+  update(id: number, _updateVideoDto: UpdateVideoDto) {
     return `This action updates a #${id} video`;
   }
 

@@ -1,4 +1,4 @@
 export type JwtSignTokenPayload = {
-    userId: string,
-    email: string
-}
+  userId: string;
+  email: string;
+};

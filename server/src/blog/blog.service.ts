@@ -1,17 +1,17 @@
-import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
-import { CreateBlogDto } from './dto/create-blog.dto';
-import { UpdateBlogDto } from './dto/update-blog.dto';
-import { PrismaService } from 'src/prisma/prisma.service';
-import { BlogByMonthPageParams, BlogPageParams } from './types';
-import { CACHE_MANAGER } from '@nestjs/cache-manager';
-import { Cache } from 'cache-manager';
+import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common";
+import { CreateBlogDto } from "./dto/create-blog.dto";
+import { UpdateBlogDto } from "./dto/update-blog.dto";
+import { PrismaService } from "src/prisma/prisma.service";
+import { BlogByMonthPageParams, BlogPageParams } from "./types";
+import { CACHE_MANAGER } from "@nestjs/cache-manager";
+import { Cache } from "cache-manager";
 
 @Injectable()
 export class BlogService {
   constructor(
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
     private prisma: PrismaService,
-  ) { }
+  ) {}
 
   async create(createBlogDto: CreateBlogDto) {
     try {
@@ -24,7 +24,7 @@ export class BlogService {
       });
       if (existingBlog) {
         throw new HttpException(
-          'Blog with this title already exists',
+          "Blog with this title already exists",
           HttpStatus.BAD_REQUEST,
         );
       }
@@ -49,7 +49,7 @@ export class BlogService {
         },
       });
       if (!blog)
-        throw new HttpException('Not created Blog', HttpStatus.BAD_REQUEST);
+        throw new HttpException("Not created Blog", HttpStatus.BAD_REQUEST);
 
       return blog;
     } catch (error) {
@@ -62,24 +62,24 @@ export class BlogService {
     const cached = await this.cacheManager.get(cacheKey);
 
     if (cached) {
-      console.log('💾 From cache');
+      console.log("💾 From cache");
 
       return cached; // lấy từ cache
     }
     try {
-      console.log('💡 From DB');
+      console.log("💡 From DB");
 
       const skip = (page - 1) * itemsPerPage;
 
       const [blogs, total] = await this.prisma.$transaction([
         this.prisma.blog.findMany({
           where: {
-            title: { contains: keyword, mode: 'insensitive' }
+            title: { contains: keyword, mode: "insensitive" },
           },
           skip,
           take: itemsPerPage,
           orderBy: {
-            createdAt: 'desc'
+            createdAt: "desc",
           },
           select: {
             id: true,
@@ -89,25 +89,25 @@ export class BlogService {
             categories: {
               select: {
                 id: true,
-                name: true
-              }
+                name: true,
+              },
             },
-            createdAt: true
-          }
+            createdAt: true,
+          },
         }),
         this.prisma.blog.count({
           where: {
-            title: { contains: keyword, mode: 'insensitive' }
+            title: { contains: keyword, mode: "insensitive" },
           },
-        })
-      ])
+        }),
+      ]);
 
-      const blogsReturn = blogs.map(blog => {
+      const blogsReturn = blogs.map((blog) => {
         return {
-          ...blog, categories: blog.categories.map(c => c.id)
-
-        }
-      })
+          ...blog,
+          categories: blog.categories.map((c) => c.id),
+        };
+      });
 
       const result = {
         total,
@@ -136,41 +136,51 @@ export class BlogService {
           categories: {
             select: {
               id: true,
-              name: true
-            }
+              name: true,
+            },
           },
           createdAt: true,
-          content: true
-        }
-      })
-      const blogReturn = { ...blog, categories: blog.categories.map(c => c.id) }
+          content: true,
+        },
+      });
+      const blogReturn = {
+        ...blog,
+        categories: blog.categories.map((c) => c.id),
+      };
 
-
-      if (!blogReturn) throw new HttpException('Not get Blog', HttpStatus.BAD_REQUEST);
-      return { blogReturn }
+      if (!blogReturn)
+        throw new HttpException("Not get Blog", HttpStatus.BAD_REQUEST);
+      return { blogReturn };
     } catch (error) {
       throw error;
     }
   }
 
-  async findByCategory({ categoryId, page, itemsPerPage }: { categoryId: number, page: number, itemsPerPage?: number }) {
+  async findByCategory({
+    categoryId,
+    page,
+    itemsPerPage,
+  }: {
+    categoryId: number;
+    page: number;
+    itemsPerPage?: number;
+  }) {
     try {
       const skip = (page - 1) * itemsPerPage;
-
 
       const [blogs, total] = await this.prisma.$transaction([
         this.prisma.blog.findMany({
           where: {
             categories: {
               some: {
-                id: categoryId
-              }
-            }
+                id: categoryId,
+              },
+            },
           },
           skip,
           take: itemsPerPage,
           orderBy: {
-            createdAt: 'desc'
+            createdAt: "desc",
           },
           select: {
             id: true,
@@ -180,29 +190,29 @@ export class BlogService {
             categories: {
               select: {
                 id: true,
-                name: true
-              }
+                name: true,
+              },
             },
-            createdAt: true
-          }
+            createdAt: true,
+          },
         }),
         this.prisma.blog.count({
           where: {
             categories: {
               some: {
-                id: categoryId
-              }
-            }
+                id: categoryId,
+              },
+            },
           },
-        })
-      ])
+        }),
+      ]);
 
-      const blogsReturn = blogs.map(blog => {
+      const blogsReturn = blogs.map((blog) => {
         return {
-          ...blog, categories: blog.categories.map(c => c.id)
-
-        }
-      })
+          ...blog,
+          categories: blog.categories.map((c) => c.id),
+        };
+      });
 
       return {
         total,
@@ -216,14 +226,14 @@ export class BlogService {
   }
 
   async getBlogStats() {
-    const resultQuery = await this.prisma.$queryRawUnsafe(`
+    const resultQuery = (await this.prisma.$queryRawUnsafe(`
       SELECT
         TO_CHAR(b."createdAt", 'MM-YYYY') AS time,
         COUNT(*) AS "blogNumbers"
       FROM "Blog" b
       GROUP BY TO_CHAR(b."createdAt", 'MM-YYYY')
       ORDER BY TO_CHAR(b."createdAt", 'MM-YYYY');
-    `) as []
+    `)) as [];
     const statisticMonths = resultQuery.map((row: any) => ({
       time: row.time,
       blogNumbers: Number(row.blogNumbers),
@@ -231,7 +241,12 @@ export class BlogService {
     return { statisticMonths };
   }
 
-  async findBlogByMonth({ itemsPerPage, page, year, month }: BlogByMonthPageParams) {
+  async findBlogByMonth({
+    itemsPerPage,
+    page,
+    year,
+    month,
+  }: BlogByMonthPageParams) {
     try {
       const skip = (page - 1) * itemsPerPage;
 
@@ -249,7 +264,7 @@ export class BlogService {
           skip,
           take: itemsPerPage,
           orderBy: {
-            createdAt: 'desc'
+            createdAt: "desc",
           },
           select: {
             id: true,
@@ -259,11 +274,11 @@ export class BlogService {
             categories: {
               select: {
                 id: true,
-                name: true
-              }
+                name: true,
+              },
             },
-            createdAt: true
-          }
+            createdAt: true,
+          },
         }),
         this.prisma.blog.count({
           where: {
@@ -272,15 +287,15 @@ export class BlogService {
               lt: new Date(endDate),
             },
           },
-        })
-      ])
+        }),
+      ]);
 
-      const blogsReturn = blogs.map(blog => {
+      const blogsReturn = blogs.map((blog) => {
         return {
-          ...blog, categories: blog.categories.map(c => c.id)
-
-        }
-      })
+          ...blog,
+          categories: blog.categories.map((c) => c.id),
+        };
+      });
 
       return {
         total,
@@ -293,7 +308,7 @@ export class BlogService {
     }
   }
 
-  update(id: number, updateBlogDto: UpdateBlogDto) {
+  update(id: number, _updateBlogDto: UpdateBlogDto) {
     return `This action updates a #${id} blog`;
   }
 

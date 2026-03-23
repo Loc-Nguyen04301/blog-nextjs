@@ -1,16 +1,16 @@
-import { Controller, Get, Post, Body, Req, Inject } from '@nestjs/common';
-import { LogService } from './log.service';
+import { Controller, Post, Body, Req, Inject } from "@nestjs/common";
+import { LogService } from "./log.service";
 
-import { Request } from 'express';
-import { ClientProxy } from '@nestjs/microservices';
-import { Public } from 'src/common/decorators/public.decorator';
+import { Request } from "express";
+import { ClientProxy } from "@nestjs/microservices";
+import { Public } from "src/common/decorators/public.decorator";
 
-@Controller('api/v1/log')
+@Controller("api/v1/log")
 export class LogController {
   constructor(
     private readonly logService: LogService,
-    @Inject('RABBITMQ_SERVICE') private readonly rmqClient: ClientProxy
-  ) { }
+    @Inject("RABBITMQ_SERVICE") private readonly rmqClient: ClientProxy,
+  ) {}
 
   @Public()
   @Post()
@@ -27,11 +27,11 @@ export class LogController {
 
   @Public()
   @Post("log-rabbitmq")
-  async logRmq(@Req() req: Request, @Body() body: any) {
+  async logRmq(@Req() _req: Request, @Body() _body: any) {
     return this.rmqClient.emit("log_created", {
-      message: 'A new log entry',
-      level: 'info',
+      message: "A new log entry",
+      level: "info",
       timestamp: new Date(),
-    })
+    });
   }
 }

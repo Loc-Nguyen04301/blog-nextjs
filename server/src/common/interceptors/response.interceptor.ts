@@ -5,9 +5,9 @@ import {
   CallHandler,
   HttpException,
   HttpStatus,
-} from '@nestjs/common';
-import { Observable, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+} from "@nestjs/common";
+import { Observable, throwError } from "rxjs";
+import { catchError, map } from "rxjs/operators";
 
 export type Response<T> = {
   statusCode: number;
@@ -19,16 +19,16 @@ export type Response<T> = {
 
 @Injectable()
 export class ResponseInterceptor<T> implements NestInterceptor<T, Response<T>> {
-  constructor(
-    private readonly customMessage: string = 'Success'
-  ) { }
+  constructor(private readonly customMessage: string = "Success") {}
 
   intercept(
     context: ExecutionContext,
     next: CallHandler,
   ): Observable<Response<T>> {
     return next.handle().pipe(
-      map((res: unknown) => this.responseHandler(res, context, this.customMessage)),
+      map((res: unknown) =>
+        this.responseHandler(res, context, this.customMessage),
+      ),
       catchError((exception: HttpException) =>
         throwError(() => this.errorHandler(exception, context)),
       ),

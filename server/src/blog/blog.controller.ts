@@ -8,7 +8,6 @@ import {
   Delete,
   UseInterceptors,
   Query,
-  Inject,
 } from "@nestjs/common";
 import { BlogService } from "./blog.service";
 import { CreateBlogDto } from "./dto/create-blog.dto";

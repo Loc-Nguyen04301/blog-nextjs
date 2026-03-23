@@ -4,7 +4,6 @@ import { Reflector } from "@nestjs/core";
 import { NestExpressApplication } from "@nestjs/platform-express";
 import { JwtAuthGuard } from "./common/guards/jwt-auth.guard";
 import { ClassSerializerInterceptor } from "@nestjs/common";
-import { Transport } from "@nestjs/microservices";
 
 declare const module: any;
 

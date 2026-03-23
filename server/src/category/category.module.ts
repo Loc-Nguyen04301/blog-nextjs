@@ -10,4 +10,3 @@ import { CategoryQueueModule } from "src/queue/category/cateogy.queue.module";
   providers: [CategoryService],
 })
 export class CategoryModule {}
- 
