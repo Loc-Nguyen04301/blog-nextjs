@@ -1,14 +1,18 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { CreateCategoryDto } from './dto/create-category.dto';
-import { UpdateCategoryDto } from './dto/update-category.dto';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import { CreateCategoryDto } from "./dto/create-category.dto";
+import { UpdateCategoryDto } from "./dto/update-category.dto";
+import { PrismaService } from "src/prisma/prisma.service";
+import { CategoryQueue } from "src/queue/category/category.queue";
 
 @Injectable()
 export class CategoryService {
-  constructor(private prisma: PrismaService) { }
+  constructor(
+    private readonly categoryQueue: CategoryQueue, // 👈 dùng cái này
+    private prisma: PrismaService,
+  ) {}
 
   create(createCategoryDto: CreateCategoryDto) {
-    return 'This action adds a new category';
+    return "This action adds a new category";
   }
 
   async findAll() {
@@ -17,20 +21,20 @@ export class CategoryService {
         select: {
           id: true,
           name: true,
-          _count: true
-        }
+          _count: true,
+        },
       });
       const listCategoriesReturn = listCategories.map((c) => {
         return {
           id: c.id,
           name: c.name,
-          numberBlogs: c._count.blogs
-        }
-      })
+          numberBlogs: c._count.blogs,
+        };
+      });
 
-      if (listCategoriesReturn)
-        return { listCategoriesReturn }
-      else throw new HttpException('Not Get Categories', HttpStatus.BAD_REQUEST);
+      if (listCategoriesReturn) return { listCategoriesReturn };
+      else
+        throw new HttpException("Not Get Categories", HttpStatus.BAD_REQUEST);
     } catch (error) {
       return error;
     }
@@ -46,5 +50,11 @@ export class CategoryService {
 
   remove(id: number) {
     return `This action removes a #${id} category`;
+  }
+
+  async importExcel(file: Express.Multer.File) {
+    await this.categoryQueue.addImportJob({ filePath: file.path });
+
+    return { message: "File uploaded, processing in background..." };
   }
 }
