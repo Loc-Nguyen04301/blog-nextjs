@@ -59,12 +59,15 @@ export class AuthService {
       refreshToken,
       user.hashedRefreshToken,
     );
-    if (!rtMatches) throw new UnauthorizedException();
+    if (!rtMatches) throw new UnauthorizedException("Invalid Refresh Token");
 
+    // TẠO CẶP TOKEN MỚI (ROTATION)
     const tokens = await this.getTokens(user.id, user.email);
+
+    // Cập nhật Refresh Token mới vào DB (ghi đè cái cũ)
     await this.updateRefreshToken(user.id, tokens.refreshToken);
 
-    return tokens;
+    return tokens; // Trả về cả Access và Refresh Token mới
   }
 
   async logout(userId: string) {

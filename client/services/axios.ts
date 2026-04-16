@@ -5,7 +5,12 @@ import axios, {
   InternalAxiosRequestConfig,
 } from "axios";
 import type { AuthTokens } from "@/types/auth";
-import { clearAuthTokens, getAccessToken, getRefreshToken, setAuthTokens } from "@/utils/authTokens";
+import {
+  clearAuthTokens,
+  getAccessToken,
+  getRefreshToken,
+  setAuthTokens,
+} from "@/utils/authTokens";
 
 const normalizeURL = (url: string | undefined): string => {
   if (!url) return "";
@@ -16,6 +21,7 @@ export const baseURL = normalizeURL(process.env.NEXT_PUBLIC_API_URL);
 
 const axiosInstance: AxiosInstance = axios.create({
   baseURL,
+  withCredentials: true,
   headers: {
     "Content-Type": "application/json",
   },
@@ -23,20 +29,17 @@ const axiosInstance: AxiosInstance = axios.create({
 
 const shouldSkipRefresh = (url: string | undefined): boolean => {
   if (!url) return false;
-  return url.includes("/auth/login") || url.includes("/auth/register") || url.includes("/auth/refresh");
+  return (
+    url.includes("/auth/login") ||
+    url.includes("/auth/register") ||
+    url.includes("/auth/refresh")
+  );
 };
 
 let refreshPromise: Promise<AuthTokens> | null = null;
 
 const refreshTokens = async (): Promise<AuthTokens> => {
-  const refreshToken = getRefreshToken();
-  if (!refreshToken) throw new Error("Missing refresh token");
-
-  const response = await axiosInstance.post<AuthTokens>(
-    "/auth/refresh",
-    undefined,
-    { headers: { Authorization: `Bearer ${refreshToken}` } },
-  );
+  const response = await axiosInstance.post<AuthTokens>("/auth/refresh");
 
   setAuthTokens(response.data);
   return response.data;
@@ -46,7 +49,8 @@ axiosInstance.interceptors.request.use(
   (requestConfig: InternalAxiosRequestConfig) => {
     const token = getAccessToken();
     const hasAuthHeader =
-      (requestConfig.headers as any)?.Authorization || (requestConfig.headers as any)?.authorization;
+      (requestConfig.headers as any)?.Authorization ||
+      (requestConfig.headers as any)?.authorization;
 
     if (token && !hasAuthHeader) {
       (requestConfig.headers as any).Authorization = `Bearer ${token}`;
@@ -64,11 +68,17 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   async (error: AxiosError) => {
-    const originalRequest = error.config as (InternalAxiosRequestConfig & { _retry?: boolean }) | undefined;
+    const originalRequest = error.config as
+      | (InternalAxiosRequestConfig & { _retry?: boolean })
+      | undefined;
 
     if (!originalRequest) return Promise.reject(error);
 
-    if (error.response?.status !== 401 || originalRequest._retry || shouldSkipRefresh(originalRequest.url)) {
+    if (
+      error.response?.status !== 401 ||
+      originalRequest._retry ||
+      shouldSkipRefresh(originalRequest.url)
+    ) {
       return Promise.reject(error);
     }
 
@@ -87,7 +97,8 @@ axiosInstance.interceptors.response.use(
       }
 
       const tokens = await refreshPromise;
-      (originalRequest.headers as any).Authorization = `Bearer ${tokens.accessToken}`;
+      (originalRequest.headers as any).Authorization =
+        `Bearer ${tokens.accessToken}`;
       return axiosInstance(originalRequest);
     } catch (refreshError) {
       clearAuthTokens();
