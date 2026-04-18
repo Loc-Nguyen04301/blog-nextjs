@@ -12,6 +12,7 @@ import { UserModule } from "./user/user.module";
 import { LogModule } from "./log/log.module";
 import * as redisStore from "cache-manager-ioredis-yet";
 import { QueueModule } from "./queue/queue.module";
+import { MailModule } from "./mail/mail.module";
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { QueueModule } from "./queue/queue.module";
     }),
     LogModule,
     QueueModule,
+    MailModule,
   ],
   providers: [
     {
