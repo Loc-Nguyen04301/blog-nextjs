@@ -4,23 +4,23 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import DrawerMenu from "../../components/Drawer";
 import MenuIcon from "@mui/icons-material/Menu";
-import { clearAuthTokens, getAccessToken } from "@/utils/authTokens";
+import AuthService from "@/services/AuthService";
+import { useAuthStore, initAuthStore } from "@/zustand/stores/auth-store";
 
 const MainAndAuthLayout = ({ children }: { children: React.ReactNode }) => {
   const [openDrawer, setOpenDrawer] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
 
   useEffect(() => {
-    setIsLoggedIn(!!getAccessToken());
+    initAuthStore();
   }, []);
 
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpenDrawer(newOpen);
   };
 
-  const handleLogOut = () => {
-    setIsLoggedIn(false);
-    clearAuthTokens();
+  const handleLogOut = async () => {
+    await AuthService.logout();
   };
 
   return (

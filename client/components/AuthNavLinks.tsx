@@ -1,13 +1,13 @@
 "use client";
-import { useEffect, useState } from "react";
-import LinkItem from "@/components/LinkItem/LinkItem";
-import { getAccessToken } from "@/utils/authTokens";
+import { useEffect } from "react";
+import LinkItem from "@/components/groupBlogLayout/LinkItem/LinkItem";
+import { useAuthStore, initAuthStore } from "@/zustand/stores/auth-store";
 
 const AuthNavLinks = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
 
   useEffect(() => {
-    setIsLoggedIn(!!getAccessToken());
+    initAuthStore();
   }, []);
 
   if (isLoggedIn) return null;

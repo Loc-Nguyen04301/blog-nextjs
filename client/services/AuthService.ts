@@ -1,5 +1,14 @@
-import type { AuthTokens, LoginDto, RegisterDto, RegisterResponse } from "@/types/auth";
-import { clearAuthTokens, getRefreshToken, setAuthTokens } from "@/utils/authTokens";
+import type {
+  AuthTokens,
+  LoginDto,
+  RegisterDto,
+  RegisterResponse,
+} from "@/types/auth";
+import {
+  clearAuthTokens,
+  getRefreshToken,
+  setAuthTokens,
+} from "@/utils/authTokens";
 import api from "./axios";
 
 const register = (data: RegisterDto) => {
@@ -16,20 +25,19 @@ const refresh = async (refreshToken?: string) => {
   const token = refreshToken ?? getRefreshToken();
   if (!token) throw new Error("Missing refresh token");
 
-  const response = await api.post<AuthTokens>(
-    "/auth/refresh",
-    undefined,
-    { headers: { Authorization: `Bearer ${token}` } },
-  );
+  const response = await api.post<AuthTokens>("/auth/refresh", undefined, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
   setAuthTokens(response.data);
   return response;
 };
 
 const logout = async () => {
   try {
-    return await api.post("/auth/logout");
-  } finally {
+    await api.post("/auth/logout");
     clearAuthTokens();
+    return;
+  } finally {
   }
 };
 
@@ -41,4 +49,3 @@ const AuthService = {
 };
 
 export default AuthService;
-

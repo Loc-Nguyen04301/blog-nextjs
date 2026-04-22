@@ -47,12 +47,6 @@ export class AuthController {
     @Req() req,
     @Res({ passthrough: true }) res: Response, // Thêm Res để ghi đè Cookie
   ) {
-    const ip =
-      (req.headers["x-forwarded-for"] as string)?.split(",")[0] ||
-      req.socket.remoteAddress;
-
-    const userAgent = req.headers["user-agent"];
-
     // req.user này ở đâu ra => lấy từ validate() trong JwtRefreshStrategy, sau khi đã verify thành công JWT trong Cookie
     const userId = req.user.userId;
     const refreshToken = req.user.refreshToken;
@@ -76,6 +70,6 @@ export class AuthController {
 
   @Post("logout")
   logout(@Req() req) {
-    return this.authService.logout(req.user.userId);
+    return this.authService.logout(req.user.id);
   }
 }

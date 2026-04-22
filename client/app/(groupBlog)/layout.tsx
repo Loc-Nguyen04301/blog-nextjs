@@ -3,7 +3,7 @@ import Image from "next/image";
 import Footer from "../../components/Footer";
 import AccordionMenu from "./AccordionMenu";
 import logoBlog from "@/assets/images/logoBlog.png";
-import LinkItem from "@/components/LinkItem/LinkItem";
+import LinkItem from "@/components/groupBlogLayout/LinkItem/LinkItem";
 import AuthNavLinks from "@/components/AuthNavLinks";
 
 const BlogLayout = async ({ children }: { children: React.ReactNode }) => {

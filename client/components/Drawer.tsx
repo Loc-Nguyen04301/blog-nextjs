@@ -9,10 +9,10 @@ import {
   useTheme,
   useMediaQuery,
 } from "@mui/material";
-import React, { memo, useEffect, useState } from "react";
+import React, { memo, useEffect } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import Link from "next/link";
-import { getAccessToken } from "@/utils/authTokens";
+import { useAuthStore } from "@/zustand/stores/auth-store";
 
 interface DrawerMenu {
   openDrawer: boolean;
@@ -22,11 +22,7 @@ interface DrawerMenu {
 const DrawerMenu = ({ openDrawer, toggleDrawer }: DrawerMenu) => {
   const theme = useTheme();
   const isUpSM = useMediaQuery(theme.breakpoints.up("sm"), { noSsr: true });
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(() => {
-    setIsLoggedIn(!!getAccessToken());
-  }, []);
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
 
   useEffect(() => {
     if (openDrawer && isUpSM) {
