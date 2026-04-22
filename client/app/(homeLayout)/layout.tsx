@@ -1,15 +1,26 @@
 "use client";
 import { Box, IconButton } from "@mui/material";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DrawerMenu from "../../components/Drawer";
 import MenuIcon from "@mui/icons-material/Menu";
+import { clearAuthTokens, getAccessToken } from "@/utils/authTokens";
 
 const MainAndAuthLayout = ({ children }: { children: React.ReactNode }) => {
   const [openDrawer, setOpenDrawer] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    setIsLoggedIn(!!getAccessToken());
+  }, []);
 
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpenDrawer(newOpen);
+  };
+
+  const handleLogOut = () => {
+    setIsLoggedIn(false);
+    clearAuthTokens();
   };
 
   return (
@@ -42,18 +53,30 @@ const MainAndAuthLayout = ({ children }: { children: React.ReactNode }) => {
               >
                 giới thiệu
               </Link>
-              <Link
-                className="px-2 font-medium text-[14px] uppercase hover:text-primaryColor cursor-pointer"
-                href="/sign-in"
-              >
-                đăng nhập
-              </Link>
-              <Link
-                className="px-2 font-medium text-[14px] uppercase hover:text-primaryColor cursor-pointer"
-                href="/sign-up"
-              >
-                đăng ký
-              </Link>
+              {isLoggedIn ? (
+                <Link
+                  className="px-2 font-medium text-[14px] uppercase hover:text-primaryColor cursor-pointer"
+                  onClick={handleLogOut}
+                  href={"/"}
+                >
+                  đăng xuất
+                </Link>
+              ) : (
+                <>
+                  <Link
+                    className="px-2 font-medium text-[14px] uppercase hover:text-primaryColor cursor-pointer"
+                    href="/sign-in"
+                  >
+                    đăng nhập
+                  </Link>
+                  <Link
+                    className="px-2 font-medium text-[14px] uppercase hover:text-primaryColor cursor-pointer"
+                    href="/sign-up"
+                  >
+                    đăng ký
+                  </Link>
+                </>
+              )}
             </ul>
             <div className="sm:hidden">
               <IconButton

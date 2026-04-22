@@ -9,9 +9,10 @@ import {
   useTheme,
   useMediaQuery,
 } from "@mui/material";
-import React, { memo, useEffect } from "react";
+import React, { memo, useEffect, useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import Link from "next/link";
+import { getAccessToken } from "@/utils/authTokens";
 
 interface DrawerMenu {
   openDrawer: boolean;
@@ -21,6 +22,11 @@ interface DrawerMenu {
 const DrawerMenu = ({ openDrawer, toggleDrawer }: DrawerMenu) => {
   const theme = useTheme();
   const isUpSM = useMediaQuery(theme.breakpoints.up("sm"), { noSsr: true });
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    setIsLoggedIn(!!getAccessToken());
+  }, []);
 
   useEffect(() => {
     if (openDrawer && isUpSM) {
@@ -74,16 +80,20 @@ const DrawerMenu = ({ openDrawer, toggleDrawer }: DrawerMenu) => {
             </Link>
           </ListItemButton>
 
-          <ListItemButton>
-            <Link href={"/sign-in"}>
-              <ListItemText primary="Đăng nhập" />
-            </Link>
-          </ListItemButton>
-          <ListItemButton>
-            <Link href={"/sign-up"}>
-              <ListItemText primary="Đăng ký" />
-            </Link>
-          </ListItemButton>
+          {!isLoggedIn && (
+            <>
+              <ListItemButton>
+                <Link href={"/sign-in"}>
+                  <ListItemText primary="Đăng nhập" />
+                </Link>
+              </ListItemButton>
+              <ListItemButton>
+                <Link href={"/sign-up"}>
+                  <ListItemText primary="Đăng ký" />
+                </Link>
+              </ListItemButton>
+            </>
+          )}
         </Box>
       </Box>
     </Drawer>

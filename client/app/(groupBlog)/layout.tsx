@@ -4,6 +4,7 @@ import Footer from "../../components/Footer";
 import AccordionMenu from "./AccordionMenu";
 import logoBlog from "@/assets/images/logoBlog.png";
 import LinkItem from "@/components/LinkItem/LinkItem";
+import AuthNavLinks from "@/components/AuthNavLinks";
 
 const BlogLayout = async ({ children }: { children: React.ReactNode }) => {
   return (
@@ -36,16 +37,7 @@ const BlogLayout = async ({ children }: { children: React.ReactNode }) => {
                     label="Giới thiệu"
                     className="hover:text-primaryColor"
                   />
-                  <LinkItem
-                    href={"/sign-in"}
-                    label="Đăng nhập"
-                    className="hover:text-primaryColor"
-                  />
-                  <LinkItem
-                    href={"/sign-up"}
-                    label="Đăng ký"
-                    className="hover:text-primaryColor"
-                  />
+                  <AuthNavLinks />
                 </ul>
               </div>
               <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
