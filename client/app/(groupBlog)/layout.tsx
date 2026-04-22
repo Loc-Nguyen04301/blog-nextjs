@@ -5,6 +5,7 @@ import AccordionMenu from "./AccordionMenu";
 import logoBlog from "@/assets/images/logoBlog.png";
 import LinkItem from "@/components/groupBlogLayout/LinkItem/LinkItem";
 import AuthNavLinks from "@/components/AuthNavLinks";
+import { Routes } from "@/types/routes";
 
 const BlogLayout = async ({ children }: { children: React.ReactNode }) => {
   return (
@@ -16,24 +17,24 @@ const BlogLayout = async ({ children }: { children: React.ReactNode }) => {
               <div className="flex justify-between max-md:hidden">
                 <ul className="flex w-[40%] justify-start flex-wrap tracking-wide">
                   <LinkItem
-                    href={"/blog"}
+                    href={Routes.BLOG}
                     label="Blog"
                     className="hover:text-primaryColor"
                   />
                   <LinkItem
-                    href={"/video"}
+                    href={Routes.VIDEO}
                     label="Video"
                     className="hover:text-primaryColor"
                   />
                   <LinkItem
-                    href={"/menu"}
+                    href={Routes.MENU}
                     label="Mục lục"
                     className="hover:text-primaryColor"
                   />
                 </ul>
                 <ul className="flex w-[40%] justify-end flex-wrap tracking-wide">
                   <LinkItem
-                    href={"/gioi-thieu"}
+                    href={Routes.GIOI_THIEU}
                     label="Giới thiệu"
                     className="hover:text-primaryColor"
                   />

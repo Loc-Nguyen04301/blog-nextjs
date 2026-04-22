@@ -77,9 +77,7 @@ export class VideoService {
   async findOne(id: string) {
     try {
       const video = await this.prisma.video.findUnique({ where: { id } });
-      return {
-        video,
-      };
+      return video;
     } catch (error) {
       throw error;
     }

@@ -1,5 +1,5 @@
-import { VideoPageParams } from "@/types/video"
-import api from "./axios"
+import { IVideoDetail, VideoPageParams } from "@/types/video";
+import api from "./axios";
 
 // const createBlog = (data: CreateBlogData) => {
 //     const dataDto = { ...data, categories: data.categories.map(c => Number(c)) }
@@ -7,12 +7,12 @@ import api from "./axios"
 // }
 
 const getAllVideos = (params: VideoPageParams) => {
-    return api.get("/video", { params })
-}
+  return api.get("/video", { params });
+};
 
-const getVideosById = (id: string) => {
-    return api.get(`/video/${id}`)
-}
+const getVideosById = (id: string): Promise<IVideoDetail> => {
+  return api.get(`/video/${id}`);
+};
 
 // const getAllBlogsByCategory = (categoryId: number, params?: BlogPageParams) => {
 //     return api.get(`/blog/category/${categoryId}`, { params })
@@ -31,8 +31,8 @@ const getVideosById = (id: string) => {
 // }
 
 const VideoService = {
-    getAllVideos,
-    getVideosById
-}
+  getAllVideos,
+  getVideosById,
+};
 
-export default VideoService
+export default VideoService;

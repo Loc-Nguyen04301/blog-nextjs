@@ -2,7 +2,14 @@
 import React, { useEffect, useState } from "react";
 import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
 import ShareRoundedIcon from "@mui/icons-material/ShareRounded";
-import { Alert, Button, IconButton, Popover, Snackbar } from "@mui/material";
+import {
+  Alert,
+  Button,
+  CircularProgress,
+  IconButton,
+  Popover,
+  Snackbar,
+} from "@mui/material";
 import {
   EmailShareButton,
   FacebookShareButton,
@@ -16,38 +23,44 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import TelegramIcon from "@mui/icons-material/Telegram";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import VideoService from "@/services/VideoService";
+import { IVideoDetail } from "@/types/video";
+import { useAlertStore } from "@/zustand/stores/alert-store";
 
 type DetailVideoPageClientSideProps = {
   id: string;
 };
 
-const DetailVideoPageClientSide = ({ id }: DetailVideoPageClientSideProps) => {
-  const socialIcons = [
-    { component: EmailShareButton, icon: <EmailIcon />, label: "Email" },
-    {
-      component: FacebookShareButton,
-      icon: <FacebookIcon />,
-      label: "Facebook",
-    },
-    { component: TwitterShareButton, icon: <TwitterIcon />, label: "X" },
-    {
-      component: TelegramShareButton,
-      icon: <TelegramIcon />,
-      label: "Telegram",
-    },
-    {
-      component: LinkedinShareButton,
-      icon: <LinkedInIcon />,
-      label: "LinkedIn",
-    },
-  ];
+const socialIcons = [
+  { component: EmailShareButton, icon: <EmailIcon />, label: "Email" },
+  {
+    component: FacebookShareButton,
+    icon: <FacebookIcon />,
+    label: "Facebook",
+  },
+  { component: TwitterShareButton, icon: <TwitterIcon />, label: "X" },
+  {
+    component: TelegramShareButton,
+    icon: <TelegramIcon />,
+    label: "Telegram",
+  },
+  {
+    component: LinkedinShareButton,
+    icon: <LinkedInIcon />,
+    label: "LinkedIn",
+  },
+];
 
+const DetailVideoPageClientSide = ({ id }: DetailVideoPageClientSideProps) => {
   const [currentUrl, setCurrentUrl] = useState("");
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const [copied, setCopied] = useState(false);
+  const [video, setVideo] = useState<IVideoDetail | null>(null);
+  const { setLoading, addError } = useAlertStore();
+
 
   const handleOpenSharePopover = (
-    event: React.MouseEvent<HTMLButtonElement>
+    event: React.MouseEvent<HTMLButtonElement>,
   ) => {
     setAnchorEl(event.currentTarget);
   };
@@ -69,51 +82,57 @@ const DetailVideoPageClientSide = ({ id }: DetailVideoPageClientSideProps) => {
     setCurrentUrl(window.location.href);
   }, []);
 
+  useEffect(() => {
+    const fetchVideo = async () => {
+      setLoading(true);
+      try {
+        const response = await VideoService.getVideosById(id);
+        setVideo(response.data);
+      } catch (error: any) {
+        addError(error?.response?.data?.message || "Failed to load video");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchVideo();
+  }, [id, addError, setLoading]);
+
+  if (!video) {
+    return (
+      <div className="flex justify-center items-center h-64">
+        <CircularProgress />
+      </div>
+    );
+  }
+
+  
+  const formattedDate = new Date(video.createdAt).toLocaleDateString("en-CA");
+  const tags = video.videoTags?.map((t) => `#${t}`).join(" ");
+
   return (
     <div className="flex gap-6">
       <div className="w-3/5">
         <video controls className="w-full" preload="metadata">
-          {/* urlVideo */}
-          <source
-            src={`https://res.cloudinary.com/dr98sm712/video/upload/v1741493753/Khi_ng%C6%B0%E1%BB%9Di_tr%E1%BA%BB_ch%E1%BB%8Dn_c%C3%B4ng_vi%E1%BB%87c_lao_%C4%91%E1%BB%99ng_ph%E1%BB%95_th%C3%B4ng___VTV24_t9br33.mp4#t=0.1`}
-            type="video/mp4"
-          />
-          Your browser does not support HTML video.{id}
+          <source src={`${video.videoUrl}#t=0.1`} type="video/mp4" />
+          Your browser does not support HTML video.
         </video>
 
         <div className="mt-4">
-          <p className="mb-4">
-            #pcx160 #pcx160_2025 #hondapcx160
-            {/* tags */}
-          </p>
-          <h1 className="mb-2 text-xl">
-            {/* title */}
-            PCX 160 2025 đã xuất hiện tại Việt Nam với nhiều thay đổi
-          </h1>
+          <p className="mb-4">{tags}</p>
+          <h1 className="mb-2 text-xl">{video.title}</h1>
           <div className="mb-2 flex justify-between text-xs tracking-wide">
-            <span>
-              {/* createdAt */}
-              2023/09/01
-            </span>
+            <span>{formattedDate}</span>
             <div className="flex items-center gap-3">
               <div className="flex items-center">
                 <VisibilityRoundedIcon className="text-[#8E8E90] mr-1 text-xl" />
-                <span>
-                  {/* {views} */}
-                  123 views
-                </span>
+                <span>{video.viewers} views</span>
               </div>
               <IconButton onClick={handleOpenSharePopover}>
                 <ShareRoundedIcon className="text-[#8E8E90] mr-1 hover:cursor-pointer text-xl" />
               </IconButton>
             </div>
           </div>
-          <p className="text-sm">
-            {/* {description} */}
-            PCX 160 không sở hữu quá nhiều góc cạnh mà thay vào đó là những góc
-            bo với đường vát gọt sắc sảo giúp mẫu xe tăng cường tính khí động
-            học và khả năng giữ cân bằng.
-          </p>
+          <p className="text-sm">{video.description}</p>
         </div>
       </div>
       <Popover

@@ -71,7 +71,7 @@ export class AuthService {
   }
 
   async logout(userId: string) {
-    return await this.prisma.user.update({
+    await this.prisma.user.update({
       where: { id: userId },
       data: { hashedRefreshToken: null },
     });

@@ -13,7 +13,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   useAlertStore.getState().setLoading(true);
   try {
     const response = await VideoService.getVideosById(id);
-    const video: IVideoDetail = response.data.video;
+    const video: IVideoDetail = response.data;
     return {
       title: video.title,
       description: video.description,
