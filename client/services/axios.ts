@@ -21,6 +21,7 @@ export const baseURL = normalizeURL(process.env.NEXT_PUBLIC_API_URL);
 
 const axiosInstance: AxiosInstance = axios.create({
   baseURL,
+  /* cho phép trình duyệt gửi cookie HttpOnly (refresh token) kèm theo mỗi request*/
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
@@ -36,6 +37,7 @@ const shouldSkipRefresh = (url: string | undefined): boolean => {
   );
 };
 
+// chỉ gọi 1 lần refresh duy nhất trong trường hợp các request đồng thời bị 401
 let refreshPromise: Promise<AuthTokens> | null = null;
 
 const refreshTokens = async (): Promise<AuthTokens> => {
@@ -47,10 +49,7 @@ const refreshTokens = async (): Promise<AuthTokens> => {
 
 axiosInstance.interceptors.request.use(
   async (requestConfig: InternalAxiosRequestConfig) => {
-    if (
-      !shouldSkipRefresh(requestConfig.url) &&
-      isAccessTokenExpired()
-    ) {
+    if (!shouldSkipRefresh(requestConfig.url) && isAccessTokenExpired()) {
       if (!refreshPromise) {
         refreshPromise = refreshTokens().finally(() => {
           refreshPromise = null;

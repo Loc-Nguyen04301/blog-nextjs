@@ -5,14 +5,29 @@ import useFetchDataBlogLayout from "@/hooks/useFetchDataBlogLayout";
 import { Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import Link from "next/link";
+import { useAuthStore, initAuthStore } from "@/zustand/stores/auth-store";
+import { Routes } from "@/types/routes";
+import AuthService from "@/services/AuthService";
+import { useRouter } from "next/navigation";
 
 const AccordionMenu = () => {
   const pathname = usePathname();
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
 
   const handleToggle = () => {
     setIsOpen((prev) => !prev);
   };
+
+  const handleLogout = async () => {
+    await AuthService.logout();
+    router.push(Routes.SIGN_IN);
+  };
+
+  useEffect(() => {
+    initAuthStore();
+  }, []);
 
   useEffect(() => {
     return () => setIsOpen(false);
@@ -54,35 +69,48 @@ const AccordionMenu = () => {
         <MenuIcon />
       </AccordionSummary>
       <AccordionDetails>
-        <Link className="hover:text-primaryColor" href={"/blog"}>
+        <Link className="hover:text-primaryColor" href={Routes.BLOG}>
           Blog
         </Link>
       </AccordionDetails>
       <AccordionDetails>
-        <Link className="hover:text-primaryColor" href={"/video"}>
+        <Link className="hover:text-primaryColor" href={Routes.VIDEO}>
           Video
         </Link>
       </AccordionDetails>
       <AccordionDetails>
-        <Link className="hover:text-primaryColor" href={"/menu"}>
+        <Link className="hover:text-primaryColor" href={Routes.MENU}>
           Mục lục
         </Link>
       </AccordionDetails>
       <AccordionDetails>
-        <Link className="hover:text-primaryColor" href={"/gioi-thieu"}>
+        <Link className="hover:text-primaryColor" href={Routes.GIOI_THIEU}>
           Giới thiệu
         </Link>
       </AccordionDetails>
-      <AccordionDetails>
-        <Link className="hover:text-primaryColor" href={"/sign-in"}>
-          Đăng nhập
-        </Link>
-      </AccordionDetails>
-      <AccordionDetails>
-        <Link className="hover:text-primaryColor" href={"/sign-up"}>
-          Đăng ký
-        </Link>
-      </AccordionDetails>
+      {isLoggedIn ? (
+        <AccordionDetails>
+          <button
+            className="hover:text-primaryColor uppercase"
+            onClick={handleLogout}
+          >
+            Đăng xuất
+          </button>
+        </AccordionDetails>
+      ) : (
+        <>
+          <AccordionDetails>
+            <Link className="hover:text-primaryColor" href={Routes.SIGN_IN}>
+              Đăng nhập
+            </Link>
+          </AccordionDetails>
+          <AccordionDetails>
+            <Link className="hover:text-primaryColor" href={Routes.SIGN_UP}>
+              Đăng ký
+            </Link>
+          </AccordionDetails>
+        </>
+      )}
     </Accordion>
   );
 };

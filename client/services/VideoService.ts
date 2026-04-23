@@ -10,8 +10,8 @@ const getAllVideos = (params: VideoPageParams) => {
   return api.get("/video", { params });
 };
 
-const getVideosById = (id: string): Promise<IVideoDetail> => {
-  return api.get(`/video/${id}`);
+const getVideosById = (id: string) => {
+  return api.get<IVideoDetail>(`/video/${id}`);
 };
 
 // const getAllBlogsByCategory = (categoryId: number, params?: BlogPageParams) => {
