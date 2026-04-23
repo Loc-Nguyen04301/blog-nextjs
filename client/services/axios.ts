@@ -8,7 +8,7 @@ import type { AuthTokens } from "@/types/auth";
 import {
   clearAuthTokens,
   getAccessToken,
-  getRefreshToken,
+  isAccessTokenExpired,
   setAuthTokens,
 } from "@/utils/authTokens";
 
@@ -46,7 +46,19 @@ const refreshTokens = async (): Promise<AuthTokens> => {
 };
 
 axiosInstance.interceptors.request.use(
-  (requestConfig: InternalAxiosRequestConfig) => {
+  async (requestConfig: InternalAxiosRequestConfig) => {
+    if (
+      !shouldSkipRefresh(requestConfig.url) &&
+      isAccessTokenExpired()
+    ) {
+      if (!refreshPromise) {
+        refreshPromise = refreshTokens().finally(() => {
+          refreshPromise = null;
+        });
+      }
+      await refreshPromise;
+    }
+
     const token = getAccessToken();
     const hasAuthHeader =
       (requestConfig.headers as any)?.Authorization ||
@@ -79,11 +91,6 @@ axiosInstance.interceptors.response.use(
       originalRequest._retry ||
       shouldSkipRefresh(originalRequest.url)
     ) {
-      return Promise.reject(error);
-    }
-
-    if (!getRefreshToken()) {
-      clearAuthTokens();
       return Promise.reject(error);
     }
 

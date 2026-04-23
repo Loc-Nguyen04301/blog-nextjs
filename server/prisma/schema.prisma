@@ -13,11 +13,12 @@ model User {
   username           String
   email              String    @unique
   password           String
-  hashedRefreshToken String? // lưu refresh token hash
+  hashedRefreshToken String?
   avatar             String    @default("https://res.cloudinary.com/dr98sm712/image/upload/v1712373133/guest-user_it2nym.png")
   active             Boolean   @default(false)
   created_at         DateTime  @default(now())
   update_at          DateTime? @updatedAt
+  comments           Comment[]
 }
 
 model Category {
@@ -36,6 +37,7 @@ model Blog {
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
   categories  Category[] @relation("BlogCategories")
+  comments    Comment[]
 }
 
 model Video {
@@ -48,6 +50,7 @@ model Video {
   updatedAt   DateTime   @updatedAt
   duration    String
   videoTags   VideoTag[] @relation("VideoTags")
+  comments    Comment[]
 }
 
 model VideoTag {
@@ -67,4 +70,21 @@ model LogActivity {
   ipAddress   String?
   userAgent   String?
   createdAt   DateTime @default(now())
+}
+
+model Comment {
+  id          String   @id @default(uuid())
+  description String
+
+  userId  String
+  user    User     @relation(fields: [userId], references: [id])
+
+  videoId String?
+  video   Video?   @relation(fields: [videoId], references: [id])
+
+  blogId  String?
+  blog    Blog?    @relation(fields: [blogId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
