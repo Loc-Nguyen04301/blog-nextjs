@@ -7,6 +7,7 @@ import React, {
   useState,
 } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useAlertStore } from "@/zustand/stores/alert-store";
 import VideoService from "@/services/VideoService";
 import { IVideoDetail } from "@/types/video";
@@ -15,6 +16,13 @@ import { format } from "date-fns";
 import clsx from "clsx";
 import _ from "lodash";
 
+const getYouTubeId = (url: string): string | null => {
+  const match = url.match(
+    /(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/
+  );
+  return match ? match[1] : null;
+};
+
 const VideoListPage = () => {
   const Page_SIZE = 6;
 
@@ -22,9 +30,11 @@ const VideoListPage = () => {
 
   const [videos, setVideos] = useState<IVideoDetail[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
   const [hoveredVideoId, setHoveredVideoId] = useState<string | null>(null);
+
+  const hasMoreRef = useRef(true);
+  const loadingRef = useRef(false);
 
   const { addError } = useAlertStore((state) => state);
 
@@ -35,8 +45,9 @@ const VideoListPage = () => {
 
   const fetchMoreData = useCallback(
     async (page: number) => {
-      if (!hasMore || loading) return;
+      if (!hasMoreRef.current || loadingRef.current) return;
 
+      loadingRef.current = true;
       setLoading(true);
       try {
         const response = await VideoService.getAllVideos({
@@ -50,24 +61,25 @@ const VideoListPage = () => {
         });
 
         if (response.data.data.videos.length < Page_SIZE) {
-          setHasMore(false);
+          hasMoreRef.current = false;
         }
-      } catch (error: any) {
+      } catch (error) {
         addError(error);
       } finally {
+        loadingRef.current = false;
         setLoading(false);
       }
     },
-    [addError, hasMore, loading]
+    [addError]
   );
 
   const lastVideoElementRef = useCallback(
     (node: HTMLAnchorElement) => {
-      if (loading) return;
+      if (loadingRef.current) return;
       if (observer.current) observer.current.disconnect();
       observer.current = new IntersectionObserver(
         (entries) => {
-          if (entries[0].isIntersecting && hasMore) {
+          if (entries[0].isIntersecting && hasMoreRef.current) {
             debouncedSetPage();
           }
         },
@@ -75,7 +87,7 @@ const VideoListPage = () => {
       );
       if (node) observer.current.observe(node);
     },
-    [loading, hasMore, debouncedSetPage]
+    [debouncedSetPage]
   );
 
   useEffect(() => {
@@ -117,14 +129,24 @@ const VideoListPage = () => {
               >
                 <div className="flex flex-col gap-2">
                   <div className="relative">
-                    <video
-                      id={video.id}
-                      autoPlay={hoveredVideoId === video.id}
-                      muted
-                      loop
-                    >
-                      <source src={video.videoUrl} type="video/mp4" />
-                    </video>
+                    {getYouTubeId(video.videoUrl) ? (
+                      <Image
+                        src={`https://img.youtube.com/vi/${getYouTubeId(video.videoUrl)}/hqdefault.jpg`}
+                        alt={video.title}
+                        width={480}
+                        height={360}
+                        className="w-full object-cover"
+                      />
+                    ) : (
+                      <video
+                        id={video.id}
+                        autoPlay={hoveredVideoId === video.id}
+                        muted
+                        loop
+                      >
+                        <source src={video.videoUrl} type="video/mp4" />
+                      </video>
+                    )}
                     <div className="absolute right-1 bottom-[4%] bg-[#00000080] text-white text-[8px] px-1 rounded-[4px] tracking-wide">
                       {video.duration}
                     </div>
@@ -166,14 +188,24 @@ const VideoListPage = () => {
               >
                 <div className="flex flex-col gap-2">
                   <div className="relative">
-                    <video
-                      id={video.id}
-                      autoPlay={hoveredVideoId === video.id}
-                      muted
-                      loop
-                    >
-                      <source src={video.videoUrl} type="video/mp4" />
-                    </video>
+                    {getYouTubeId(video.videoUrl) ? (
+                      <Image
+                        src={`https://img.youtube.com/vi/${getYouTubeId(video.videoUrl)}/hqdefault.jpg`}
+                        alt={video.title}
+                        width={480}
+                        height={360}
+                        className="w-full object-cover"
+                      />
+                    ) : (
+                      <video
+                        id={video.id}
+                        autoPlay={hoveredVideoId === video.id}
+                        muted
+                        loop
+                      >
+                        <source src={video.videoUrl} type="video/mp4" />
+                      </video>
+                    )}
                     <div className="absolute right-1 bottom-[4%] bg-[#00000080] text-white text-[8px] px-1 rounded-[4px] tracking-wide">
                       {video.duration}
                     </div>

@@ -88,8 +88,9 @@ const DetailVideoPageClientSide = ({ id }: DetailVideoPageClientSideProps) => {
       try {
         const response = await VideoService.getVideosById(id);
         setVideo(response.data);
-      } catch (error: any) {
-        addError(error?.response?.data?.message || "Failed to load video");
+      } catch (error) {
+        const err = error as any;
+        addError(err?.response?.data?.message || "Failed to load video");
       } finally {
         setLoading(false);
       }
@@ -109,13 +110,31 @@ const DetailVideoPageClientSide = ({ id }: DetailVideoPageClientSideProps) => {
   const formattedDate = new Date(video.createdAt).toLocaleDateString("en-CA");
   const tags = video.videoTags?.map((t) => `#${t}`).join(" ");
 
+  const getYouTubeEmbedUrl = (url: string): string | null => {
+    const match = url.match(
+      /(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/,
+    );
+    return match ? `https://www.youtube.com/embed/${match[1]}` : null;
+  };
+
+  const youtubeEmbedUrl = getYouTubeEmbedUrl(video.videoUrl);
+
   return (
     <div className="flex gap-6">
       <div className="w-3/5">
-        <video controls className="w-full" preload="metadata">
-          <source src={`${video.videoUrl}#t=0.1`} type="video/mp4" />
-          Your browser does not support HTML video.
-        </video>
+        {youtubeEmbedUrl ? (
+          <iframe
+            className="w-full aspect-video"
+            src={youtubeEmbedUrl}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+        ) : (
+          <video controls className="w-full" preload="metadata">
+            <source src={`${video.videoUrl}#t=0.1`} type="video/mp4" />
+            Your browser does not support HTML video.
+          </video>
+        )}
 
         <div className="mt-4">
           <p className="mb-4">{tags}</p>
