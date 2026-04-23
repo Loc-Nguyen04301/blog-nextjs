@@ -26,6 +26,7 @@ import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import VideoService from "@/services/VideoService";
 import { IVideoDetail } from "@/types/video";
 import { useAlertStore } from "@/zustand/stores/alert-store";
+import VideoCommentComponent from "@/components/VideoCommentComponent";
 
 type DetailVideoPageClientSideProps = {
   id: string;
@@ -57,7 +58,6 @@ const DetailVideoPageClientSide = ({ id }: DetailVideoPageClientSideProps) => {
   const [copied, setCopied] = useState(false);
   const [video, setVideo] = useState<IVideoDetail | null>(null);
   const { setLoading, addError } = useAlertStore();
-
 
   const handleOpenSharePopover = (
     event: React.MouseEvent<HTMLButtonElement>,
@@ -106,7 +106,6 @@ const DetailVideoPageClientSide = ({ id }: DetailVideoPageClientSideProps) => {
     );
   }
 
-  
   const formattedDate = new Date(video.createdAt).toLocaleDateString("en-CA");
   const tags = video.videoTags?.map((t) => `#${t}`).join(" ");
 
@@ -218,7 +217,7 @@ const DetailVideoPageClientSide = ({ id }: DetailVideoPageClientSideProps) => {
           </Alert>
         </Snackbar>
       )}
-      <div className="w-2/5">Comment</div>
+      <VideoCommentComponent id={id} />
     </div>
   );
 };

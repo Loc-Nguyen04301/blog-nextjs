@@ -18,7 +18,7 @@ import _ from "lodash";
 
 const getYouTubeId = (url: string): string | null => {
   const match = url.match(
-    /(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/
+    /(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/,
   );
   return match ? match[1] : null;
 };
@@ -40,7 +40,7 @@ const VideoListPage = () => {
 
   const debouncedSetPage = useMemo(
     () => _.debounce(() => setCurrentPage((prev) => prev + 1), 500),
-    []
+    [],
   );
 
   const fetchMoreData = useCallback(
@@ -63,14 +63,14 @@ const VideoListPage = () => {
         if (response.data.data.videos.length < Page_SIZE) {
           hasMoreRef.current = false;
         }
-      } catch (error) {
+      } catch (error: any) {
         addError(error);
       } finally {
         loadingRef.current = false;
         setLoading(false);
       }
     },
-    [addError]
+    [addError],
   );
 
   const lastVideoElementRef = useCallback(
@@ -83,11 +83,11 @@ const VideoListPage = () => {
             debouncedSetPage();
           }
         },
-        { threshold: 1.0 }
+        { threshold: 1.0 },
       );
       if (node) observer.current.observe(node);
     },
-    [debouncedSetPage]
+    [debouncedSetPage],
   );
 
   useEffect(() => {
@@ -97,7 +97,7 @@ const VideoListPage = () => {
   useEffect(() => {
     if (hoveredVideoId) {
       const videoElement = document.getElementById(
-        hoveredVideoId
+        hoveredVideoId,
       ) as HTMLVideoElement;
       if (videoElement) {
         videoElement
@@ -121,7 +121,7 @@ const VideoListPage = () => {
                 onMouseLeave={() => {
                   setHoveredVideoId(null);
                   const videoElement = document.getElementById(
-                    video.id
+                    video.id,
                   ) as HTMLVideoElement;
                   if (videoElement) videoElement.pause();
                 }}
@@ -154,7 +154,7 @@ const VideoListPage = () => {
                   <div
                     className={clsx(
                       "text-sm px-1 font-medium line-clamp-2",
-                      hoveredVideoId === video.id && "opacity-65"
+                      hoveredVideoId === video.id && "opacity-65",
                     )}
                   >
                     {video.title}
@@ -162,7 +162,7 @@ const VideoListPage = () => {
                   <div
                     className={clsx(
                       "flex justify-between px-1 text-xs tracking-wide text-[10px]",
-                      hoveredVideoId === video.id && "opacity-65"
+                      hoveredVideoId === video.id && "opacity-65",
                     )}
                   >
                     <span>
@@ -181,7 +181,7 @@ const VideoListPage = () => {
                 onMouseLeave={() => {
                   setHoveredVideoId(null);
                   const videoElement = document.getElementById(
-                    video.id
+                    video.id,
                   ) as HTMLVideoElement;
                   if (videoElement) videoElement.pause();
                 }}
@@ -213,7 +213,7 @@ const VideoListPage = () => {
                   <div
                     className={clsx(
                       "text-sm px-1 font-medium line-clamp-2",
-                      hoveredVideoId === video.id && "opacity-65"
+                      hoveredVideoId === video.id && "opacity-65",
                     )}
                   >
                     {video.title}
@@ -221,7 +221,7 @@ const VideoListPage = () => {
                   <div
                     className={clsx(
                       "flex justify-between px-1 text-xs tracking-wide text-[10px]",
-                      hoveredVideoId === video.id && "opacity-65"
+                      hoveredVideoId === video.id && "opacity-65",
                     )}
                   >
                     <span>
