@@ -49,7 +49,7 @@ const refreshTokens = async (): Promise<AuthTokens> => {
 
 axiosInstance.interceptors.request.use(
   async (requestConfig: InternalAxiosRequestConfig) => {
-    if (!shouldSkipRefresh(requestConfig.url) && isAccessTokenExpired()) {
+    if (!shouldSkipRefresh(requestConfig.url) && getAccessToken() !== null && isAccessTokenExpired()) {
       if (!refreshPromise) {
         refreshPromise = refreshTokens().finally(() => {
           refreshPromise = null;

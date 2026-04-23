@@ -6,6 +6,10 @@ import { CircularProgress } from "@mui/material";
 import { formatDistanceToNow } from "date-fns";
 import Image from "next/image";
 import { useAlertStore } from "@/zustand/stores/alert-store";
+import { getSocket } from "@/utils/socket";
+import { useAuthStore } from "@/zustand/stores/auth-store";
+import Link from "next/link";
+import { Routes } from "@/types/routes";
 
 interface VideoCommentComponentProps {
   id: string;
@@ -16,6 +20,7 @@ const VideoCommentComponent = ({ id }: VideoCommentComponentProps) => {
   const [description, setDescription] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const { setLoading, loading } = useAlertStore();
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
 
   useEffect(() => {
     const fetchComments = async () => {
@@ -32,16 +37,29 @@ const VideoCommentComponent = ({ id }: VideoCommentComponentProps) => {
     fetchComments();
   }, [id, setLoading]);
 
+  useEffect(() => {
+    const socket = getSocket();
+
+    socket.emit("joinVideo", id);
+
+    socket.on("newComment", (comment: IComment) => {
+      setComments((prev) => [comment, ...prev]);
+    });
+
+    return () => {
+      socket.off("newComment");
+    };
+  }, [id]);
+
   const handleAddComment = async () => {
     if (!description.trim()) return;
     setSubmitting(true);
     setLoading(true);
     try {
-      const response = await CommentService.createComment({
+      await CommentService.createComment({
         description,
         videoId: id,
       });
-      setComments((prev) => [response.data.data, ...prev]);
       setDescription("");
     } catch (error) {
       console.error(error);
@@ -107,23 +125,35 @@ const VideoCommentComponent = ({ id }: VideoCommentComponentProps) => {
         <h4 className="text-sm font-bold uppercase mb-4 tracking-widest">
           Leave a Comment
         </h4>
-        <textarea
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          placeholder="Viết bình luận của bạn..."
-          className="w-full p-3 border border-gray-200 rounded-md focus:outline-none focus:ring-1 focus:ring-[#9e6a2d] min-h-[100px]"
-        />
-        <button
-          onClick={handleAddComment}
-          disabled={submitting || !description.trim()}
-          className="mt-4 bg-[#9e6a2d] text-white px-6 py-2 rounded-sm text-sm font-bold uppercase hover:bg-[#855825] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {submitting ? (
-            <CircularProgress size={16} color="inherit" />
-          ) : (
-            "Post Comment"
-          )}
-        </button>
+        {isLoggedIn ? (
+          <>
+            <textarea
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="Viết bình luận của bạn..."
+              className="w-full p-3 border border-gray-200 rounded-md focus:outline-none focus:ring-1 focus:ring-[#9e6a2d] min-h-[100px]"
+            />
+            <button
+              onClick={handleAddComment}
+              disabled={submitting || !description.trim()}
+              className="mt-4 bg-[#9e6a2d] text-white px-6 py-2 rounded-sm text-sm font-bold uppercase hover:bg-[#855825] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {submitting ? (
+                <CircularProgress size={16} color="inherit" />
+              ) : (
+                "Post Comment"
+              )}
+            </button>
+          </>
+        ) : (
+          <p className="text-sm text-gray-500">
+            Vui lòng{" "}
+            <Link href={Routes.SIGN_IN} className="text-[#9e6a2d] font-semibold hover:underline">
+              đăng nhập
+            </Link>{" "}
+            để bình luận.
+          </p>
+        )}
       </div>
     </div>
   );

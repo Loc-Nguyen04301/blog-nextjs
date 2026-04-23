@@ -6,13 +6,17 @@ import {
 import { PrismaService } from "src/prisma/prisma.service";
 import { CreateCommentDto } from "./dto/create-comment.dto";
 import { UpdateCommentDto } from "./dto/update-comment.dto";
+import { CommentGateway } from "./comment.gateway";
 
 @Injectable()
 export class CommentService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private commentGateway: CommentGateway,
+  ) {}
 
   async create(userId: string, dto: CreateCommentDto) {
-    return this.prisma.comment.create({
+    const comment = await this.prisma.comment.create({
       data: {
         description: dto.description,
         userId,
@@ -26,6 +30,12 @@ export class CommentService {
         user: { select: { id: true, username: true, avatar: true } },
       },
     });
+
+    if (dto.videoId) {
+      this.commentGateway.emitNewComment(dto.videoId, comment);
+    }
+
+    return comment;
   }
 
   async findByBlog(blogId: string) {
