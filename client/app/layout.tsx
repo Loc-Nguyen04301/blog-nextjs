@@ -9,6 +9,7 @@ import LoadingComponent from "@/components/LoadingComponent";
 import { AudioPlayerProvider } from "@/context/audio-player-context";
 import { lato } from "@/fonts";
 import I18nProvider from "@/components/I18nProvider";
+import { cookies } from "next/headers";
 
 export const metadata: Metadata = {
   title: "Loc Nguyen Writer",
@@ -30,13 +31,17 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cookieStore = cookies();
+  console.log({cookieStore})
+  const lang = cookieStore.get("i18next")?.value ?? "vi";
+
   return (
-    <html lang="en" className={lato.variable}>
+    <html lang={lang} className={lato.variable}>
       <head>
         <link rel="preconnect" href="http://103.101.163.17:8000" />
       </head>
-      <body style={{ fontFamily: "var(--font-lato)" }}>
-        <I18nProvider>
+      <body style={{ fontFamily: "var(--font-lato)" }} suppressHydrationWarning>
+        <I18nProvider lang={lang}>
           <AudioPlayerProvider>
             <AlertComponent />
             <LoadingComponent />
