@@ -8,6 +8,7 @@ import AlertComponent from "@/components/AlertComponent";
 import LoadingComponent from "@/components/LoadingComponent";
 import { AudioPlayerProvider } from "@/context/audio-player-context";
 import { lato } from "@/fonts";
+import I18nProvider from "@/components/I18nProvider";
 
 export const metadata: Metadata = {
   title: "Loc Nguyen Writer",
@@ -35,15 +36,17 @@ export default function RootLayout({
         <link rel="preconnect" href="http://103.101.163.17:8000" />
       </head>
       <body style={{ fontFamily: "var(--font-lato)" }}>
-        <AudioPlayerProvider>
-          <AlertComponent />
-          <LoadingComponent />
-          <ScrollToTop />
-          <ThemeProvider theme={theme}>
-            <CssBaseline />
-            {children}
-          </ThemeProvider>
-        </AudioPlayerProvider>
+        <I18nProvider>
+          <AudioPlayerProvider>
+            <AlertComponent />
+            <LoadingComponent />
+            <ScrollToTop />
+            <ThemeProvider theme={theme}>
+              <CssBaseline />
+              {children}
+            </ThemeProvider>
+          </AudioPlayerProvider>
+        </I18nProvider>
       </body>
     </html>
   );

@@ -3,9 +3,11 @@ import { useEffect } from "react";
 import LinkItem from "@/components/groupBlogLayout/LinkItem/LinkItem";
 import { useAuthStore, initAuthStore } from "@/zustand/stores/auth-store";
 import { Routes } from "@/types/routes";
+import { useTranslation } from "react-i18next";
 
 const AuthNavLinks = () => {
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
+  const { t } = useTranslation();
 
   useEffect(() => {
     initAuthStore();
@@ -17,12 +19,12 @@ const AuthNavLinks = () => {
     <>
       <LinkItem
         href={Routes.SIGN_IN}
-        label="Đăng nhập"
+        label={t("nav.signIn", "Đăng nhập")}
         className="hover:text-primaryColor"
       />
       <LinkItem
         href={Routes.SIGN_UP}
-        label="Đăng ký"
+        label={t("nav.signUp", "Đăng ký")}
         className="hover:text-primaryColor"
       />
     </>

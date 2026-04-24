@@ -1,5 +1,6 @@
 "use client";
 import * as React from "react";
+import { useTranslation } from "react-i18next";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -17,6 +18,8 @@ export default function ForgotPassword({
   open,
   handleClose,
 }: ForgotPasswordProps) {
+  const { t } = useTranslation();
+
   return (
     <Dialog
       open={open}
@@ -30,28 +33,27 @@ export default function ForgotPassword({
         sx: { backgroundImage: "none" },
       }}
     >
-      <DialogTitle>Reset password</DialogTitle>
+      <DialogTitle>{t("auth.resetPassword", "Đặt lại mật khẩu")}</DialogTitle>
       <DialogContent
         sx={{ display: "flex", flexDirection: "column", gap: 2, width: "100%" }}
       >
         <DialogContentText>
-          Enter your account&apos;s email address, and we&apos;ll send you a
-          link to reset your password.
+          {t("auth.resetPasswordDesc", "Nhập địa chỉ email của tài khoản, chúng tôi sẽ gửi cho bạn liên kết để đặt lại mật khẩu.")}
         </DialogContentText>
         <OutlinedInput
           id="email"
           name="email"
           autoFocus
           required
-          placeholder="Email address"
+          placeholder={t("auth.emailAddressPlaceholder", "Địa chỉ email")}
           type="email"
           fullWidth
         />
       </DialogContent>
       <DialogActions sx={{ pb: 3, px: 3 }}>
-        <Button onClick={handleClose}>Cancel</Button>
+        <Button onClick={handleClose}>{t("auth.cancel", "Hủy")}</Button>
         <Button variant="contained" type="submit" sx={{ color: "white" }}>
-          Continue
+          {t("auth.continue", "Tiếp tục")}
         </Button>
       </DialogActions>
     </Dialog>

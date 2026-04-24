@@ -17,6 +17,7 @@ import AuthService from "@/services/AuthService";
 import { useAlertStore } from "@/zustand/stores/alert-store";
 import { useRouter } from "next/navigation";
 import { getAccessToken } from "@/utils/authTokens";
+import { useTranslation } from "react-i18next";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -62,6 +63,7 @@ const SignInContainer = styled(Stack)(({ theme }) => ({
 const SignInComponent = () => {
   const { addError } = useAlertStore((state) => state);
   const router = useRouter();
+  const { t } = useTranslation();
 
   const [emailError, setEmailError] = React.useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState("");
@@ -106,7 +108,7 @@ const SignInComponent = () => {
 
     if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) {
       setEmailError(true);
-      setEmailErrorMessage("Please enter a valid email address.");
+      setEmailErrorMessage(t("auth.emailError", "Vui lòng nhập email hợp lệ."));
       isValid = false;
     } else {
       setEmailError(false);
@@ -115,7 +117,7 @@ const SignInComponent = () => {
 
     if (!password.value || password.value.length < 6) {
       setPasswordError(true);
-      setPasswordErrorMessage("Password must be at least 6 characters long.");
+      setPasswordErrorMessage(t("auth.passwordError", "Mật khẩu phải có ít nhất 6 ký tự."));
       isValid = false;
     } else {
       setPasswordError(false);
@@ -138,7 +140,7 @@ const SignInComponent = () => {
       <Card variant="outlined">
         <SitemarkIcon />
         <Typography component="h1" variant="h4" sx={{ width: "100%" }}>
-          Sign in
+          {t("auth.signIn", "Đăng nhập")}
         </Typography>
         <Box
           component="form"
@@ -153,7 +155,7 @@ const SignInComponent = () => {
         >
           <FormControl>
             <FormLabel htmlFor="email" sx={{ fontSize: 14 }}>
-              Email
+              {t("auth.email", "Email")}
             </FormLabel>
             <TextField
               error={emailError}
@@ -161,7 +163,7 @@ const SignInComponent = () => {
               id="email"
               type="email"
               name="email"
-              placeholder="your@email.com"
+              placeholder={t("auth.emailPlaceholder", "your@email.com")}
               autoComplete="email"
               autoFocus
               required
@@ -172,7 +174,7 @@ const SignInComponent = () => {
           </FormControl>
           <FormControl>
             <FormLabel htmlFor="password" sx={{ fontSize: 14 }}>
-              Password
+              {t("auth.password", "Mật khẩu")}
             </FormLabel>
             <TextField
               error={passwordError}
@@ -191,7 +193,7 @@ const SignInComponent = () => {
           </FormControl>
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
+            label={t("auth.rememberMe", "Ghi nhớ đăng nhập")}
           />
           <ForgotPassword open={open} handleClose={handleClose} />
           <Button
@@ -205,7 +207,7 @@ const SignInComponent = () => {
               textTransform: "unset",
             }}
           >
-            Sign in
+            {t("auth.signIn", "Đăng nhập")}
           </Button>
           <Link
             component="button"
@@ -214,10 +216,10 @@ const SignInComponent = () => {
             variant="body2"
             sx={{ alignSelf: "center" }}
           >
-            Forgot your password?
+            {t("auth.forgotPassword", "Quên mật khẩu?")}
           </Link>
         </Box>
-        <Divider>or</Divider>
+        <Divider>{t("auth.or", "hoặc")}</Divider>
         <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
           <Button
             fullWidth
@@ -228,7 +230,7 @@ const SignInComponent = () => {
               color: "black",
             }}
           >
-            Sign in with Google
+            {t("auth.signInWithGoogle", "Đăng nhập với Google")}
           </Button>
           <Button
             fullWidth
@@ -239,16 +241,16 @@ const SignInComponent = () => {
               color: "black",
             }}
           >
-            Sign in with Facebook
+            {t("auth.signInWithFacebook", "Đăng nhập với Facebook")}
           </Button>
           <Typography sx={{ textAlign: "center" }}>
-            Don&apos;t have an account?
+            {t("auth.noAccount", "Chưa có tài khoản?")}
             <Link
               href="/sign-up"
               variant="body2"
               sx={{ alignSelf: "center", ml: 1 }}
             >
-              Sign up
+              {t("auth.signUp", "Đăng ký")}
             </Link>
           </Typography>
         </Box>

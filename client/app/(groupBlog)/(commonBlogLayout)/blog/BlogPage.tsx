@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { useBlogStore } from "@/zustand/stores/blog-store";
 import { lato } from "@/fonts";
 import { useCategoryStore } from "@/zustand/stores/category-store";
+import { useTranslation } from "react-i18next";
 
 const BlogPageClientSide = () => {
   const searchParams = useSearchParams();
@@ -14,6 +15,7 @@ const BlogPageClientSide = () => {
 
   const { setSelectedCategory } = useCategoryStore((state) => state);
   const { fetchBlogs, listBlogs, pageNumbers } = useBlogStore((state) => state);
+  const { t } = useTranslation();
 
   const pageParam = Number(searchParams.get("page") || "1");
   const keywordParam = searchParams.get("search") || undefined;
@@ -46,10 +48,10 @@ const BlogPageClientSide = () => {
       {pageNumbers === 0 && (
         <>
           <div className="uppercase text-lg tracking-wide">
-            Search Results for: {keywordParam}
+            {t("blog.searchResultsFor", "Kết quả tìm kiếm cho:")} {keywordParam}
           </div>
           <h1 className={`${lato.variable} font-sans mt-20 text-center`}>
-            Sorry, no content matched your criteria.
+            {t("blog.noResults", "Xin lỗi, không có nội dung phù hợp.")}
           </h1>
         </>
       )}

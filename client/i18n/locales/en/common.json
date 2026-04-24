@@ -1,0 +1,65 @@
+{
+  "nav": {
+    "blog": "Blog",
+    "video": "Video",
+    "menu": "Contents",
+    "about": "About",
+    "signIn": "Sign in",
+    "signUp": "Sign up",
+    "signOut": "Sign out",
+    "home": "Home"
+  },
+  "auth": {
+    "signIn": "Sign in",
+    "signUp": "Sign up",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "name": "Name",
+    "rememberMe": "Remember me",
+    "forgotPassword": "Forgot your password?",
+    "noAccount": "Don't have an account?",
+    "alreadyHaveAccount": "Already have an account?",
+    "signInWithGoogle": "Sign in with Google",
+    "signInWithFacebook": "Sign in with Facebook",
+    "or": "or",
+    "emailPlaceholder": "your@email.com",
+    "namePlaceholder": "Your Name",
+    "emailError": "Please enter a valid email address.",
+    "passwordError": "Password must be at least 6 characters long.",
+    "resetPassword": "Reset password",
+    "resetPasswordDesc": "Enter your account's email address, and we'll send you a link to reset your password.",
+    "emailAddressPlaceholder": "Email address",
+    "cancel": "Cancel",
+    "continue": "Continue"
+  },
+  "blog": {
+    "readMore": "[Read more ...]",
+    "by": "By",
+    "categories": "Categories:",
+    "searchResultsFor": "Search Results for:",
+    "noResults": "Sorry, no content matched your criteria."
+  },
+  "comment": {
+    "title": "COMMENTS",
+    "noComments": "No comments yet.",
+    "leaveComment": "Leave a Comment",
+    "placeholder": "Write your comment...",
+    "postComment": "Post Comment",
+    "loginToComment": "Please",
+    "loginLink": "sign in",
+    "loginToCommentSuffix": "to leave a comment."
+  },
+  "footer": {
+    "copyright": "© Copyright All Rights Reserved By Loc Nguyen"
+  },
+  "about": {
+    "bio": "Loc Nguyen Writer is a \"quiet green garden\" — a place to share personal moments and emotions. About",
+    "me": "me"
+  },
+  "language": {
+    "vi": "VI",
+    "en": "EN",
+    "switchLanguage": "Switch language"
+  }
+}

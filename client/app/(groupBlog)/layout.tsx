@@ -3,9 +3,7 @@ import Image from "next/image";
 import Footer from "../../components/Footer";
 import AccordionMenu from "./AccordionMenu";
 import logoBlog from "@/assets/images/logoBlog.png";
-import LinkItem from "@/components/groupBlogLayout/LinkItem/LinkItem";
-import AuthNavLinks from "@/components/AuthNavLinks";
-import { Routes } from "@/types/routes";
+import BlogNavHeader from "@/components/groupBlogLayout/BlogNavHeader";
 
 const BlogLayout = async ({ children }: { children: React.ReactNode }) => {
   return (
@@ -14,33 +12,7 @@ const BlogLayout = async ({ children }: { children: React.ReactNode }) => {
         <div className="pt-16 px-16 pb-10 max-md:px-0">
           <header className="my-10 text-xs uppercase">
             <div className="border-t border-b border-[#000] relative max-md:border-white">
-              <div className="flex justify-between max-md:hidden">
-                <ul className="flex w-[40%] justify-start flex-wrap tracking-wide">
-                  <LinkItem
-                    href={Routes.BLOG}
-                    label="Blog"
-                    className="hover:text-primaryColor"
-                  />
-                  <LinkItem
-                    href={Routes.VIDEO}
-                    label="Video"
-                    className="hover:text-primaryColor"
-                  />
-                  <LinkItem
-                    href={Routes.MENU}
-                    label="Mục lục"
-                    className="hover:text-primaryColor"
-                  />
-                </ul>
-                <ul className="flex w-[40%] justify-end flex-wrap tracking-wide">
-                  <LinkItem
-                    href={Routes.GIOI_THIEU}
-                    label="Giới thiệu"
-                    className="hover:text-primaryColor"
-                  />
-                  <AuthNavLinks />
-                </ul>
-              </div>
+              <BlogNavHeader />
               <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                 <Link href={"/"}>
                   <Image src={logoBlog} alt="logo-blog-center" width={150} />

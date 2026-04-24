@@ -13,6 +13,8 @@ import React, { memo, useEffect } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import Link from "next/link";
 import { useAuthStore } from "@/zustand/stores/auth-store";
+import { useTranslation } from "react-i18next";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 interface DrawerMenu {
   openDrawer: boolean;
@@ -23,6 +25,7 @@ const DrawerMenu = ({ openDrawer, toggleDrawer }: DrawerMenu) => {
   const theme = useTheme();
   const isUpSM = useMediaQuery(theme.breakpoints.up("sm"), { noSsr: true });
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (openDrawer && isUpSM) {
@@ -60,19 +63,19 @@ const DrawerMenu = ({ openDrawer, toggleDrawer }: DrawerMenu) => {
         <Box sx={{ mb: 2, width: 366 }}>
           <ListItemButton>
             <Link href={"/blog"}>
-              <ListItemText primary="Blog" />
+              <ListItemText primary={t("nav.blog", "Blog")} />
             </Link>
           </ListItemButton>
 
           <ListItemButton>
             <Link href={"/video"}>
-              <ListItemText primary="Video" />
+              <ListItemText primary={t("nav.video", "Video")} />
             </Link>
           </ListItemButton>
 
           <ListItemButton>
             <Link href={"/gioi-thieu"}>
-              <ListItemText primary="Giới thiệu" />
+              <ListItemText primary={t("nav.about", "Giới thiệu")} />
             </Link>
           </ListItemButton>
 
@@ -80,16 +83,20 @@ const DrawerMenu = ({ openDrawer, toggleDrawer }: DrawerMenu) => {
             <>
               <ListItemButton>
                 <Link href={"/sign-in"}>
-                  <ListItemText primary="Đăng nhập" />
+                  <ListItemText primary={t("nav.signIn", "Đăng nhập")} />
                 </Link>
               </ListItemButton>
               <ListItemButton>
                 <Link href={"/sign-up"}>
-                  <ListItemText primary="Đăng ký" />
+                  <ListItemText primary={t("nav.signUp", "Đăng ký")} />
                 </Link>
               </ListItemButton>
             </>
           )}
+
+          <ListItemButton disableRipple sx={{ pl: 2, pt: 1 }}>
+            <LanguageSwitcher />
+          </ListItemButton>
         </Box>
       </Box>
     </Drawer>

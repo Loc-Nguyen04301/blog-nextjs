@@ -1,0 +1,65 @@
+{
+  "nav": {
+    "blog": "Blog",
+    "video": "Video",
+    "menu": "Mục lục",
+    "about": "Giới thiệu",
+    "signIn": "Đăng nhập",
+    "signUp": "Đăng ký",
+    "signOut": "Đăng xuất",
+    "home": "Trang chủ"
+  },
+  "auth": {
+    "signIn": "Đăng nhập",
+    "signUp": "Đăng ký",
+    "email": "Email",
+    "password": "Mật khẩu",
+    "confirmPassword": "Xác nhận mật khẩu",
+    "name": "Tên",
+    "rememberMe": "Ghi nhớ đăng nhập",
+    "forgotPassword": "Quên mật khẩu?",
+    "noAccount": "Chưa có tài khoản?",
+    "alreadyHaveAccount": "Đã có tài khoản?",
+    "signInWithGoogle": "Đăng nhập với Google",
+    "signInWithFacebook": "Đăng nhập với Facebook",
+    "or": "hoặc",
+    "emailPlaceholder": "your@email.com",
+    "namePlaceholder": "Tên của bạn",
+    "emailError": "Vui lòng nhập email hợp lệ.",
+    "passwordError": "Mật khẩu phải có ít nhất 6 ký tự.",
+    "resetPassword": "Đặt lại mật khẩu",
+    "resetPasswordDesc": "Nhập địa chỉ email của tài khoản, chúng tôi sẽ gửi cho bạn liên kết để đặt lại mật khẩu.",
+    "emailAddressPlaceholder": "Địa chỉ email",
+    "cancel": "Hủy",
+    "continue": "Tiếp tục"
+  },
+  "blog": {
+    "readMore": "[Đọc thêm ...]",
+    "by": "Bởi",
+    "categories": "Mục lục:",
+    "searchResultsFor": "Kết quả tìm kiếm cho:",
+    "noResults": "Xin lỗi, không có nội dung phù hợp."
+  },
+  "comment": {
+    "title": "BÌNH LUẬN",
+    "noComments": "Chưa có bình luận nào.",
+    "leaveComment": "Để lại bình luận",
+    "placeholder": "Viết bình luận của bạn...",
+    "postComment": "Đăng bình luận",
+    "loginToComment": "Vui lòng",
+    "loginLink": "đăng nhập",
+    "loginToCommentSuffix": "để bình luận."
+  },
+  "footer": {
+    "copyright": "© Bản quyền thuộc về Lộc Nguyễn"
+  },
+  "about": {
+    "bio": "Loc Nguyen Writer là \"khu vườn xanh yên tĩnh\" - nơi chia sẻ khoảnh khắc, cảm xúc của bản thân. Giới thiệu về",
+    "me": "tôi"
+  },
+  "language": {
+    "vi": "VI",
+    "en": "EN",
+    "switchLanguage": "Chuyển ngôn ngữ"
+  }
+}

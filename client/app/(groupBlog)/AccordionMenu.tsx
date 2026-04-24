@@ -9,12 +9,15 @@ import { useAuthStore, initAuthStore } from "@/zustand/stores/auth-store";
 import { Routes } from "@/types/routes";
 import AuthService from "@/services/AuthService";
 import { useRouter } from "next/navigation";
+import { useTranslation } from "react-i18next";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 const AccordionMenu = () => {
   const pathname = usePathname();
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
+  const { t } = useTranslation();
 
   const handleToggle = () => {
     setIsOpen((prev) => !prev);
@@ -70,22 +73,22 @@ const AccordionMenu = () => {
       </AccordionSummary>
       <AccordionDetails>
         <Link className="hover:text-primaryColor" href={Routes.BLOG}>
-          Blog
+          {t("nav.blog", "Blog")}
         </Link>
       </AccordionDetails>
       <AccordionDetails>
         <Link className="hover:text-primaryColor" href={Routes.VIDEO}>
-          Video
+          {t("nav.video", "Video")}
         </Link>
       </AccordionDetails>
       <AccordionDetails>
         <Link className="hover:text-primaryColor" href={Routes.MENU}>
-          Mục lục
+          {t("nav.menu", "Mục lục")}
         </Link>
       </AccordionDetails>
       <AccordionDetails>
         <Link className="hover:text-primaryColor" href={Routes.GIOI_THIEU}>
-          Giới thiệu
+          {t("nav.about", "Giới thiệu")}
         </Link>
       </AccordionDetails>
       {isLoggedIn ? (
@@ -94,23 +97,26 @@ const AccordionMenu = () => {
             className="hover:text-primaryColor uppercase"
             onClick={handleLogout}
           >
-            Đăng xuất
+            {t("nav.signOut", "Đăng xuất")}
           </button>
         </AccordionDetails>
       ) : (
         <>
           <AccordionDetails>
             <Link className="hover:text-primaryColor" href={Routes.SIGN_IN}>
-              Đăng nhập
+              {t("nav.signIn", "Đăng nhập")}
             </Link>
           </AccordionDetails>
           <AccordionDetails>
             <Link className="hover:text-primaryColor" href={Routes.SIGN_UP}>
-              Đăng ký
+              {t("nav.signUp", "Đăng ký")}
             </Link>
           </AccordionDetails>
         </>
       )}
+      <AccordionDetails>
+        <LanguageSwitcher />
+      </AccordionDetails>
     </Accordion>
   );
 };

@@ -8,6 +8,7 @@ import type { UrlObject } from "url";
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
 import { useCategoryStore } from "@/zustand/stores/category-store";
 import clsx from "clsx";
+import { useTranslation } from "react-i18next";
 
 interface BlogComponentProps {
   linkTo?: string | UrlObject;
@@ -32,6 +33,7 @@ const BlogComponent: FC<BlogComponentProps> = ({
 }) => {
   const categoryOptions = useCategoryStore((state) => state.listCategories);
   const createdAt = formatDate(new Date());
+  const { t } = useTranslation();
 
   return (
     <div className={clsx("mb-16 border-b border-[#000]", className)}>
@@ -70,7 +72,7 @@ const BlogComponent: FC<BlogComponentProps> = ({
               href={linkTo || "#"}
               className="hover:text-primaryColor font-semibold ml-1"
             >
-              [Read more ...]
+              {t("blog.readMore", "[Đọc thêm ...]")}
             </Link>
           </div>
         )}
@@ -84,7 +86,7 @@ const BlogComponent: FC<BlogComponentProps> = ({
         )}
         {categories && categoryOptions && (
           <p className="mt-5 text-subTitleColor text-sm">
-            <span className="mr-1">Mục lục:</span>
+            <span className="mr-1">{t("blog.categories", "Mục lục:")}</span>
             {categories.map((categoryId) => {
               const option = categoryOptions.find(
                 (opt) => Number(opt.id) === Number(categoryId),

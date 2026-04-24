@@ -10,6 +10,7 @@ import { getSocket } from "@/utils/socket";
 import { useAuthStore } from "@/zustand/stores/auth-store";
 import Link from "next/link";
 import { Routes } from "@/types/routes";
+import { useTranslation } from "react-i18next";
 
 interface VideoCommentComponentProps {
   id: string;
@@ -21,6 +22,7 @@ const VideoCommentComponent = ({ id }: VideoCommentComponentProps) => {
   const [submitting, setSubmitting] = useState(false);
   const { setLoading, loading } = useAlertStore();
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchComments = async () => {
@@ -72,7 +74,7 @@ const VideoCommentComponent = ({ id }: VideoCommentComponentProps) => {
   return (
     <div className="max-w-2xl font-sans text-left">
       <h3 className="text-xl font-bold border-b-2 border-[#9e6a2d] inline-block mb-6 pb-1">
-        COMMENTS ({comments.length})
+        {t("comment.title", "BÌNH LUẬN")} ({comments.length})
       </h3>
 
       {loading ? (
@@ -80,7 +82,7 @@ const VideoCommentComponent = ({ id }: VideoCommentComponentProps) => {
           <CircularProgress size={24} />
         </div>
       ) : comments.length === 0 ? (
-        <p className="text-gray-400 text-sm mb-6">Chưa có bình luận nào.</p>
+        <p className="text-gray-400 text-sm mb-6">{t("comment.noComments", "Chưa có bình luận nào.")}</p>
       ) : (
         <div className="max-h-[400px] overflow-y-auto">
           {comments.map((comment) => (
@@ -123,14 +125,14 @@ const VideoCommentComponent = ({ id }: VideoCommentComponentProps) => {
       {/* Input Section */}
       <div className="mt-5 bg-gray-50 p-6 rounded-lg border-t-4 border-[#9e6a2d]">
         <h4 className="text-sm font-bold uppercase mb-4 tracking-widest">
-          Leave a Comment
+          {t("comment.leaveComment", "Để lại bình luận")}
         </h4>
         {isLoggedIn ? (
           <>
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder="Viết bình luận của bạn..."
+              placeholder={t("comment.placeholder", "Viết bình luận của bạn...")}
               className="w-full p-3 border border-gray-200 rounded-md focus:outline-none focus:ring-1 focus:ring-[#9e6a2d] min-h-[100px]"
             />
             <button
@@ -141,17 +143,17 @@ const VideoCommentComponent = ({ id }: VideoCommentComponentProps) => {
               {submitting ? (
                 <CircularProgress size={16} color="inherit" />
               ) : (
-                "Post Comment"
+                t("comment.postComment", "Đăng bình luận")
               )}
             </button>
           </>
         ) : (
           <p className="text-sm text-gray-500">
-            Vui lòng{" "}
+            {t("comment.loginToComment", "Vui lòng")}{" "}
             <Link href={Routes.SIGN_IN} className="text-[#9e6a2d] font-semibold hover:underline">
-              đăng nhập
+              {t("comment.loginLink", "đăng nhập")}
             </Link>{" "}
-            để bình luận.
+            {t("comment.loginToCommentSuffix", "để bình luận.")}
           </p>
         )}
       </div>

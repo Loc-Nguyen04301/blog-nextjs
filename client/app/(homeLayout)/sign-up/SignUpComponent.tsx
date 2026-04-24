@@ -25,6 +25,7 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import AuthService from "@/services/AuthService";
 import { useAlertStore } from "@/zustand/stores/alert-store";
 import { useRouter } from "next/navigation";
+import { useTranslation } from "react-i18next";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -70,6 +71,7 @@ const SignUpContainer = styled(Stack)(({ theme }) => ({
 const SignUpComponent = () => {
   const { setSuccess, addError } = useAlertStore((state) => state);
   const router = useRouter();
+  const { t } = useTranslation();
 
   const [emailError, setEmailError] = React.useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState("");
@@ -120,7 +122,7 @@ const SignUpComponent = () => {
 
     if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) {
       setEmailError(true);
-      setEmailErrorMessage("Please enter a valid email address.");
+      setEmailErrorMessage(t("auth.emailError", "Vui lòng nhập email hợp lệ."));
       isValid = false;
     } else {
       setEmailError(false);
@@ -129,7 +131,7 @@ const SignUpComponent = () => {
 
     if (!password.value || password.value.length < 6) {
       setPasswordError(true);
-      setPasswordErrorMessage("Password must be at least 6 characters long.");
+      setPasswordErrorMessage(t("auth.passwordError", "Mật khẩu phải có ít nhất 6 ký tự."));
       isValid = false;
     } else {
       setPasswordError(false);
@@ -143,7 +145,7 @@ const SignUpComponent = () => {
       <Card variant="outlined">
         <SitemarkIcon />
         <Typography component="h1" variant="h4" sx={{ width: "100%" }}>
-          Sign up
+          {t("auth.signUp", "Đăng ký")}
         </Typography>
         <Box
           component="form"
@@ -159,7 +161,7 @@ const SignUpComponent = () => {
           {/* Name */}
           <FormControl>
             <FormLabel htmlFor="name" sx={{ fontSize: 14 }}>
-              Name
+              {t("auth.name", "Tên")}
             </FormLabel>
             <TextField
               // error={emailError}
@@ -167,7 +169,7 @@ const SignUpComponent = () => {
               id="name"
               type="name"
               name="name"
-              placeholder="Your Name"
+              placeholder={t("auth.namePlaceholder", "Tên của bạn")}
               autoComplete="name"
               autoFocus
               required
@@ -179,7 +181,7 @@ const SignUpComponent = () => {
           {/* Email */}
           <FormControl>
             <FormLabel htmlFor="email" sx={{ fontSize: 14 }}>
-              Email
+              {t("auth.email", "Email")}
             </FormLabel>
             <TextField
               error={emailError}
@@ -187,7 +189,7 @@ const SignUpComponent = () => {
               id="email"
               type="email"
               name="email"
-              placeholder="your@email.com"
+              placeholder={t("auth.emailPlaceholder", "your@email.com")}
               autoComplete="email"
               autoFocus
               required
@@ -199,7 +201,7 @@ const SignUpComponent = () => {
           {/* Password */}
           <FormControl>
             <FormLabel htmlFor="password" sx={{ fontSize: 14 }}>
-              Password
+              {t("auth.password", "Mật khẩu")}
             </FormLabel>
             <TextField
               error={passwordError}
@@ -232,7 +234,7 @@ const SignUpComponent = () => {
           {/* Confirm Password */}
           <FormControl>
             <FormLabel htmlFor="confirmPassword" sx={{ fontSize: 14 }}>
-              Confirm Password
+              {t("auth.confirmPassword", "Xác nhận mật khẩu")}
             </FormLabel>
             <TextField
               error={passwordError}
@@ -265,7 +267,7 @@ const SignUpComponent = () => {
 
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
+            label={t("auth.rememberMe", "Ghi nhớ đăng nhập")}
           />
 
           <ForgotPassword open={open} handleClose={handleClose} />
@@ -280,7 +282,7 @@ const SignUpComponent = () => {
               textTransform: "unset",
             }}
           >
-            Sign up
+            {t("auth.signUp", "Đăng ký")}
           </Button>
           <Link
             component="button"
@@ -289,10 +291,10 @@ const SignUpComponent = () => {
             variant="body2"
             sx={{ alignSelf: "center" }}
           >
-            Forgot your password?
+            {t("auth.forgotPassword", "Quên mật khẩu?")}
           </Link>
         </Box>
-        <Divider>or</Divider>
+        <Divider>{t("auth.or", "hoặc")}</Divider>
         <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
           <Button
             fullWidth
@@ -303,7 +305,7 @@ const SignUpComponent = () => {
               color: "black",
             }}
           >
-            Sign in with Google
+            {t("auth.signInWithGoogle", "Đăng nhập với Google")}
           </Button>
           <Button
             fullWidth
@@ -314,7 +316,7 @@ const SignUpComponent = () => {
               color: "black",
             }}
           >
-            Sign in with Facebook
+            {t("auth.signInWithFacebook", "Đăng nhập với Facebook")}
           </Button>
           <Typography sx={{ textAlign: "center" }}>
             <Link
@@ -322,7 +324,7 @@ const SignUpComponent = () => {
               variant="body2"
               sx={{ alignSelf: "center", ml: 1 }}
             >
-              Already have an account?
+              {t("auth.alreadyHaveAccount", "Đã có tài khoản?")}
             </Link>
           </Typography>
         </Box>

@@ -6,10 +6,13 @@ import DrawerMenu from "../../components/Drawer";
 import MenuIcon from "@mui/icons-material/Menu";
 import AuthService from "@/services/AuthService";
 import { useAuthStore, initAuthStore } from "@/zustand/stores/auth-store";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
+import { useTranslation } from "react-i18next";
 
 const MainAndAuthLayout = ({ children }: { children: React.ReactNode }) => {
   const [openDrawer, setOpenDrawer] = useState(false);
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
+  const { t } = useTranslation();
 
   useEffect(() => {
     initAuthStore();
@@ -34,24 +37,24 @@ const MainAndAuthLayout = ({ children }: { children: React.ReactNode }) => {
             >
               Loc Nguyen Writer
             </Link>
-            <ul className="flex gap-3 justify-end max-sm:hidden">
+            <ul className="flex gap-3 justify-end items-center max-sm:hidden">
               <Link
                 className="px-2 font-medium text-[14px] uppercase hover:text-primaryColor cursor-pointer"
                 href="/blog"
               >
-                blog
+                {t("nav.blog", "Blog")}
               </Link>
               <Link
                 className="px-2 font-medium text-[14px] uppercase hover:text-primaryColor cursor-pointer"
                 href="/video"
               >
-                video
+                {t("nav.video", "Video")}
               </Link>
               <Link
                 className="px-2 font-medium text-[14px] uppercase hover:text-primaryColor cursor-pointer"
                 href="/gioi-thieu"
               >
-                giới thiệu
+                {t("nav.about", "Giới thiệu")}
               </Link>
               {isLoggedIn ? (
                 <Link
@@ -59,7 +62,7 @@ const MainAndAuthLayout = ({ children }: { children: React.ReactNode }) => {
                   onClick={handleLogOut}
                   href={"/"}
                 >
-                  đăng xuất
+                  {t("nav.signOut", "Đăng xuất")}
                 </Link>
               ) : (
                 <>
@@ -67,16 +70,17 @@ const MainAndAuthLayout = ({ children }: { children: React.ReactNode }) => {
                     className="px-2 font-medium text-[14px] uppercase hover:text-primaryColor cursor-pointer"
                     href="/sign-in"
                   >
-                    đăng nhập
+                    {t("nav.signIn", "Đăng nhập")}
                   </Link>
                   <Link
                     className="px-2 font-medium text-[14px] uppercase hover:text-primaryColor cursor-pointer"
                     href="/sign-up"
                   >
-                    đăng ký
+                    {t("nav.signUp", "Đăng ký")}
                   </Link>
                 </>
               )}
+              <LanguageSwitcher />
             </ul>
             <div className="sm:hidden">
               <IconButton
