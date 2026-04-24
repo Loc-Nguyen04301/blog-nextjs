@@ -86,13 +86,13 @@ const SignInComponent = () => {
 
     try {
       await AuthService.login({
-        email: data.get("email"),
-        password: data.get("password"),
+        email: data.get("email") as string,
+        password: data.get("password") as string,
       });
 
       // ✅ redirect sang sign-in
       router.push("/");
-    } catch (error) {
+    } catch (error: any) {
       console.log({ error });
       addError(error.response.data.message);
     }

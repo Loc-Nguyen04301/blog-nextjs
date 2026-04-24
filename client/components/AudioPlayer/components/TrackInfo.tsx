@@ -8,11 +8,12 @@ const TrackInfo = () => {
 
   return (
     <div className="flex items-center gap-4">
-      <div className="w-24 h-24 rounded">
+      <div className="relative w-24 h-24 rounded overflow-hidden">
         <Image
           src={currentTrack.thumbnail || ""}
           alt="avatarMyself"
-          className="rounded h-full w-full object-cover"
+          fill
+          className="rounded object-cover"
         />
       </div>
       <div className="flex flex-col gap-1">

@@ -7,6 +7,7 @@ import ScrollToTop from "../utils/ScrollToTop";
 import AlertComponent from "@/components/AlertComponent";
 import LoadingComponent from "@/components/LoadingComponent";
 import { AudioPlayerProvider } from "@/context/audio-player-context";
+import { lato } from "@/fonts";
 
 export const metadata: Metadata = {
   title: "Loc Nguyen Writer",
@@ -29,8 +30,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body>
+    <html lang="en" className={lato.variable}>
+      <head>
+        <link rel="preconnect" href="http://103.101.163.17:8000" />
+      </head>
+      <body style={{ fontFamily: "var(--font-lato)" }}>
         <AudioPlayerProvider>
           <AlertComponent />
           <LoadingComponent />

@@ -98,15 +98,15 @@ const SignUpComponent = () => {
 
     try {
       const response = await AuthService.register({
-        email: data.get("email"),
-        password: data.get("password"),
-        name: data.get("name"), // ⚠️ fix typo bên dưới
+        email: data.get("email") as string,
+        password: data.get("password") as string,
+        name: data.get("name") as string,
       });
 
       setSuccess(response.data.message);
       // ✅ redirect sang sign-in
       router.push("/sign-in");
-    } catch (error) {
+    } catch (error: any) {
       console.log({ error });
       addError(error.response.data.message);
     }
