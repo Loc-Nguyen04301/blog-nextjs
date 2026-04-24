@@ -16,6 +16,7 @@ const login = async (data: LoginDto) => {
   const response = await api.post<AuthTokens>("/auth/login", data);
   setAuthTokens(response.data);
   useAuthStore.getState().setUser(response.data.user);
+  useAuthStore.getState().setIsLoggedIn(true);
   return response;
 };
 
@@ -24,7 +25,7 @@ const logout = async () => {
     await api.post("/auth/logout");
     clearAuthTokens();
     useAuthStore.getState().clearUser();
-    return;
+    useAuthStore.getState().setIsLoggedIn(false);
   } finally {
   }
 };

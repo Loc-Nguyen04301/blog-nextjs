@@ -9,6 +9,7 @@ import LoadingComponent from "@/components/LoadingComponent";
 import { AudioPlayerProvider } from "@/context/audio-player-context";
 import { lato } from "@/fonts";
 import I18nProvider from "@/components/I18nProvider";
+import AuthInitializer from "@/components/AuthInitializer";
 import { cookies } from "next/headers";
 
 export const metadata: Metadata = {
@@ -42,6 +43,7 @@ export default function RootLayout({
       <body style={{ fontFamily: "var(--font-lato)" }} suppressHydrationWarning>
         <I18nProvider lang={lang}>
           <AudioPlayerProvider>
+            <AuthInitializer />
             <AlertComponent />
             <LoadingComponent />
             <ScrollToTop />

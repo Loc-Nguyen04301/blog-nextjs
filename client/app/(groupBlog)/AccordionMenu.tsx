@@ -5,7 +5,7 @@ import useFetchDataBlogLayout from "@/hooks/useFetchDataBlogLayout";
 import { Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import Link from "next/link";
-import { getAccessToken } from "@/utils/authTokens";
+import { useAuthStore } from "@/zustand/stores/auth-store";
 import { Routes } from "@/types/routes";
 import AuthService from "@/services/AuthService";
 import { useRouter } from "next/navigation";
@@ -16,7 +16,7 @@ const AccordionMenu = () => {
   const pathname = usePathname();
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
-  const isLoggedIn = !!getAccessToken();
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
   const { t } = useTranslation();
 
   const handleToggle = () => {

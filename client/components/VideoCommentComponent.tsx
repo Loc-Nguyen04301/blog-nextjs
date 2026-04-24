@@ -7,7 +7,7 @@ import { formatDistanceToNow } from "date-fns";
 import Image from "next/image";
 import { useAlertStore } from "@/zustand/stores/alert-store";
 import { getSocket } from "@/utils/socket";
-import { getAccessToken } from "@/utils/authTokens";
+import { useAuthStore } from "@/zustand/stores/auth-store";
 import Link from "next/link";
 import { Routes } from "@/types/routes";
 import { useTranslation } from "react-i18next";
@@ -24,7 +24,7 @@ const VideoCommentComponent = ({ id }: VideoCommentComponentProps) => {
   const [submitting, setSubmitting] = useState(false);
 
   const { setLoading, loading } = useAlertStore();
-  const isLoggedIn = !!getAccessToken();
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
 
   useEffect(() => {
     const fetchComments = async () => {
