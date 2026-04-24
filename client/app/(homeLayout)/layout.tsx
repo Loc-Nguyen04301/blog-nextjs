@@ -1,22 +1,20 @@
 "use client";
 import { Box, IconButton } from "@mui/material";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import DrawerMenu from "../../components/Drawer";
 import MenuIcon from "@mui/icons-material/Menu";
 import AuthService from "@/services/AuthService";
-import { useAuthStore, initAuthStore } from "@/zustand/stores/auth-store";
+import { useAuthStore } from "@/zustand/stores/auth-store";
+import { useAlertStore } from "@/zustand/stores/alert-store";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { useTranslation } from "react-i18next";
 
 const MainAndAuthLayout = ({ children }: { children: React.ReactNode }) => {
   const [openDrawer, setOpenDrawer] = useState(false);
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
+  const loading = useAlertStore((state) => state.loading);
   const { t } = useTranslation();
-
-  useEffect(() => {
-    initAuthStore();
-  }, []);
 
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpenDrawer(newOpen);
@@ -56,30 +54,31 @@ const MainAndAuthLayout = ({ children }: { children: React.ReactNode }) => {
               >
                 {t("nav.about", "Giới thiệu")}
               </Link>
-              {isLoggedIn ? (
-                <Link
-                  className="px-2 font-medium text-[14px] uppercase hover:text-primaryColor cursor-pointer"
-                  onClick={handleLogOut}
-                  href={"/"}
-                >
-                  {t("nav.signOut", "Đăng xuất")}
-                </Link>
-              ) : (
-                <>
+              {!loading &&
+                (isLoggedIn ? (
                   <Link
                     className="px-2 font-medium text-[14px] uppercase hover:text-primaryColor cursor-pointer"
-                    href="/sign-in"
+                    onClick={handleLogOut}
+                    href={"/"}
                   >
-                    {t("nav.signIn", "Đăng nhập")}
+                    {t("nav.signOut", "Đăng xuất")}
                   </Link>
-                  <Link
-                    className="px-2 font-medium text-[14px] uppercase hover:text-primaryColor cursor-pointer"
-                    href="/sign-up"
-                  >
-                    {t("nav.signUp", "Đăng ký")}
-                  </Link>
-                </>
-              )}
+                ) : (
+                  <>
+                    <Link
+                      className="px-2 font-medium text-[14px] uppercase hover:text-primaryColor cursor-pointer"
+                      href="/sign-in"
+                    >
+                      {t("nav.signIn", "Đăng nhập")}
+                    </Link>
+                    <Link
+                      className="px-2 font-medium text-[14px] uppercase hover:text-primaryColor cursor-pointer"
+                      href="/sign-up"
+                    >
+                      {t("nav.signUp", "Đăng ký")}
+                    </Link>
+                  </>
+                ))}
               <LanguageSwitcher />
             </ul>
             <div className="sm:hidden">

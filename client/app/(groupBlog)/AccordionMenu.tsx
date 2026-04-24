@@ -5,7 +5,7 @@ import useFetchDataBlogLayout from "@/hooks/useFetchDataBlogLayout";
 import { Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import Link from "next/link";
-import { useAuthStore, initAuthStore } from "@/zustand/stores/auth-store";
+import { useAuthStore } from "@/zustand/stores/auth-store";
 import { Routes } from "@/types/routes";
 import AuthService from "@/services/AuthService";
 import { useRouter } from "next/navigation";
@@ -27,10 +27,6 @@ const AccordionMenu = () => {
     await AuthService.logout();
     router.push(Routes.SIGN_IN);
   };
-
-  useEffect(() => {
-    initAuthStore();
-  }, []);
 
   useEffect(() => {
     return () => setIsOpen(false);

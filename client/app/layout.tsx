@@ -32,7 +32,6 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const cookieStore = cookies();
-  console.log({cookieStore})
   const lang = cookieStore.get("i18next")?.value ?? "vi";
 
   return (

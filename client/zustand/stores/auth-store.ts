@@ -1,6 +1,5 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
-import { getAccessToken } from "@/utils/authTokens";
 
 interface AuthState {
   isLoggedIn: boolean;
@@ -13,10 +12,6 @@ export const useAuthStore = create<AuthState>()(
       isLoggedIn: false,
       setLoggedIn: (value) => set({ isLoggedIn: value }),
     }),
-    { name: "AuthStore" }
-  )
+    { name: "AuthStore" },
+  ),
 );
-
-export const initAuthStore = () => {
-  useAuthStore.setState({ isLoggedIn: !!getAccessToken() });
-};
