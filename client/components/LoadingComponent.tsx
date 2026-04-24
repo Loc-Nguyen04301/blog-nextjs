@@ -5,7 +5,7 @@ import React from "react";
 
 const LoadingComponent = () => {
   const { loading } = useAlertStore((state) => state);
-  console.log({ loading });
+
   if (loading)
     return (
       <Backdrop

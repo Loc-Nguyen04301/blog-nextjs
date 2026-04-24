@@ -21,7 +21,7 @@ export class AuthController {
     @Body() body: { email: string; password: string },
     @Res({ passthrough: true }) res: Response,
   ) {
-    const { accessToken, refreshToken } = await this.authService.login(
+    const { accessToken, refreshToken, user } = await this.authService.login(
       body.email,
       body.password,
     );
@@ -34,10 +34,7 @@ export class AuthController {
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 ngày
     });
 
-    // 👉 trả accessToken cho FE
-    return {
-      accessToken,
-    };
+    return { accessToken, user };
   }
 
   @Public()

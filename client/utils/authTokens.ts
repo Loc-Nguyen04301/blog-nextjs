@@ -11,17 +11,11 @@ export const getAccessToken = (): string | null => {
 export const setAuthTokens = (tokens: AuthTokens): void => {
   if (!isBrowser()) return;
   window.localStorage.setItem(ACCESS_TOKEN, tokens.accessToken);
-  import("@/zustand/stores/auth-store").then(({ useAuthStore }) => {
-    useAuthStore.setState({ isLoggedIn: true });
-  });
 };
 
 export const clearAuthTokens = (): void => {
   if (!isBrowser()) return;
   window.localStorage.removeItem(ACCESS_TOKEN);
-  import("@/zustand/stores/auth-store").then(({ useAuthStore }) => {
-    useAuthStore.setState({ isLoggedIn: false });
-  });
 };
 
 const decodeJwtPayload = (token: string): { exp?: number } | null => {

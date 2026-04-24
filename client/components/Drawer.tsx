@@ -12,7 +12,7 @@ import {
 import React, { memo, useEffect } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import Link from "next/link";
-import { useAuthStore } from "@/zustand/stores/auth-store";
+import { getAccessToken } from "@/utils/authTokens";
 import { useTranslation } from "react-i18next";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 
@@ -24,7 +24,7 @@ interface DrawerMenu {
 const DrawerMenu = ({ openDrawer, toggleDrawer }: DrawerMenu) => {
   const theme = useTheme();
   const isUpSM = useMediaQuery(theme.breakpoints.up("sm"), { noSsr: true });
-  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
+  const isLoggedIn = !!getAccessToken();
   const { t } = useTranslation();
 
   useEffect(() => {

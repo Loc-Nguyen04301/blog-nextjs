@@ -1,16 +1,19 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
+import type { UserInfo } from "@/types/auth";
 
 interface AuthState {
-  isLoggedIn: boolean;
-  setLoggedIn: (value: boolean) => void;
+  user: UserInfo | null;
+  setUser: (info: UserInfo) => void;
+  clearUser: () => void;
 }
 
 export const useAuthStore = create<AuthState>()(
   devtools(
     (set) => ({
-      isLoggedIn: false,
-      setLoggedIn: (value) => set({ isLoggedIn: value }),
+      user: null,
+      setUser: (info) => set({ user: info }),
+      clearUser: () => set({ user: null }),
     }),
     { name: "AuthStore" },
   ),

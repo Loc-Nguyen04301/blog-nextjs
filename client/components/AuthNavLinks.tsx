@@ -1,16 +1,15 @@
 "use client";
 import LinkItem from "@/components/groupBlogLayout/LinkItem/LinkItem";
-import { useAuthStore } from "@/zustand/stores/auth-store";
 import { useAlertStore } from "@/zustand/stores/alert-store";
+import { getAccessToken } from "@/utils/authTokens";
 import { Routes } from "@/types/routes";
 import { useTranslation } from "react-i18next";
 
 const AuthNavLinks = () => {
-  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
   const loading = useAlertStore((state) => state.loading);
   const { t } = useTranslation();
 
-  if (loading || isLoggedIn) return null;
+  if (loading || !!getAccessToken()) return null;
 
   return (
     <>

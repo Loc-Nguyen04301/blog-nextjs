@@ -5,15 +5,15 @@ import React, { useState } from "react";
 import DrawerMenu from "../../components/Drawer";
 import MenuIcon from "@mui/icons-material/Menu";
 import AuthService from "@/services/AuthService";
-import { useAuthStore } from "@/zustand/stores/auth-store";
 import { useAlertStore } from "@/zustand/stores/alert-store";
+import { getAccessToken } from "@/utils/authTokens";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { useTranslation } from "react-i18next";
 
 const MainAndAuthLayout = ({ children }: { children: React.ReactNode }) => {
   const [openDrawer, setOpenDrawer] = useState(false);
-  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
   const loading = useAlertStore((state) => state.loading);
+  const isLoggedIn = !!getAccessToken();
   const { t } = useTranslation();
 
   const toggleDrawer = (newOpen: boolean) => () => {

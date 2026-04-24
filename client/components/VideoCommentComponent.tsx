@@ -7,7 +7,7 @@ import { formatDistanceToNow } from "date-fns";
 import Image from "next/image";
 import { useAlertStore } from "@/zustand/stores/alert-store";
 import { getSocket } from "@/utils/socket";
-import { useAuthStore } from "@/zustand/stores/auth-store";
+import { getAccessToken } from "@/utils/authTokens";
 import Link from "next/link";
 import { Routes } from "@/types/routes";
 import { useTranslation } from "react-i18next";
@@ -17,12 +17,14 @@ interface VideoCommentComponentProps {
 }
 
 const VideoCommentComponent = ({ id }: VideoCommentComponentProps) => {
+  const { t } = useTranslation();
+
   const [comments, setComments] = useState<IComment[]>([]);
   const [description, setDescription] = useState("");
   const [submitting, setSubmitting] = useState(false);
+
   const { setLoading, loading } = useAlertStore();
-  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
-  const { t } = useTranslation();
+  const isLoggedIn = !!getAccessToken();
 
   useEffect(() => {
     const fetchComments = async () => {
@@ -82,7 +84,9 @@ const VideoCommentComponent = ({ id }: VideoCommentComponentProps) => {
           <CircularProgress size={24} />
         </div>
       ) : comments.length === 0 ? (
-        <p className="text-gray-400 text-sm mb-6">{t("comment.noComments", "Chưa có bình luận nào.")}</p>
+        <p className="text-gray-400 text-sm mb-6">
+          {t("comment.noComments", "Chưa có bình luận nào.")}
+        </p>
       ) : (
         <div className="max-h-[400px] overflow-y-auto">
           {comments.map((comment) => (
@@ -132,7 +136,10 @@ const VideoCommentComponent = ({ id }: VideoCommentComponentProps) => {
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder={t("comment.placeholder", "Viết bình luận của bạn...")}
+              placeholder={t(
+                "comment.placeholder",
+                "Viết bình luận của bạn...",
+              )}
               className="w-full p-3 border border-gray-200 rounded-md focus:outline-none focus:ring-1 focus:ring-[#9e6a2d] min-h-[100px]"
             />
             <button
@@ -150,7 +157,10 @@ const VideoCommentComponent = ({ id }: VideoCommentComponentProps) => {
         ) : (
           <p className="text-sm text-gray-500">
             {t("comment.loginToComment", "Vui lòng")}{" "}
-            <Link href={Routes.SIGN_IN} className="text-[#9e6a2d] font-semibold hover:underline">
+            <Link
+              href={Routes.SIGN_IN}
+              className="text-[#9e6a2d] font-semibold hover:underline"
+            >
               {t("comment.loginLink", "đăng nhập")}
             </Link>{" "}
             {t("comment.loginToCommentSuffix", "để bình luận.")}
