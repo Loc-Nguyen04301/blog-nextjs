@@ -86,14 +86,15 @@ const BlogComponent: FC<BlogComponentProps> = ({
         {categories && categoryOptions && (
           <p className="mt-5 text-subTitleColor text-sm">
             <span className="mr-1">{t("blog.categories", "Mục lục:")}</span>
-            {categories.map((categoryId) => {
+            {categories.map((categoryId, index) => {
               const option = categoryOptions.find(
                 (opt) => Number(opt.id) === Number(categoryId),
               );
+              const isLast = index === categories.length - 1;
               return (
                 option && (
                   <Link href={`/category/${option.id}`} key={option.id}>
-                    {option.name},{" "}
+                    {option.name}{isLast ? "" : ","}{" "}
                   </Link>
                 )
               );

@@ -39,7 +39,7 @@ const MainPage = () => {
         </div>
       </section>
       <section className="my-10 container mx-auto border rounded-md max-w-[800px] py-5 px-16">
-        <h1 className="font-semibold text-center mb-2 text-xl font-[Arial]">
+        <h1 className="font-semibold text-center mb-2 text-xl font-sans">
           Nhạc nền
         </h1>
         <AudioPlayer />
