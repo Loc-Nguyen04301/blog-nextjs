@@ -24,8 +24,8 @@ const config: Config = {
       // 'xl': '1536px'
     },
     fontFamily: {
-      sans: ['var(--font-lato)'],
-      arial: ['Arial', 'sans-serif'],
+      sans: ['Arial', 'sans-serif'],
+      montserrat: ['var(--font-montserrat)'],
     }
   },
   plugins: [],

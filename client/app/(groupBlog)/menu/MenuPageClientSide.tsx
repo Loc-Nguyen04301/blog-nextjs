@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-import { lato } from "@/fonts";
 import Link from "next/link";
 import { Box, TextField } from "@mui/material";
 import { useCategoryStore } from "@/zustand/stores/category-store";
@@ -18,7 +17,7 @@ const MenuPageClientSide = () => {
 
   return (
     <div>
-      <h1 className={`font-sans ${lato.variable}`}>
+      <h1>
         Bạn có thể tìm đọc tất cả các bài viết trên Loc Nguyen Writer blog theo{" "}
         <Link
           className="text-primaryColorBold hover:text-black duration-200"
@@ -46,7 +45,7 @@ const MenuPageClientSide = () => {
       <Box component="form" noValidate autoComplete="off" className="mt-5">
         <TextField
           id="filled-basic"
-          className={`${lato.variable} font-sans`}
+          className="font-sans"
           label="Search this website"
           variant="filled"
           fullWidth
@@ -69,7 +68,7 @@ const MenuPageClientSide = () => {
         />
       </Box>
       <h1 className="uppercase pt-10 text-2xl tracking-wide">Theo Đề Tài</h1>
-      <ul className={`${lato.variable} font-sans mt-5`}>
+      <ul className="mt-5">
         {listCategories &&
           listCategories.map((c) => (
             <li className="mb-4" key={c.id}>
@@ -85,7 +84,7 @@ const MenuPageClientSide = () => {
       </ul>
 
       <h1 className="uppercase pt-10 text-2xl tracking-wide">Theo thời gian</h1>
-      <ul className={`${lato.variable} font-sans mt-5`}>
+      <ul className="mt-5">
         {statisticMonths &&
           statisticMonths.map((item) => {
             const { displayMonth, month, year } = convertToMonthYear(item.time);

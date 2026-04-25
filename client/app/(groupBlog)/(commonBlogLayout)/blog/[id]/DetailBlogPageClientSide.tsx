@@ -5,10 +5,6 @@ import { useBlogStore } from "@/zustand/stores/blog-store";
 import Link from "next/link";
 import Image from "next/image";
 import ContactSocialMedia from "@/components/ContactSocialMedia";
-import { lato } from "@/fonts";
-// import { TextField } from "@mui/material";
-// import { Formik } from "formik";
-// import defaultImage from "@/assets/images/defaultImage.png";
 import { useCategoryStore } from "@/zustand/stores/category-store";
 import { formatDate } from "@/utils/formatDate";
 
@@ -19,7 +15,7 @@ interface DetailBlogPageClientSide {
 const DetailBlogPageClientSide = ({ id }: DetailBlogPageClientSide) => {
   const { currentBlog, fetchDetailBlog } = useBlogStore((state) => state);
   const { listBlogsByCategory, fetchBlogsByCategory } = useCategoryStore(
-    (state) => state
+    (state) => state,
   );
   const firstCategoryOfCurrentBlogId = currentBlog?.categories[0];
 
@@ -56,23 +52,8 @@ const DetailBlogPageClientSide = ({ id }: DetailBlogPageClientSide) => {
             <ContactSocialMedia />
           </div>
           <div className="flex gap-1">
-            {/* {Array.from({ length: 3 }, (_, idx) => (
-              <div className={`${lato.variable} font-sans`} key={idx}>
-                <Link href={"/#"} className="opacity-70 hover:opacity-100">
-                  <Image src={blogImage} alt="123" />
-                  <p className="text-sm text-black hover:text-primaryColorBold">
-                    1 năm viết blog – Những chuyện chưa kể
-                  </p>
-                  <p className="text-sm text-subTitleColor">July 26, 2017</p>
-                </Link>
-              </div>
-            ))} */}
-
             {listBlogsByCategory?.map((blog) => (
-              <div
-                className={`${lato.variable} font-sans flex-1`}
-                key={blog.id}
-              >
+              <div className="flex-1" key={blog.id}>
                 <Link
                   href={`/blog/${blog.id}`}
                   className="opacity-70 hover:opacity-100"
@@ -103,7 +84,7 @@ const DetailBlogPageClientSide = ({ id }: DetailBlogPageClientSide) => {
           <div className="mt-5">
             {Array.from({ length: 5 }, (_, idx) => (
               <div
-                className={`${lato.variable} font-sans border-b border-black mb-10 pb-10`}
+                className={`font-sans border-b border-black mb-10 pb-10`}
                 key={idx}
               >
                 <div className="flex gap-5">

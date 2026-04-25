@@ -1,12 +1,5 @@
 'use client'
 import { createTheme } from '@mui/material/styles';
-import { Montserrat } from 'next/font/google';
-
-const montserrat = Montserrat({
-  weight: ['300', '400', '500', '700'],
-  subsets: ['vietnamese'],
-  display: 'swap',
-})
 
 const theme = createTheme({
   palette: {
@@ -15,9 +8,13 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: [
-      montserrat.style.fontFamily,
-    ].join(',')
+    fontFamily: 'Arial, sans-serif',
+    h1: { fontFamily: 'var(--font-montserrat)' },
+    h2: { fontFamily: 'var(--font-montserrat)' },
+    h3: { fontFamily: 'var(--font-montserrat)' },
+    h4: { fontFamily: 'var(--font-montserrat)' },
+    h5: { fontFamily: 'var(--font-montserrat)' },
+    h6: { fontFamily: 'var(--font-montserrat)' },
   },
 })
 

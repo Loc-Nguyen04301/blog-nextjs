@@ -2,7 +2,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import React, { FC } from "react";
-import { lato } from "../fonts";
 import { formatDate } from "../utils/formatDate";
 import type { UrlObject } from "url";
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
@@ -45,7 +44,7 @@ const BlogComponent: FC<BlogComponentProps> = ({
             </Link>
           </h1>
           <p
-            className={`uppercase text-xs text-subTitleColor mb-2 font-medium tracking-wider ${lato.variable} font-sans`}
+            className={`uppercase text-xs text-subTitleColor mb-2 font-medium tracking-wider font-sans`}
           >
             {createdAt} By Lộc Nguyễn
           </p>
@@ -66,7 +65,7 @@ const BlogComponent: FC<BlogComponentProps> = ({
           {!isDetail && <div className="mt-8 border-b border-[#dd9933]" />}
         </div>
         {description && (
-          <div className={`leading-7 ${lato.variable} font-sans text-wrap`}>
+          <div className={`leading-7 font-sans text-wrap`}>
             <p className="break-words inline">{description}</p>
             <Link
               href={linkTo || "#"}

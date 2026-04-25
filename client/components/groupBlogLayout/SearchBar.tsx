@@ -1,5 +1,4 @@
 "use client";
-import { lato } from "@/fonts";
 import { useBlogStore } from "@/zustand/stores/blog-store";
 import { Box, TextField } from "@mui/material";
 import { useRouter } from "next/navigation";
@@ -25,7 +24,6 @@ const SearchBar = () => {
         <Box component="form" noValidate autoComplete="off" className="mt-3">
           <TextField
             id="filled-basic"
-            className={`${lato.variable} font-sans`}
             label="Search this website"
             variant="filled"
             fullWidth
@@ -44,7 +42,7 @@ const SearchBar = () => {
                 e.preventDefault();
                 const searchTextTrim = searchText.trim();
                 router.push(
-                  `/blog?search=${encodeURIComponent(searchTextTrim)}`
+                  `/blog?search=${encodeURIComponent(searchTextTrim)}`,
                 );
               }
             }}

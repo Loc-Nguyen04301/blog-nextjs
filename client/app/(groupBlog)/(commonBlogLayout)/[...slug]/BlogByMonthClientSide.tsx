@@ -4,7 +4,6 @@ import React, { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { Pagination } from "@mui/material";
-import { lato } from "@/fonts";
 import BlogComponent from "@/components/BlogComponent";
 
 interface BlogByMonthClientSideProps {
@@ -14,7 +13,7 @@ interface BlogByMonthClientSideProps {
 const BlogByMonthClientSide = ({ slug }: BlogByMonthClientSideProps) => {
   const [year, month] = slug;
   const { fetchBlogsByMonth, listBlogs, pageNumbers } = useBlogStore(
-    (state) => state
+    (state) => state,
   );
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -46,7 +45,7 @@ const BlogByMonthClientSide = ({ slug }: BlogByMonthClientSideProps) => {
           <div className="uppercase text-lg tracking-wide">
             {`Search Results for: ${year}/${month}`}
           </div>
-          <h1 className={`${lato.variable} font-sans mt-20 text-center`}>
+          <h1 className="mt-20 text-center">
             Sorry, no content matched your criteria.
           </h1>
         </>

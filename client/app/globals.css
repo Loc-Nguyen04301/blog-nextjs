@@ -5,7 +5,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --primary-color: #C4AC99;
+  --primary-color: #c4ac99;
   --primary-color-bold: #dd9933;
   --sub-title-color: #999999;
   --media-main-color: #f50;
@@ -21,6 +21,7 @@
 body {
   color: var(--foreground);
   background: var(--background);
+  font-family: Arial, sans-serif;
 }
 
 .timer-duration {
@@ -51,7 +52,7 @@ body {
   border-radius: 1000px;
 }
 
-input[type=range].timer-duration::-webkit-slider-thumb {
+input[type="range"].timer-duration::-webkit-slider-thumb {
   -webkit-appearance: none;
   background: var(--media-main-color);
   height: var(--slider-thumb-size);
@@ -92,7 +93,7 @@ input[type="range"].timer-duration::-webkit-slider-thumb:hover {
   border-radius: 1000px;
 }
 
-input[type=range].volume::-webkit-slider-thumb {
+input[type="range"].volume::-webkit-slider-thumb {
   -webkit-appearance: none;
   background: var(--media-main-color);
   height: var(--slider-thumb-size);

@@ -1,5 +1,4 @@
 "use client";
-import { lato } from "@/fonts";
 import { useCategoryStore } from "@/zustand/stores/category-store";
 import {
   FormControl,
@@ -54,7 +53,7 @@ const CategorySelect = () => {
             }}
             inputProps={{ "aria-label": "Without label" }}
           >
-            <MenuItem className={`${lato.variable} font-sans`} value={""}>
+            <MenuItem className={`font-sans`} value={""}>
               Select Category
             </MenuItem>
             {listCategories &&
@@ -62,7 +61,7 @@ const CategorySelect = () => {
                 <MenuItem
                   key={c.id}
                   value={c.id}
-                  className={`${lato.variable} font-sans`}
+                  className={`font-sans`}
                 >
                   {c.name}
                 </MenuItem>

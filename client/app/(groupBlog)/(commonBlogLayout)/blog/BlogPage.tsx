@@ -5,7 +5,6 @@ import { useSearchParams } from "next/navigation";
 import BlogComponent from "@/components/BlogComponent";
 import { useRouter } from "next/navigation";
 import { useBlogStore } from "@/zustand/stores/blog-store";
-import { lato } from "@/fonts";
 import { useCategoryStore } from "@/zustand/stores/category-store";
 import { useTranslation } from "react-i18next";
 
@@ -50,7 +49,7 @@ const BlogPageClientSide = () => {
           <div className="uppercase text-lg tracking-wide">
             {t("blog.searchResultsFor", "Kết quả tìm kiếm cho:")} {keywordParam}
           </div>
-          <h1 className={`${lato.variable} font-sans mt-20 text-center`}>
+          <h1 className="font-montserrat mt-20 text-center">
             {t("blog.noResults", "Xin lỗi, không có nội dung phù hợp.")}
           </h1>
         </>

@@ -6,7 +6,6 @@ import { Pagination } from "@mui/material";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
-import { lato } from "@/fonts";
 
 interface CategoryPageClientSideProps {
   slug: string;
@@ -27,7 +26,7 @@ const CategoryPageClientSide = ({
   const router = useRouter();
   const searchParams = useSearchParams();
   const selectedCategoryName = listCategories?.find(
-    (c) => c.id === Number(categoryId)
+    (c) => c.id === Number(categoryId),
   )?.name;
 
   const pageParam = Number(searchParams.get("page") || "1");
@@ -66,7 +65,7 @@ const CategoryPageClientSide = ({
           <div className="uppercase text-lg tracking-wide">
             Search Results for: {selectedCategoryName}
           </div>
-          <h1 className={`${lato.variable} font-sans mt-20 text-center`}>
+          <h1 className="mt-20 text-center">
             Sorry, no content matched your criteria.
           </h1>
         </>

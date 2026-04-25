@@ -1,5 +1,4 @@
 import { unstable_cache } from "next/cache";
-import { lato } from "@/fonts";
 import BlogService from "@/services/BlogService";
 import { IBlogDetail } from "@/types/blog";
 import Link from "next/link";
@@ -41,7 +40,7 @@ const LatestBlogList = async () => {
         <ul>
           {listBlogs.map((blog) => (
             <li
-              className={`mt-4 ${lato.variable} font-sans text-[15px] hover:text-primaryColor font-semibold`}
+              className="mt-4 text-[15px] hover:text-primaryColor font-semibold"
               key={blog.id}
             >
               <Link
